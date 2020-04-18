@@ -1,7 +1,7 @@
 {
-  "name": "mozzila-open-lab-backend",
+  "name": "mozilla-open-lab-backend",
   "version": "1.0.0",
-  "description": "Mozzila Open Lab Backend Repo",
+  "description": "Mozilla Open Lab Backend Repo",
   "main": "server.js",
   "scripts": {
     "test": "jest",
