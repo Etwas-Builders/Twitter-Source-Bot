@@ -1,0 +1,19 @@
+{
+  "name": "mozzila-open-lab-backend",
+  "version": "1.0.0",
+  "description": "Mozzila Open Lab Backend Repo",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mozilla-Open-Lab-Etwas/Backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mozilla-Open-Lab-Etwas/Backend/issues"
+  },
+  "homepage": "https://github.com/Mozilla-Open-Lab-Etwas/Backend#readme"
+}
