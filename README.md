@@ -1,2 +1,3 @@
-# Backend
-Backend Node
+# Mozzila Open Lab Backend
+
+Backend Repository in Node
