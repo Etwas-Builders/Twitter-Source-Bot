@@ -22,6 +22,6 @@ exports.wiki = async function (data) {
   let response = await fetch();
   let text = data.text;
 
-  // Rithvik Test Commit and Author
+  // Rithvik Test Commit and Author Test
   return "output"; // Returned output
 };
