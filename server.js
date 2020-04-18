@@ -8,6 +8,7 @@ var jsonParser = bodyParser.json(); // Using Data type Json
 // Modules
 
 var tweet = require("./modules/tweet");
+var citation = require("./modules/citation");
 
 // Server
 var express = require("express"); // Framework for Node
@@ -21,7 +22,26 @@ var server = app.listen(port); // Set Port
 // Routing
 
 // Get Requests
-app.get();
+
+// Testing Routes
+
+app.get("/getGoogleCitation", async function (req, res) {
+  var data = req.query.data;
+  var returned = await citation.googleNews(data);
+  res.status(200).json({
+    source: returned,
+  });
+});
+
+app.get("/getWikiCitation", async function (req, res) {
+  var data = req.query.data;
+  var returned = await citation.wiki(data);
+  res.status(200).json({
+    source: returned,
+  });
+});
+
+app.get("/", function (req, res) {});
 
 // Post Requests
-app.post();
+app.post("/", function (req, res) {});

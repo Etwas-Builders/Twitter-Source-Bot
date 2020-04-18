@@ -1,3 +1,3 @@
-# Mozzila Open Lab Backend
+# Mozilla Open Lab Backend
 
 Backend Repository in Node
