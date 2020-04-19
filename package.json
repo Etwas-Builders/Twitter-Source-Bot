@@ -19,5 +19,10 @@
   "homepage": "https://github.com/Mozilla-Open-Lab-Etwas/Backend#readme",
   "devDependencies": {
     "jest": "^25.3.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "fuse.js": "^5.2.1",
+    "himalaya": "^1.1.0"
   }
 }
