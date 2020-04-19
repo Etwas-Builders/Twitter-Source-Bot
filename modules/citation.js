@@ -45,7 +45,27 @@ exports.wiki = async function (data) {
     if (text.content.includes("\n") && text.content.length <= 2) || text.content == null || text.content.length <=2 {
       continue;
     }
-    allTextContent.push(text.content);
+    allTextContent.push({"text" : text.content}) // HERE
+  }
+    
+    const options = {
+      isCaseSensitive: false,
+      findAllMatches: false,
+      includeMatches: false,
+      includeScore: true,
+      useExtendedSearch: true,
+      minMatchCharLength: 1,
+      shouldSort: true,
+      threshold:0.6,
+      location: 0,
+      distance: 100,
+      keys: [
+        "text"
+      ]
+  };
+  const fuse = new Fuse(allTextContent, options);
+  let results = fuse.search("Rap")
+  results.reverse()
   }
 
   return "output"; // Returned output
