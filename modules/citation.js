@@ -66,6 +66,7 @@ exports.wiki = async function (data) {
   const fuse = new Fuse(allTextContent, options);
   let results = fuse.search("Rap")
   results.reverse()
+  
   }
 
   return "output"; // Returned output

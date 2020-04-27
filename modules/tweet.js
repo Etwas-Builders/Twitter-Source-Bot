@@ -1,5 +1,16 @@
+let citation = require("./citation");
+
 var exports = (module.exports = {});
 
-exports.extractTimeline = async function () {
-  // Function to extract code from users timeline
+exports.handleNewTweet = async function (body) {
+  let newTweetContent = body.newTweetContent;
+  let newTweetKey = body.newTweetKey;
+
+  // Check Cache
+
+  // return cached citation
+
+  // Cite
+
+  // return citation
 };

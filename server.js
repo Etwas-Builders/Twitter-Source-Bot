@@ -6,7 +6,7 @@ var bodyParser = require("body-parser"); // Library for parsing data
 var jsonParser = bodyParser.json(); // Using Data type Json
 
 // Modules
-
+n;
 var tweet = require("./modules/tweet");
 var citation = require("./modules/citation");
 
@@ -25,7 +25,7 @@ var server = app.listen(port); // Set Port
 
 // Testing Routes
 
-app.get("/getGoogleCitation", async function (req, res) {
+app.get("/getGsogleCitation", async function (req, res) {
   var data = req.query.data;
   var returned = await citation.googleNews(data);
   res.status(200).json({
@@ -44,4 +44,10 @@ app.get("/getWikiCitation", async function (req, res) {
 app.get("/", function (req, res) {});
 
 // Post Requests
-app.post("/", function (req, res) {});
+app.post("/newTweets", function (req, res) {
+  let body = req.body;
+  console.log(body);
+  res.status(200).json({
+    output: "Test",
+  });
+});
