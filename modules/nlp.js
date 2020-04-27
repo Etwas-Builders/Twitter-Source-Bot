@@ -10,8 +10,7 @@ var lexicon = new natural.Lexicon(language, defaultCategory, defaultCategoryCapi
 var ruleSet = new natural.RuleSet('EN');
 var tagger = new natural.BrillPOSTagger(lexicon, ruleSet);
 
-function FindWordsToSearch(text) {
-
+exports.WordsToSearch = function FindWordsToSearch(text) {
   const textArray = text.split(' ');
   var wordsToSearch = stopwords.removeStopwords(textArray);
   var finalWords = [];
@@ -48,9 +47,4 @@ function FindWordsToSearch(text) {
 function GetPartOfSpeech(text) {
   let sentence = tagger.tag(text.split(' '));
   return sentence['taggedWords'][0]['tag'];
-}
-
-exports.WordsToSearch = async function(text) {
-  let output = await WordsToSearch(text);
-  console.log(output);
 }
