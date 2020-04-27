@@ -19,6 +19,7 @@ exports.WordsToSearch = function FindWordsToSearch(text) {
   for (index = 0; index < length; index++) {
     let currentWord = wordsToSearch[index];
 
+    //Removes hashtags from tweets
     if (currentWord[0] == "#") {
       editedWord = currentWord.slice(1, currentWord.length);
       currentWord = editedWord;
@@ -28,6 +29,7 @@ exports.WordsToSearch = function FindWordsToSearch(text) {
 
     if (partOfSpeech == "NNPS" || partOfSpeech == "NNP") {
       finalWords.push(currentWord);
+      //Removes the current word from the list
       wordsToSearch.splice(index, 1);
       length = wordsToSearch.length;
     } else if (partOfSpeech == "NNS" || partOfSpeech == "NN" || partOfSpeech == "N") {
