@@ -61,12 +61,12 @@ app.get("/getWikiCitation", async function (req, res) {
 app.get("/", function (req, res) {});
 
 // Post Requests
-app.post("/newTweets", async function (req, res) {
-  let body = req.body;
-  let citation = await tweet.handleNewTweet(body);
-  console.log(body);
-  res.status(200).json({
-    output: "Test",
-    citation: citation,
-  });
-});
+// app.post("/newTweets", async function (req, res) {
+//   let body = req.body;
+//   let citation = await tweet.handleNewTweet(body);
+//   console.log(body);
+//   res.status(200).json({
+//     output: "Test",
+//     citation: citation,
+//   });
+// });
