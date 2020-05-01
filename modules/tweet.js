@@ -33,6 +33,8 @@ let generateHash = async function (tweet) {
   return hash;
 };
 
+exports.handleTweetEvent = async function (tweet) {};
+
 // temp1 = {
 //   "1254760868304183297":
 //     'Balaji S. Srinivasan\n@balajis\n·\n40m\n"Avoid crowds" is the new "wash your hands".\n12\n18\n119',

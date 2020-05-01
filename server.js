@@ -5,6 +5,7 @@ var port = process.env.PORT;
 var bodyParser = require("body-parser"); // Library for parsing data
 var jsonParser = bodyParser.json(); // Using Data type Json
 var cors = require("cors"); // Library for handling access headers
+var Twit = require("twit");
 
 // Modules
 var tweet = require("./modules/tweet");
@@ -18,6 +19,22 @@ app.use(cors()); // Cors to Handle Url Authentication
 app.use(bodyParser.json()); // Using Body Parser
 app.set("jwtTokenSecret", ""); // JWT Secret
 var server = app.listen(port); // Set Port
+
+// Twitter Api
+
+const Twitter = new Twit({
+  consumer_key: "...",
+  consumer_secret: "...",
+  access_token: "...",
+  access_token_secret: "...",
+  timeout_ms: 60 * 1000, // optional HTTP request timeout to apply to all requests.
+});
+
+// Twitter Stream
+
+var stream = Twitter.stream("user");
+
+stream.on("tweet", tweet.handleTweetEvent);
 
 // Routing
 

@@ -30,6 +30,7 @@
     "natural": "^1.0.1",
     "node-wordnet": "^0.1.12",
     "sha512": "0.0.1",
-    "stopword": "^1.0.1"
+    "stopword": "^1.0.1",
+    "twit": "^2.2.11"
   }
 }
