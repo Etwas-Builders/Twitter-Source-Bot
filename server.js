@@ -5,7 +5,7 @@ var port = process.env.PORT;
 var bodyParser = require("body-parser"); // Library for parsing data
 var jsonParser = bodyParser.json(); // Using Data type Json
 var cors = require("cors"); // Library for handling access headers
-var Twit = require("twit");
+const { Autohook } = require("twitter-autohook");
 
 // Modules
 var tweet = require("./modules/tweet");
@@ -21,20 +21,23 @@ app.set("jwtTokenSecret", ""); // JWT Secret
 var server = app.listen(port); // Set Port
 
 // Twitter Api
+let twitterWebhook = async function {
+  const webhook = new Autohook();
 
-const Twitter = new Twit({
-  consumer_key: process.env.CONSUMER_KEY,
-  consumer_secret: process.env.CONSUMER_SECRET,
-  access_token: process.env.ACCESS_TOKEN,
-  access_token_secret: process.env.ACCESS_TOKEN_SECRET,
-  timeout_ms: 60 * 1000, // optional HTTP request timeout to apply to all requests.
-});
+  // Removes existing webhooks
+  await webhook.removeWebhooks();
 
-// Twitter Stream
+  // Listens to incoming activity
+  webhook.on("event", (event) => console.log("Something happened:", event));
 
-var stream = Twitter.stream("user");
+  // Starts a server and adds a new webhook
+  await webhook.start();
 
-stream.on("tweet", tweet.handleTweetEvent);
+  // Subscribes to a user's activity
+  await webhook.subscribe({ oauth_token, oauth_token_secret });
+};
+
+twitterWebhook();
 
 // Routing
 
