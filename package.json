@@ -1,7 +1,7 @@
 {
-  "name": "mozzila-open-lab-backend",
+  "name": "mozilla-open-lab-backend",
   "version": "1.0.0",
-  "description": "Mozzila Open Lab Backend Repo",
+  "description": "Mozilla Open Lab Backend Repo",
   "main": "server.js",
   "scripts": {
     "test": "jest",
@@ -19,5 +19,18 @@
   "homepage": "https://github.com/Mozilla-Open-Lab-Etwas/Backend#readme",
   "devDependencies": {
     "jest": "^25.3.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "fuse.js": "^5.2.1",
+    "himalaya": "^1.1.0",
+    "natural": "^1.0.1",
+    "node-wordnet": "^0.1.12",
+    "sha512": "0.0.1",
+    "stopword": "^1.0.1",
+    "twit": "^2.2.11"
   }
 }
