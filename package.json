@@ -34,6 +34,8 @@
     "sha512": "0.0.1",
     "stopword": "^1.0.1",
     "twit": "^2.2.11",
-    "twitter-autohook": "^1.6.0"
+    "twitter": "^1.7.1",
+    "twitter-autohook": "^1.6.0",
+    "twitter-lite": "^0.11.0"
   }
 }
