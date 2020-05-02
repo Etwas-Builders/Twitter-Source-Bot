@@ -10,7 +10,7 @@ const { Autohook } = require("twitter-autohook");
 const OAuth = require("oauth");
 
 // Modules
-const tweet = require("./modules/tweet");
+const tweetHandler = require("./modules/tweet");
 const citation = require("./modules/citation");
 
 // Server
@@ -60,6 +60,19 @@ let handleNewWebHook = function (event) {
   //   if (err) throw err;
   //   console.log("Saved!");
   // });
+  if (event.tweet_create_events) {
+    let tweet = event.tweet_create_events[0];
+    if (tweet.in_reply_to_status_id) {
+      // This event is a reply
+      tweetHandler.handleNewReplyEvent(event);
+    } else {
+      let tweetEntities = tweet.entities;
+      let user_mentions = tweetEntities.user_mentions;
+      if (user_mentions[0].id === 1255487054219219000) {
+        // Mention Behaviour
+      }
+    }
+  }
 };
 
 // Routing
