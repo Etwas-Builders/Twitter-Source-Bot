@@ -52,7 +52,7 @@ let generateHash = async function (tweet) {
 exports.handleNewReplyEvent = async function (event) {
   let reply = event.tweet_create_events[0];
   let replyId = reply.id_str;
-  let replyUserScreenname = reply.user.screen_name
+  let replyUserScreenName = reply.user.screen_name;
   //console.log("Tweet -> handleNewReplyEvent -> reply", reply);
   let original_tweet_id = reply.in_reply_to_status_id_str;
   //console.log("Original Tweet ID",original_tweet_id)
@@ -62,8 +62,8 @@ exports.handleNewReplyEvent = async function (event) {
       id_str: original_tweet_id,
     });
     let citation = await handleNewTweet(originalTweet_response);
-    citation = `@${replyUserScreenname}${citation}`
-    console.log(citation)
+    citation = `@${replyUserScreenName} ${citation}`;
+    console.log(citation);
     try {
       let output = await twitterClient.post("statuses/update", {
         status: citation,
