@@ -2,13 +2,15 @@
 var exports = (module.exports = {});
 // Imports
 const sha512 = require("sha512"); // Sha512 Library
-const TwitterApi = require("twitter");
-const twitterClient = {
-  access_token_key: process.env.ACCESS_TOKEN,
-  access_token_secret: process.env.ACCESS_TOKEN_SECRET,
+const TwitterApi = require("twitter-lite");
+const twitterClient = new TwitterApi({
+  subdomain: "api",
+  version: "1.1",
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
-};
+  access_token_key: process.env.ACCESS_TOKEN,
+  access_token_secret: process.env.ACCESS_TOKEN_SECRET,
+});
 // Modules
 let citation = require("./citation");
 const client = require("twitter-autohook/client");
@@ -43,15 +45,26 @@ let generateHash = async function (tweet) {
 
 exports.handleNewReplyEvent = async function (event) {
   let reply = event.tweet_create_events[0];
+  console.log("Tweet -> handleNewReplyEvent -> reply", reply);
   let original_tweet_id = reply.in_reply_to_status_id;
-  twitterClient.get("statuses/show/", { id: original_tweet_id }, function (
-    error,
-    response
-  ) {
-    if (!error) {
-      console.log(response);
-    }
-  });
+  try {
+    let originalTweet_response = await twitterClient.get("statuses/show", {
+      id: original_tweet_id,
+    });
+
+    console.log(
+      "Tweet -> handleNewReplyEvent -> originalTweet_response",
+      originalTweet_response
+    );
+    let fs = require("fs");
+    let json = JSON.stringify(originalTweet_response);
+    fs.writeFile("original-tweet.json", json, function (err) {
+      if (err) throw err;
+      console.log("Saved!");
+    });
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 exports.handleNewMentionEvent = async function (event) {};
