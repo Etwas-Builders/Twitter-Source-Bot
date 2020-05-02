@@ -62,16 +62,18 @@ let handleNewWebHook = function (event) {
   // });
   if (event.tweet_create_events) {
     let tweet = event.tweet_create_events[0];
+    if(!(tweet.user.id_str === "1255487054219218944")){ // If it is not our own tweet
     if (tweet.in_reply_to_status_id) {
       // This event is a reply
       tweetHandler.handleNewReplyEvent(event);
     } else {
       let tweetEntities = tweet.entities;
       let user_mentions = tweetEntities.user_mentions;
-      if (user_mentions[0].id === 1255487054219219000) {
+      if (user_mentions[0].id_str === "1255487054219218944") {
         // Mention Behaviour
       }
     }
+  }
   }
 };
 
