@@ -46,10 +46,12 @@ let generateHash = async function (tweet) {
 exports.handleNewReplyEvent = async function (event) {
   let reply = event.tweet_create_events[0];
   console.log("Tweet -> handleNewReplyEvent -> reply", reply);
-  let original_tweet_id = reply.in_reply_to_status_id;
+  let original_tweet_id = reply.in_reply_to_status_id_str;
+  console.log("Original Tweet ID",original_tweet_id)
   try {
     let originalTweet_response = await twitterClient.get("statuses/show", {
       id: original_tweet_id,
+      id_str: original_tweet_id,
     });
 
     console.log(
