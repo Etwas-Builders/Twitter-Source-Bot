@@ -31,10 +31,12 @@ exports.WordsToSearch = function FindWordsToSearch(text) {
       finalWords.push(currentWord);
       //Removes the current word from the list
       wordsToSearch.splice(index, 1);
+      index--;
       length = wordsToSearch.length;
     } else if (partOfSpeech == "NNS" || partOfSpeech == "NN" || partOfSpeech == "N") {
       finalWords.push(currentWord);
       wordsToSearch.splice(index, 1);
+      index--;
       length = wordsToSearch.length;
     }
   }
