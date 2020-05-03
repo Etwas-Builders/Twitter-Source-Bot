@@ -1,5 +1,10 @@
 // Exports
 var exports = (module.exports = {});
+
+// Modules
+const nlp = require("./nlp");
+const citation = require("./citation");
+
 // Imports
 const sha512 = require("sha512"); // Sha512 Library
 const TwitterApi = require("twitter-lite");
@@ -12,7 +17,6 @@ const twitterClient = new TwitterApi({
   access_token_secret: process.env.ACCESS_TOKEN_SECRET,
 });
 // Modules
-let citation = require("./citation");
 const client = require("twitter-autohook/client");
 
 let handleNewTweet = async function (newTweet) {
@@ -22,7 +26,8 @@ let handleNewTweet = async function (newTweet) {
   // let content = parsedTweet.content;
   // let hashedTweet = await generateHash(parsedTweet);
   let tweetId = newTweet.id;
-  let content = newTweet.text;
+  let content = newTweet.full_text;
+  console.log("Tweet -> handleNewTweet -> content", content);
   let time = newTweet.created_at;
   let tweetUserID = newTweet.user.id_str;
   let userScreenName = newTweet.user.name;
@@ -30,11 +35,25 @@ let handleNewTweet = async function (newTweet) {
 
   // Check Cache with Hash
 
+  let wordsToSearch = await nlp.wordsToSearch(content);
+  console.log("Tweet -> handleNewTweet -> wordsToSearch", wordsToSearch);
+
+  let query = wordsToSearch.join(" ");
+  console.log("Tweet -> handleNewTweet -> query", query);
+  //query += ` "news" -twitter `;
+
+  let topResult = await citation.googleSearch(query);
+  console.log("Tweet -> handleNewTweet -> topResult", topResult);
+
   // return cached citation
 
   // Cite
 
-  return `@${username} This is test citation which will be replaced with a valid citation in the near future, follow @whosaidthis_bot for updates`;
+  return {
+    message: `@${username} Our top result for this tweet is : ${topResult.title} ${topResult.url} `,
+    url: topResult.url,
+  };
+  //return `@${username} This is test citation which will be replaced with a valid citation in the near future, follow @whosaidthis_bot for updates`;
 };
 
 let generateHash = async function (tweet) {
@@ -60,14 +79,23 @@ exports.handleNewReplyEvent = async function (event) {
     let originalTweet_response = await twitterClient.get("statuses/show", {
       id: original_tweet_id,
       id_str: original_tweet_id,
+      tweet_mode: "extended",
     });
-    let citation = await handleNewTweet(originalTweet_response);
-    citation = `@${replyUserScreenName} ${citation}`;
-    console.log(citation);
+    // console.log(
+    //   "Tweet -> handleNewReplyEvent -> originalTweet_response",
+    //   originalTweet_response
+    // );
+
+    let citationResponse = await handleNewTweet(originalTweet_response);
+    let message = citationResponse.message;
+    message = `@${replyUserScreenName} ${message}`;
+    let attachment_url = citationResponse.url;
+    console.log(message);
     try {
       let output = await twitterClient.post("statuses/update", {
-        status: citation,
+        status: message,
         in_reply_to_status_id: replyId,
+        //attachment_url: attachment_url,
       });
     } catch (error) {
       console.log("Post Error", error);

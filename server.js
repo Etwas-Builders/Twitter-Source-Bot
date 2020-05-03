@@ -8,6 +8,7 @@ const jsonParser = bodyParser.json(); // Using Data type Json
 const cors = require("cors"); // Library for handling access headers
 const { Autohook } = require("twitter-autohook");
 const OAuth = require("oauth");
+const morgan = require("morgan");
 
 // Modules
 const tweetHandler = require("./modules/tweet");
@@ -16,14 +17,13 @@ const citation = require("./modules/citation");
 // Server
 const express = require("express"); // Framework for Node
 const app = express(); // Establishing Express App
-//app.use(express.logger());
+morgan("tiny");
 app.use(cors()); // Cors to Handle Url Authentication
 app.use(bodyParser.json()); // Using Body Parser
 app.set("jwtTokenSecret", ""); // JWT Secret
 const server = app.listen(port); // Set Port
 
 // Twitter Api
-console.log("Printing Consumer Key", process.env.CONSUMER_KEY);
 let twitterWebhook = async function () {
   const webhook = new Autohook({
     token: process.env.ACCESS_TOKEN,
@@ -83,6 +83,8 @@ let handleNewWebHook = function (event) {
   }
 };
 
+// Create IPFS instance
+
 // Routing
 
 // Get Requests
@@ -105,7 +107,13 @@ app.get("/getWikiCitation", async function (req, res) {
   });
 });
 
-app.get("/", function (req, res) {});
+app.get("/dbTest", async function (req, res) {
+  // let orbitdb = await initOrbitDb();
+  // const counter = await orbitdb.counter("Mozilla-Open-Lab-Etwas");
+  // await counter.inc();
+  // console.log("Orbit Db", counter.value);
+  // res.send(counter.value);
+});
 
 // Post Requests
 // app.post("/newTweets", async function (req, res) {

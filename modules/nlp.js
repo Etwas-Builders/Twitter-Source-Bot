@@ -1,20 +1,26 @@
-stopwords = require("stopword");
-wordnet = require("node-wordnet");
-natural = require("natural");
+const stopwords = require("stopword");
+const wordnet = require("node-wordnet");
+const natural = require("natural");
 
-const language = "EN"
-const defaultCategory = 'N';
-const defaultCategoryCapitalized = 'NNP';
+var exports = (module.exports = {});
 
-var lexicon = new natural.Lexicon(language, defaultCategory, defaultCategoryCapitalized);
-var ruleSet = new natural.RuleSet('EN');
+const language = "EN";
+const defaultCategory = "N";
+const defaultCategoryCapitalized = "NNP";
+
+var lexicon = new natural.Lexicon(
+  language,
+  defaultCategory,
+  defaultCategoryCapitalized
+);
+var ruleSet = new natural.RuleSet("EN");
 var tagger = new natural.BrillPOSTagger(lexicon, ruleSet);
 
-exports.WordsToSearch = function FindWordsToSearch(text) {
-  const textArray = text.split(' ');
+exports.wordsToSearch = function FindWordsToSearch(text) {
+  const textArray = text.split(" ");
   var wordsToSearch = stopwords.removeStopwords(textArray);
   var finalWords = [];
-  length = wordsToSearch.length
+  length = wordsToSearch.length;
 
   for (index = 0; index < length; index++) {
     let currentWord = wordsToSearch[index];
@@ -33,7 +39,11 @@ exports.WordsToSearch = function FindWordsToSearch(text) {
       wordsToSearch.splice(index, 1);
       index--;
       length = wordsToSearch.length;
-    } else if (partOfSpeech == "NNS" || partOfSpeech == "NN" || partOfSpeech == "N") {
+    } else if (
+      partOfSpeech == "NNS" ||
+      partOfSpeech == "NN" ||
+      partOfSpeech == "N"
+    ) {
       finalWords.push(currentWord);
       wordsToSearch.splice(index, 1);
       index--;
@@ -42,13 +52,13 @@ exports.WordsToSearch = function FindWordsToSearch(text) {
   }
 
   for (index = 0; index < wordsToSearch.length; index++) {
-      let currentWord = wordsToSearch[index];
-      finalWords.push(currentWord);
+    let currentWord = wordsToSearch[index];
+    finalWords.push(currentWord);
   }
   return finalWords;
-}
+};
 
 function GetPartOfSpeech(text) {
-  let sentence = tagger.tag(text.split(' '));
-  return sentence['taggedWords'][0]['tag'];
+  let sentence = tagger.tag(text.split(" "));
+  return sentence["taggedWords"][0]["tag"];
 }
