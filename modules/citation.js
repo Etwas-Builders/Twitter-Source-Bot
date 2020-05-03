@@ -1,7 +1,7 @@
 const axios = require("axios");
 const himalaya = require("himalaya");
 const dom = require("./dom");
-const Fuse = require('fuse.js')
+const Fuse = require("fuse.js");
 var exports = (module.exports = {});
 
 exports.googleNews = async function (data) {
@@ -42,31 +42,30 @@ exports.wiki = async function (data) {
   let allTextContent = [];
 
   for (let text of texts) {
-    if (text.content.includes("\n") && text.content.length <= 2) || text.content == null || text.content.length <=2 {
+    if (
+      (text.content.includes("\n") && text.content.length <= 2) ||
+      text.content == null ||
+      text.content.length <= 2
+    ) {
       continue;
     }
-    allTextContent.push({"text" : text.content}) // HERE
-  }
-    
-    const options = {
-      isCaseSensitive: false,
-      findAllMatches: false,
-      includeMatches: false,
-      includeScore: true,
-      useExtendedSearch: true,
-      minMatchCharLength: 1,
-      shouldSort: true,
-      threshold:0.6,
-      location: 0,
-      distance: 100,
-      keys: [
-        "text"
-      ]
-  };
-  const fuse = new Fuse(allTextContent, options);
-  let results = fuse.search("Rap")
-  results.reverse()
+    allTextContent.push({ text: text.content }); // HERE
   }
 
-  return "output"; // Returned output
+  const options = {
+    isCaseSensitive: false,
+    findAllMatches: false,
+    includeMatches: false,
+    includeScore: true,
+    useExtendedSearch: true,
+    minMatchCharLength: 1,
+    shouldSort: true,
+    threshold: 0.6,
+    location: 0,
+    distance: 100,
+    keys: ["text"],
+  };
+  const fuse = new Fuse(allTextContent, options);
+  let results = fuse.search("Rap");
+  results.reverse();
 };
