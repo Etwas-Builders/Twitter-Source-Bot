@@ -25,6 +25,29 @@ exports.googleNews = async function (data) {
   })();
 };
 
+exports.googleSearch = async function (query) {
+  let response = await axios({
+    method: "GET",
+    url: "https://google-search5.p.rapidapi.com/get-results",
+    headers: {
+      "content-type": "application/octet-stream",
+      "x-rapidapi-host": "google-search5.p.rapidapi.com",
+      "x-rapidapi-key": "a5a73f927dmsh0a78b954b177d5dp1d3218jsn53070cc53b99",
+    },
+    params: {
+      country: "us",
+      offset: "0",
+      hl: "en-US",
+      q: query,
+    },
+  });
+  console.log("Citation -> googleSearch -> data", response.data);
+  let results = response.data.results;
+  console.log("Citation -> googleSearch -> results", results);
+  let topResults = results.organic_results;
+  return topResults;
+};
+
 let FindWiki = async (title) => {
   var url = `https://en.wikipedia.org/api/rest_v1/page/html/${title}`;
   var output = await axios.get(url);
