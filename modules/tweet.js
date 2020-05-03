@@ -39,11 +39,29 @@ let handleNewTweet = async function (newTweet) {
   console.log("Tweet -> handleNewTweet -> wordsToSearch", wordsToSearch);
 
   let query = wordsToSearch.join(" ");
+  query += ` "news"`;
   console.log("Tweet -> handleNewTweet -> query", query);
-  //query += ` "news" -twitter `;
 
-  let topResult = await citation.googleSearch(query);
-  console.log("Tweet -> handleNewTweet -> topResult", topResult);
+  let topResults = await citation.googleSearch(query);
+  console.log("Tweet -> handleNewTweet -> topResult", topResults);
+
+  let topResult;
+
+  for (let result of topResults) {
+    if (
+      !(
+        (result.url.includes(username) && result.url.includes("twitter")) ||
+        result.url.includes("youtube")
+      )
+    ) {
+      // Check Language
+      topResult = result;
+    }
+  }
+
+  if (!topResult) {
+    return `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`;
+  }
 
   // return cached citation
 
@@ -120,10 +138,12 @@ exports.handleNewMentionEvent = async function (event) {
 
   let mention = event.tweet_create_events[0];
   let mentionId = mention.id_str;
-  let citation = await handleNewTweet(mention);
+  let citationResponse = await handleNewTweet(mention);
+  let message = citationResponse.message;
+
   try {
     let output = await twitterClient.post("statuses/update", {
-      status: citation,
+      status: message,
       in_reply_to_status_id: mentionId,
     });
   } catch (error) {

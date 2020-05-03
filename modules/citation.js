@@ -44,8 +44,8 @@ exports.googleSearch = async function (query) {
   console.log("Citation -> googleSearch -> data", response.data);
   let results = response.data.results;
   console.log("Citation -> googleSearch -> results", results);
-  let topResult = results.organic_results[0];
-  return topResult;
+  let topResults = results.organic_results;
+  return topResults;
 };
 
 let FindWiki = async (title) => {
