@@ -87,4 +87,18 @@ exports.handleNewReplyEvent = async function (event) {
   }
 };
 
-exports.handleNewMentionEvent = async function (event) {};
+exports.handleNewMentionEvent = async function (event) {
+  console.log("Tweet -> handleNewMentionEvent -> event", event);
+
+  let mention = event.tweet_create_events[0];
+  let mentionId = mention.id_str;
+  let citation = await handleNewTweet(mention);
+  try {
+    let output = await twitterClient.post("statuses/update", {
+      status: citation,
+      in_reply_to_status_id: mentionId,
+    });
+  } catch (error) {
+    console.log("Post Error", error);
+  }
+};
