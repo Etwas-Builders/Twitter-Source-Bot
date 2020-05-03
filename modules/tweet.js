@@ -51,7 +51,8 @@ let handleNewTweet = async function (newTweet) {
     if (
       !(
         (result.url.includes(username) && result.url.includes("twitter")) ||
-        result.url.includes("youtube")
+        result.url.includes("youtube") ||
+        result.url.includes("facebook")
       )
     ) {
       // Check Language
