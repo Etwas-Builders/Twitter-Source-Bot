@@ -2,7 +2,7 @@ var exports = (module.exports = {});
 
 const whitelist = require("./whitelist.json");
 
-exports.getTopResult = async function (results) {
+exports.getTopResult = async function (results, username) {
   let topResult;
 
   for (let result of results) {
@@ -14,8 +14,15 @@ exports.getTopResult = async function (results) {
       )
     ) {
       // Check Language
-      if (result.url in whitelist) {
+      let pathArray = result.url.split("/");
+      let host = pathArray[2];
+      if (host.includes("www")) {
+        host = host.slice(4);
+      }
+      console.log("Processing -> getTopResult -> url", host);
+      if (host in whitelist) {
         result.score = 1;
+        console.log("Found whitelisted source", host);
       } else {
         result.score = 0;
       }
@@ -23,8 +30,8 @@ exports.getTopResult = async function (results) {
       result.score = -1;
     }
   }
-  results.sort((a, b) => b.score - a.score); // Sort by score
-
+  results.sort((a, b) => a.score - b.score); // Sort by score
+  console.log("Processing -> getTopResult -> sortedResults", results);
   for (let result of results) {
     if (result.score !== -1) {
       topResult = result;

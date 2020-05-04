@@ -44,9 +44,9 @@ let handleNewTweet = async function (newTweet) {
   console.log("Tweet -> handleNewTweet -> query", query);
 
   let results = await citation.googleSearch(query);
-  console.log("Tweet -> handleNewTweet -> topResult", topResults);
+  console.log("Tweet -> handleNewTweet -> topResult", results);
 
-  let topResult = await processing.getTopResult(results);
+  let topResult = await processing.getTopResult(results, username);
   console.log("Tweet -> handleNewTweet -> topResult.score", topResult.score);
 
   if (!topResult) {
