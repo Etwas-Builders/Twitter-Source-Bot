@@ -4,6 +4,7 @@ var exports = (module.exports = {});
 // Modules
 const nlp = require("./nlp");
 const citation = require("./citation");
+const processing = require("./processing/processing");
 
 // Imports
 const sha512 = require("sha512"); // Sha512 Library
@@ -42,22 +43,11 @@ let handleNewTweet = async function (newTweet) {
   query += ` "news"`;
   console.log("Tweet -> handleNewTweet -> query", query);
 
-  let topResults = await citation.googleSearch(query);
-  console.log("Tweet -> handleNewTweet -> topResult", topResults);
+  let results = await citation.googleSearch(query);
+  console.log("Tweet -> handleNewTweet -> topResult", results);
 
-  let topResult;
-
-  for (let result of topResults) {
-    if (
-      !(
-        (result.url.includes(username) && result.url.includes("twitter")) ||
-        result.url.includes("youtube")
-      )
-    ) {
-      // Check Language
-      topResult = result;
-    }
-  }
+  let topResult = await processing.getTopResult(results, username);
+  console.log("Tweet -> handleNewTweet -> topResult.score", topResult.score);
 
   if (!topResult) {
     return `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`;
