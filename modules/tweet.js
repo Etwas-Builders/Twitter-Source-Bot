@@ -39,7 +39,7 @@ let handleNewTweet = async function (newTweet) {
   axios.post(
     "https://discordapp.com/api/webhooks/707319466262003802/ZInKaBlUJg3BsCI2-FjV2wJWfre3ZxxzQjdq_ylTgu1Uqkn15CgbJgYZP3yDg5x7lT7g",
     {
-      content: `New Requested Citation from ${userScreenName} \n. Tweet Body : ${content}`,
+      content: `New Requested Citation from ${userScreenName}.\n Tweet Body :\n ${content}`,
       username: "Who Said This Bot",
       avatar_url:
         "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
