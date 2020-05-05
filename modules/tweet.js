@@ -9,6 +9,7 @@ const processing = require("./processing/processing");
 // Imports
 const sha512 = require("sha512"); // Sha512 Library
 const TwitterApi = require("twitter-lite");
+const axios = require("axios");
 const twitterClient = new TwitterApi({
   subdomain: "api",
   version: "1.1",
@@ -26,6 +27,7 @@ let handleNewTweet = async function (newTweet) {
   // let citation = null;
   // let content = parsedTweet.content;
   // let hashedTweet = await generateHash(parsedTweet);
+
   let tweetId = newTweet.id;
   let content = newTweet.full_text;
   console.log("Tweet -> handleNewTweet -> content", content);
@@ -33,6 +35,16 @@ let handleNewTweet = async function (newTweet) {
   let tweetUserID = newTweet.user.id_str;
   let userScreenName = newTweet.user.name;
   let username = newTweet.user.screen_name;
+
+  axios.post(
+    "https://discordapp.com/api/webhooks/707319466262003802/ZInKaBlUJg3BsCI2-FjV2wJWfre3ZxxzQjdq_ylTgu1Uqkn15CgbJgYZP3yDg5x7lT7g",
+    {
+      content: `New Requested Citation from ${userScreenName} \n. Tweet Body : ${content}`,
+      username: "Who Said This Bot",
+      avatar_url:
+        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
+    }
+  );
 
   // Check Cache with Hash
 
@@ -57,8 +69,20 @@ let handleNewTweet = async function (newTweet) {
 
   // Cite
 
+  let message = `@${username} Our top result for this tweet is : ${topResult.title} ${topResult.url} `;
+
+  axios.post(
+    "https://discordapp.com/api/webhooks/707319466262003802/ZInKaBlUJg3BsCI2-FjV2wJWfre3ZxxzQjdq_ylTgu1Uqkn15CgbJgYZP3yDg5x7lT7g",
+    {
+      content: `${message}`,
+      username: "Who Said This Bot",
+      avatar_url:
+        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
+    }
+  );
+
   return {
-    message: `@${username} Our top result for this tweet is : ${topResult.title} ${topResult.url} `,
+    message: message,
     url: topResult.url,
   };
   //return `@${username} This is test citation which will be replaced with a valid citation in the near future, follow @whosaidthis_bot for updates`;
