@@ -1,48 +1,60 @@
 const { Cluster } = require("puppeteer-cluster");
 
-let exports = (module.exports = {});
+var exports = (module.exports = {});
 
-exports.createCluster = async function (urls) {
+exports.createCluster = async function () {
   const cluster = await Cluster.launch({
     concurrency: Cluster.CONCURRENCY_CONTEXT,
     maxConcurrency: 10,
   });
 
+  console.log("Created Cluser")
+
   await cluster.task(async ({ page, data: url }) => {
+    console.log("Added url to queue", url)
     await page.goto(url, { waitUntil: "domcontentloaded" });
     const data = await page.evaluate(() => {
       const body = document.querySelector("body");
-
+      let title = document.title
       let text = body.innerText;
-
-      return text;
+      console.log("Cluser -> Task -> title", title)
+      let data = {}
+      data.title = title
+      data.text = text
+      return data
     });
-
+    console.log("Data from scrapper", data.title)
     return data;
   });
+  // let output = []
+  // for (let i = 0; i < urls.length; i++) {
+  //   output[i] = cluster.execute(urls[i]);
+  //   output[i].then((value) => {
+  //     console.log("Promise Resolution", value.title)
+  //     // Call NLP Here
+  //   })
+  // }
 
-  for (let url of urls) {
-    cluster.queue(url).then((data) => {
-      console.log(
-        "Scrapper -> createcluster -> Fetched complete page data for",
-        url
-      );
-      // Call NLP
-    });
-  }
+
+
   // exports.addQueueElement = async function (url) {
   //   cluster.queue(url);
   // };
-  await cluster.idle();
-  await cluster.close();
+  return cluster
 };
 
+exports.newUrl = async function (cluster, url) {
+  let output = cluster.execute(url)
+  return output
+}
+
+exports.closeCluser = async function (cluster) {
+  console.log("Close Cluster")
+  await cluster.idle();
+  await cluster.close();
+}
 // Testing
 
-let urls = [
-  "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then",
-  "https://www.nytimes.com/2020/05/05/world/coronavirus-news.html",
-  "https://www.vox.com/the-highlight/2020/2/18/21136863/alcoholism-sober-curious-mindful-drinking",
-];
 
-exports.createCluster(urls);
+
+
