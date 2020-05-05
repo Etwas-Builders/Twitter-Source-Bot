@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+const fs = require('fs')
 
 const scrapeImages = async () => {
   const browser = await puppeteer.launch({ headless: true });
@@ -38,10 +39,15 @@ const scrapeImages = async () => {
 
   await browser.close();
 
-  console.log(data);
+  //console.log(data);
 
   return data;
 };
 (async function () {
-  await scrapeImages();
+  const text = await scrapeImages();
+  // let json = JSON.stringify(originalTweet_response);
+  fs.writeFile("website-text.txt", text, function (err) {
+    if (err) throw err;
+    console.log("Saved!");
+  });
 })();
