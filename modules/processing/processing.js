@@ -1,5 +1,7 @@
 var exports = (module.exports = {});
 
+const scrapper = require("./scrapper");
+
 const whitelist = require("./whitelist.json");
 
 exports.getTopResult = async function (results, username) {
@@ -32,6 +34,7 @@ exports.getTopResult = async function (results, username) {
   }
   results.sort((a, b) => a.score - b.score); // Sort by score
   console.log("Processing -> getTopResult -> sortedResults", results);
+
   for (let result of results) {
     if (result.score !== -1) {
       topResult = result;
