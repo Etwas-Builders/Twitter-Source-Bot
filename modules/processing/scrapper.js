@@ -1,53 +1,48 @@
-const puppeteer = require("puppeteer");
-const fs = require('fs')
+const { Cluster } = require("puppeteer-cluster");
 
-const scrapeImages = async () => {
-  const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage();
+let exports = (module.exports = {});
 
-  await page.goto(
-    "https://www.nytimes.com/2020/05/05/world/coronavirus-news.html"
-  );
-
-  // Login form
-  await page.screenshot({ path: "1.png" });
-
-  // await page.type("[name=username]", "fireship_dev");
-
-  // await page.type("[name=password]", "some-pa$$word");
-
-  // await page.click("[type=submit]");
-
-  // Social Page
-
-  await page.waitFor(500);
-
-  await page.screenshot({ path: "2.png" });
-
-  // await page.waitForSelector("img ", {
-  //   visible: true,
-  // });
-
-  // Execute code in the DOM
-  const data = await page.evaluate(() => {
-    const body = document.querySelector("body");
-
-    let text = body.innerText;
-
-    return text;
+exports.createCluster = async function (urls) {
+  const cluster = await Cluster.launch({
+    concurrency: Cluster.CONCURRENCY_CONTEXT,
+    maxConcurrency: 10,
   });
 
-  await browser.close();
+  await cluster.task(async ({ page, data: url }) => {
+    await page.goto(url, { waitUntil: "domcontentloaded" });
+    const data = await page.evaluate(() => {
+      const body = document.querySelector("body");
 
-  //console.log(data);
+      let text = body.innerText;
 
-  return data;
+      return text;
+    });
+
+    return data;
+  });
+
+  for (let url of urls) {
+    cluster.queue(url).then((data) => {
+      console.log(
+        "Scrapper -> createcluster -> Fetched complete page data for",
+        url
+      );
+      // Call NLP
+    });
+  }
+  // exports.addQueueElement = async function (url) {
+  //   cluster.queue(url);
+  // };
+  await cluster.idle();
+  await cluster.close();
 };
-(async function () {
-  const text = await scrapeImages();
-  // let json = JSON.stringify(originalTweet_response);
-  fs.writeFile("website-text.txt", text, function (err) {
-    if (err) throw err;
-    console.log("Saved!");
-  });
-})();
+
+// Testing
+
+let urls = [
+  "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then",
+  "https://www.nytimes.com/2020/05/05/world/coronavirus-news.html",
+  "https://www.vox.com/the-highlight/2020/2/18/21136863/alcoholism-sober-curious-mindful-drinking",
+];
+
+exports.createCluster(urls);
