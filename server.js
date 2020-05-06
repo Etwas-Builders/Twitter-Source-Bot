@@ -13,6 +13,7 @@ const morgan = require("morgan");
 // Modules
 const tweetHandler = require("./modules/tweet");
 const citation = require("./modules/citation");
+const tester = require("./modules/test");
 
 // Server
 const express = require("express"); // Framework for Node
@@ -78,6 +79,12 @@ let handleNewWebHook = function (event) {
             tweetHandler.handleNewMentionEvent(event);
           }
         }
+      }
+    } else {
+      let tweetContent = tweet.text;
+      if (tweetContent.includes("Our top result for this tweet is :")) {
+        // Testing Code
+        tester.alphaTest(tweet);
       }
     }
   }
