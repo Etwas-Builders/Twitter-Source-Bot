@@ -24,6 +24,8 @@ app.use(bodyParser.json()); // Using Body Parser
 app.set("jwtTokenSecret", ""); // JWT Secret
 const server = app.listen(port); // Set Port
 
+let webhookSubscribe;
+
 // Twitter Api
 let twitterWebhook = async function () {
   const webhook = new Autohook({
@@ -45,7 +47,7 @@ let twitterWebhook = async function () {
   await webhook.start();
 
   // Subscribes to a user's activity
-  await webhook.subscribe({
+  webhookSubscribe = await webhook.subscribe({
     oauth_token: process.env.ACCESS_TOKEN,
     oauth_token_secret: process.env.ACCESS_TOKEN_SECRET,
   });
@@ -111,6 +113,13 @@ app.get("/getWikiCitation", async function (req, res) {
   let returned = await citation.wiki(data);
   res.status(200).json({
     source: returned,
+  });
+});
+
+app.get("/", async function (req, res) {
+  res.status(200).json({
+    webhookSubscribeStatus: webhookSubscribe,
+    serverStatus: "Server is On!",
   });
 });
 
