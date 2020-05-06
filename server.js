@@ -1,6 +1,6 @@
 require("dotenv").config();
 // Env Variable
-const port = process.env.PORT;
+const port = 3000;
 
 // Libraries
 const bodyParser = require("body-parser"); // Library for parsing data
