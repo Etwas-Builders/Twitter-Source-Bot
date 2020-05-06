@@ -9,6 +9,7 @@ const cors = require("cors"); // Library for handling access headers
 const { Autohook } = require("twitter-autohook");
 const OAuth = require("oauth");
 const morgan = require("morgan");
+const axios = require("axios");
 
 // Modules
 const tweetHandler = require("./modules/tweet");
@@ -51,6 +52,15 @@ let twitterWebhook = async function () {
     oauth_token: process.env.ACCESS_TOKEN,
     oauth_token_secret: process.env.ACCESS_TOKEN_SECRET,
   });
+  axios.post(
+    "https://discordapp.com/api/webhooks/707319466262003802/ZInKaBlUJg3BsCI2-FjV2wJWfre3ZxxzQjdq_ylTgu1Uqkn15CgbJgYZP3yDg5x7lT7g",
+    {
+      content: `Webhook and Server Setup and Running`,
+      username: "Who Said This Bot",
+      avatar_url:
+        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
+    }
+  );
 };
 
 twitterWebhook();
