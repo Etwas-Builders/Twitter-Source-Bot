@@ -1,6 +1,6 @@
 # Twitter Sourcing Bot
 
-Ever wanted to know the source of a tweet? Just @whosaidthis_bot and I'll tell you where it came from
+Ever wanted to know the source of a tweet? Just @whosaidthis_bot and I'll tell you where it came from 
 
 https://twitter.com/whosaidthis_bot
 
