@@ -56,6 +56,9 @@ let handleNewTweet = async function (newTweet) {
   console.log("Tweet -> handleNewTweet -> query", query);
 
   let results = await citation.googleSearch(query);
+  if (!results) {
+    return `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`;
+  }
   console.log("Tweet -> handleNewTweet -> topResult", results);
 
   let topResult = await processing.getTopResult(results, username);

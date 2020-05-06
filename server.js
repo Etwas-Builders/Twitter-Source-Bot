@@ -79,6 +79,7 @@ let handleNewWebHook = function (event) {
           }
         }
       }
+    } else {
     }
   }
 };
