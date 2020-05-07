@@ -55,7 +55,7 @@ let handleNewTweet = async function (newTweet) {
   console.log("Tweet -> handleNewTweet -> wordsToSearch", wordsToSearch);
 
   let query = wordsToSearch.join(" ");
-  query += ` "news"`;
+  //query += ` "news"`;
   console.log("Tweet -> handleNewTweet -> query", query);
 
   let results = await citation.googleSearch(query);
