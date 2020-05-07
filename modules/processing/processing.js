@@ -1,6 +1,6 @@
 var exports = (module.exports = {});
 
-const scrapper = require("./scrapper");
+//const scrapper = require("./scrapper");
 
 const whitelist = require("./whitelist.json");
 

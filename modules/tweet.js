@@ -55,15 +55,22 @@ let handleNewTweet = async function (newTweet) {
   console.log("Tweet -> handleNewTweet -> wordsToSearch", wordsToSearch);
 
   let query = wordsToSearch.join(" ");
-  //query += ` "news"`;
+  query += ` "news"`;
   console.log("Tweet -> handleNewTweet -> query", query);
 
   let results = await citation.googleSearch(query);
   if (results.length === 0) {
-    return {
-      message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
-    };
+    query = wordsToSearch.join(" ");
+    console.log("Tweet -> handleNewTweet -> newQuery", query);
+    let newResults = await citation.googleSearch(query);
+    if (newResults.length === 0) {
+      return {
+        message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
+      };
+    }
+    results = newResults;
   }
+
   console.log("Tweet -> handleNewTweet -> topResult", results);
 
   let topResult = await processing.getTopResult(results, username);
