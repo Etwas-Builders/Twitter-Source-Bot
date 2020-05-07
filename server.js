@@ -21,6 +21,7 @@ const express = require("express"); // Framework for Node
 const app = express(); // Establishing Express App
 morgan("tiny");
 app.use(cors()); // Cors to Handle Url Authentication
+app.options("*", cors());
 app.use(bodyParser.json()); // Using Body Parser
 app.set("jwtTokenSecret", ""); // JWT Secret
 const server = app.listen(port); // Set Port
