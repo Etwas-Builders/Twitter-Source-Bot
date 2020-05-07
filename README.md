@@ -16,6 +16,10 @@ Our Website - https://twittersourcebot.tech/
 
 Our Bot - https://twitter.com/whosaidthis_bot
 
+### Contributing
+
+Primairly we need feedback especially on where our bot is making mistakes, we would apperciate it if you took the time to test our bot and if you find any errors submit them in the feedback form or create an issue with a link the the bots response
+
 
 ### Team
 
