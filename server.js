@@ -128,6 +128,8 @@ app.get("/getWikiCitation", async function (req, res) {
 });
 
 app.get("/", async function (req, res) {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, POST");
   res.status(200).json({
     webhookSubscribeStatus: webhookSubscribe,
     serverStatus: "Server is On!",
