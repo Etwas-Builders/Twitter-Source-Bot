@@ -30,6 +30,9 @@ let handleNewTweet = async function (newTweet) {
 
   let tweetId = newTweet.id;
   let content = newTweet.full_text;
+  if (!content) {
+    content = newTweet.text;
+  }
   console.log("Tweet -> handleNewTweet -> content", content);
   let time = newTweet.created_at;
   let tweetUserID = newTweet.user.id_str;
