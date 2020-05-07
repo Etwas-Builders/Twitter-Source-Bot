@@ -30,6 +30,9 @@ let handleNewTweet = async function (newTweet) {
 
   let tweetId = newTweet.id;
   let content = newTweet.full_text;
+  if (!content) {
+    content = newTweet.text;
+  }
   console.log("Tweet -> handleNewTweet -> content", content);
   let time = newTweet.created_at;
   let tweetUserID = newTweet.user.id_str;
@@ -57,10 +60,17 @@ let handleNewTweet = async function (newTweet) {
 
   let results = await citation.googleSearch(query);
   if (results.length === 0) {
-    return {
-      message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
-    };
+    query = wordsToSearch.join(" ");
+    console.log("Tweet -> handleNewTweet -> newQuery", query);
+    let newResults = await citation.googleSearch(query);
+    if (newResults.length === 0) {
+      return {
+        message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
+      };
+    }
+    results = newResults;
   }
+
   console.log("Tweet -> handleNewTweet -> topResult", results);
 
   let topResult = await processing.getTopResult(results, username);
