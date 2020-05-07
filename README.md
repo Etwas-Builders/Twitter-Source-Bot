@@ -23,7 +23,7 @@ Primairly we need feedback especially on where our bot is making mistakes, we wo
 
 ### Team
 
-[Rahul Tarak (Cryogenic Planet)](https://cryogenicplanet.tech/)
+[Rahul Tarak (CryogenicPlanet)](https://cryogenicplanet.tech/)
 
 [Rithvik Manhindra](https://www.linkedin.com/in/rithvik-mahindra/)
 
