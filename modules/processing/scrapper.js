@@ -1,53 +1,54 @@
-const puppeteer = require("puppeteer");
-const fs = require('fs')
+const { Cluster } = require("puppeteer-cluster");
 
-const scrapeImages = async () => {
-  const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage();
+var exports = (module.exports = {});
 
-  await page.goto(
-    "https://www.nytimes.com/2020/05/05/world/coronavirus-news.html"
-  );
-
-  // Login form
-  await page.screenshot({ path: "1.png" });
-
-  // await page.type("[name=username]", "fireship_dev");
-
-  // await page.type("[name=password]", "some-pa$$word");
-
-  // await page.click("[type=submit]");
-
-  // Social Page
-
-  await page.waitFor(500);
-
-  await page.screenshot({ path: "2.png" });
-
-  // await page.waitForSelector("img ", {
-  //   visible: true,
-  // });
-
-  // Execute code in the DOM
-  const data = await page.evaluate(() => {
-    const body = document.querySelector("body");
-
-    let text = body.innerText;
-
-    return text;
+exports.createCluster = async function () {
+  const cluster = await Cluster.launch({
+    concurrency: Cluster.CONCURRENCY_CONTEXT,
+    maxConcurrency: 10,
   });
 
-  await browser.close();
+  console.log("Created Cluster");
 
-  //console.log(data);
+  await cluster.task(async ({ page, data: url }) => {
+    console.log("Added url to queue", url);
+    await page.goto(url, { waitUntil: "domcontentloaded" });
+    const data = await page.evaluate(() => {
+      const body = document.querySelector("body");
+      let title = document.title;
+      let text = body.innerText;
+      console.log("Cluster -> Task -> title", title);
+      let data = {};
+      data.title = title;
+      data.text = text;
+      return data;
+    });
+    console.log("Data from scrapper", data.title);
+    return data;
+  });
+  // let output = []
+  // for (let i = 0; i < urls.length; i++) {
+  //   output[i] = cluster.execute(urls[i]);
+  //   output[i].then((value) => {
+  //     console.log("Promise Resolution", value.title)
+  //     // Call NLP Here
+  //   })
+  // }
 
-  return data;
+  // exports.addQueueElement = async function (url) {
+  //   cluster.queue(url);
+  // };
+  return cluster;
 };
-(async function () {
-  const text = await scrapeImages();
-  // let json = JSON.stringify(originalTweet_response);
-  fs.writeFile("website-text.txt", text, function (err) {
-    if (err) throw err;
-    console.log("Saved!");
-  });
-})();
+
+exports.newUrl = async function (cluster, url) {
+  let output = cluster.execute(url);
+  return output;
+};
+
+exports.closeCluster = async function (cluster) {
+  console.log("Close Cluster");
+  await cluster.idle();
+  await cluster.close();
+};
+// Testing

@@ -62,3 +62,10 @@ function GetPartOfSpeech(text) {
   let sentence = tagger.tag(text.split(" "));
   return sentence["taggedWords"][0]["tag"];
 }
+
+exports.scorePage = async function (result, data, keywords) {
+  let score = 0
+
+
+  return score // Between 0 and 1
+}

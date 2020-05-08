@@ -5,6 +5,7 @@ var exports = (module.exports = {});
 const nlp = require("./nlp");
 const citation = require("./citation");
 const processing = require("./processing/processing");
+const scrapper = require("./processing/scrapper")
 
 // Imports
 const sha512 = require("sha512"); // Sha512 Library
@@ -63,7 +64,9 @@ let handleNewTweet = async function (newTweet) {
   }
   console.log("Tweet -> handleNewTweet -> topResult", results);
 
-  let topResult = await processing.getTopResult(results, username);
+  let processedOutput = await processing.getTopResult(results, username, wordsToSearch);
+  let topResult = processedOutput.topResult
+  scrapper.closeCluster(processedOutput.cluster)
   console.log("Tweet -> handleNewTweet -> topResult.score", topResult.score);
 
   if (!topResult) {
