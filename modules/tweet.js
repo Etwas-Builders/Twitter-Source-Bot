@@ -57,18 +57,17 @@ let handleNewTweet = async function (newTweet) {
   let query = wordsToSearch.join(" ");
   query += ` "news"`;
   console.log("Tweet -> handleNewTweet -> query", query);
-
   let results = await citation.googleSearch(query);
+  query = wordsToSearch.join(" ");
+  console.log("Tweet -> handleNewTweet -> newQuery", query);
+  let newResults = await citation.googleSearch(query);
+
+  results.push(...newResults);
+
   if (results.length === 0) {
-    query = wordsToSearch.join(" ");
-    console.log("Tweet -> handleNewTweet -> newQuery", query);
-    let newResults = await citation.googleSearch(query);
-    if (newResults.length === 0) {
-      return {
-        message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
-      };
-    }
-    results = newResults;
+    return {
+      message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
+    };
   }
 
   console.log("Tweet -> handleNewTweet -> topResult", results);
