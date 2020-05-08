@@ -13,6 +13,8 @@ exports.createCluster = async function () {
   await cluster.task(async ({ page, data: url }) => {
     console.log("Added url to queue", url);
     await page.goto(url, { waitUntil: "domcontentloaded" });
+
+    await page.waitFor(200);
     const data = await page.evaluate(() => {
       const body = document.querySelector("body");
       let title = document.title;
@@ -24,6 +26,12 @@ exports.createCluster = async function () {
       return data;
     });
     console.log("Data from scrapper", data.title);
+    if (!data.title) {
+      data.title = "test";
+      //await page.setViewport({ width: 1920, height: 1080 });
+      await page.screenshot({ path: `./${data.title}.png`, fullPage: true });
+    }
+
     return data;
   });
   // let output = []

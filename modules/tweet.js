@@ -5,7 +5,7 @@ var exports = (module.exports = {});
 const nlp = require("./nlp");
 const citation = require("./citation");
 const processing = require("./processing/processing");
-const scrapper = require("./processing/scrapper")
+const scrapper = require("./processing/scrapper");
 
 // Imports
 const sha512 = require("sha512"); // Sha512 Library
@@ -57,6 +57,7 @@ let handleNewTweet = async function (newTweet) {
   console.log("Tweet -> handleNewTweet -> query", query);
 
   let results = await citation.googleSearch(query);
+  results = results.splice(0, 10);
   if (results.length === 0) {
     return {
       message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
@@ -64,16 +65,22 @@ let handleNewTweet = async function (newTweet) {
   }
   console.log("Tweet -> handleNewTweet -> topResult", results);
 
-  let processedOutput = await processing.getTopResult(results, username, wordsToSearch);
-  let topResult = processedOutput.topResult
-  scrapper.closeCluster(processedOutput.cluster)
-  console.log("Tweet -> handleNewTweet -> topResult.score", topResult.score);
+  let processedOutput = await processing.getTopResult(
+    results,
+    username,
+    wordsToSearch
+  );
+
+  console.log("Tweet -> handleNewTweet -> processedOuput", processedOutput);
+  let topResult = processedOutput.topResult;
 
   if (!topResult) {
     return {
       message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
     };
   }
+  scrapper.closeCluster(processedOutput.cluster);
+  console.log("Tweet -> handleNewTweet -> topResult.score", topResult.score);
 
   // return cached citation
 
