@@ -85,6 +85,12 @@ let handleNewTweet = async function (newTweet) {
 
   // Cite
 
+  if (topResult.title.includes("@")) {
+    // Handle Escaping
+    topResult.title = topResult.title.replace("@", "@ ");
+    // Issue #17 Temporary Fix https://github.com/Mozilla-Open-Lab-Etwas/Twitter-Source-Bot/issues/17
+  }
+
   let message = `@${username} Our top result for this tweet is : ${topResult.title} ${topResult.url} `;
 
   axios.post(
