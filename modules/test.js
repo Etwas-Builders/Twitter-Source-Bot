@@ -26,7 +26,7 @@ exports.alphaTest = async function (tweet) {
       message = message.concat(`@${user.screen_name} `);
     }
     message = message.concat(
-      `We would really appreciate it if you took the time to fill out a quick 1 min feedback form https://feedback.twittersourcebot.tech/?tweet_id=${original_tweet_id} `
+      `We would really appreciate it if you took the time to fill out a quick 1 min feedback form https://twittersourcebot-feedback.netlify.app/?tweet_id=${original_tweet_id} `
     );
     console.log("Test -> Alpha Test -> message", message);
     try {
