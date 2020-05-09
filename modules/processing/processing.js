@@ -97,7 +97,7 @@ exports.getTopResult = async function (results, username, keywords) {
       result.score += score
       
       console.log("Processing -> getTopResult -> nlpScore", score);
-      if (score > 0.1) {
+      if (score > 0.2) {
         // Set Threshold
         return { topResult: result, cluster: cluster };
       } else {
