@@ -48,37 +48,25 @@ exports.getTopResult = async function (results, username, keywords) {
   //console.log("Processing -> getTopResult -> sortedResults", results);
 
   let cluster = await scrapper.createCluster();
-  let resultsLength = results.length;
-  let resolvedPromise = 0;
+
   let pageContents = [];
 
-  for (let i = 0; i < results.length; i++) {
-    pageContents[i] = scrapper.newUrl(cluster, results[i].url);
-    pageContents[i].then(async (data) => {
-      resolvedPromise++;
+  let [scrapePromises, nlpPromises] = [[], []];
 
+  for (let result of results) {
+    let scrapePromise = scrapper.newUrl(cluster, result.url);
+    let nlpPromise = scrapePromise.then(async (data) => {
       console.log(
-        "Processing -> getTopResult -> Promise Resolution pageContent",
-        i,
-        "with title",
-        data.title
+        `Processing -> getTopResult -> Promise Resolution pageContent  with title ${data.title}`
       );
-
-      // NLP Processing
-      return nlp.scorePage(results[i], data, keywords).then((score) => {
-        console.log("Processing -> getTopResult -> nlpScore", score);
-
-        if (score > 0.1) {
-          // Set Threshold
-
-          return { topResult: results[i], cluster: cluster };
-        }
-        if (resolvedPromise === resultsLength) {
-          // scrapper.closeCluster(cluster)
-          return { topResult: null, cluster: cluster };
-        }
-      });
+      let score = await nlp.scorePage(result, data, keywords);
+      console.log("Processing -> getTopResult -> nlpScore", score);
+      if (score > 0.1) {
+        // Set Threshold
+        return { topResult: result, cluster: cluster };
+      }
     });
-    return await Promise.race([...pageContents]);
+    nlpPromises.push(nlpPromise);
   }
+  return Promise.race(nlpPromises);
 };

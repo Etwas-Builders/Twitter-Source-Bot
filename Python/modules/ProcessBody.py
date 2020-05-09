@@ -13,8 +13,8 @@ async def getDocumentScore(data, url, keywords):
 
     nlp_text = nlp(text)
 
-    minimum_phrase_rank = 0.75 
-        max([phrase.rank for phrase in nlp_text._.phrases])
+    minimum_phrase_rank = 0.75
+    max([phrase.rank for phrase in nlp_text._.phrases])
     number_of_phrases = len(nlp_text._.phrases)
     number_of_positive_scores = 0
     print("URL:" + url)
@@ -46,7 +46,7 @@ async def getDocumentScore(data, url, keywords):
             score = 0
 
         minimum_number_of_scores_needed = math.log(number_of_phrases, 8)
-        print("Minimum number: " + minimum_number_of_scores_needed)
+        print("Minimum number: " + str(minimum_number_of_scores_needed))
 
         if (score > 0):
             number_of_positive_scores += 1
