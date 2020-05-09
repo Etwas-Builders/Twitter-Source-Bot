@@ -12,7 +12,7 @@ exports.googleNews = async function (data) {
       `q=${keyword}&` +
       "from=2020-04-18&" +
       "sortBy=popularity&" +
-      "apiKey=9f378bb498a54e4f93e2c5dabc13a3e2";
+      `apiKey=${process.env.SEARCH_API_KEY}`;
 
     var res = await axios.get(url);
     return res.data;

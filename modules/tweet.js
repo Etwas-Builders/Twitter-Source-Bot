@@ -31,6 +31,9 @@ let handleNewTweet = async function (newTweet) {
 
   let tweetId = newTweet.id;
   let content = newTweet.full_text;
+  if (!content) {
+    content = newTweet.text;
+  }
   console.log("Tweet -> handleNewTweet -> content", content);
   let time = newTweet.created_at;
   let tweetUserID = newTweet.user.id_str;
@@ -55,14 +58,20 @@ let handleNewTweet = async function (newTweet) {
   let query = wordsToSearch.join(" ");
   query += ` "news"`;
   console.log("Tweet -> handleNewTweet -> query", query);
-
   let results = await citation.googleSearch(query);
   results = results.splice(0, 10);
+  query = wordsToSearch.join(" ");
+  console.log("Tweet -> handleNewTweet -> newQuery", query);
+  let newResults = await citation.googleSearch(query);
+  newResults = newResults.splice(0,10);
+  results.push(...newResults);
+
   if (results.length === 0) {
     return {
       message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
     };
   }
+
   console.log("Tweet -> handleNewTweet -> topResult", results);
 
   let processedOutput = await processing.getTopResult(
@@ -85,6 +94,12 @@ let handleNewTweet = async function (newTweet) {
   // return cached citation
 
   // Cite
+
+  if (topResult.title.includes("@")) {
+    // Handle Escaping
+    topResult.title = topResult.title.replace("@", "@ ");
+    // Issue #17 Temporary Fix https://github.com/Mozilla-Open-Lab-Etwas/Twitter-Source-Bot/issues/17
+  }
 
   let message = `@${username} Our top result for this tweet is : ${topResult.title} ${topResult.url} `;
 
