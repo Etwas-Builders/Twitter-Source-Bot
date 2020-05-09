@@ -55,8 +55,8 @@ exports.newUrl = async function (cluster, url) {
 };
 
 exports.closeCluster = async function (cluster) {
-  console.log("Close Cluster");
   //await cluster.idle();
   await cluster.close();
+  console.log("Close Cluster");
 };
 // Testing
