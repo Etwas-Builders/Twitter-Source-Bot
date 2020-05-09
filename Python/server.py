@@ -1,5 +1,6 @@
 from tornado.web import Application, RequestHandler
 from tornado.ioloop import IOLoop
+from googlesearch import search
 import json
 
 from modules import ProcessBody
@@ -16,21 +17,32 @@ class handleProcessBody(RequestHandler):
         body = self.request.body
         body = json.loads(body)
 
-        print(body)
+        print("---- New Request ----")
         data = body["data"]
         keywords = body["keywords"]
         url = body["url"]
 
         score = await ProcessBody.getDocumentScore(data, url, keywords)
-        print(score)
+        print("FINAL SCORE",score)
 
         self.write({"score": score})
 
+class searchResults(RequestHandler):
+    async def get(self):
+        print("-- Search Request --")
+        query = self.get_argument('query', None)
+
+        results = list(search("{}".format(query), num=10, stop=10, pause=2))
+
+        processed = [{"url": link} for link in results]
+
+        self.write({"results": processed})
 
 def make_app():
     urls = [
         ("/", GetSample),
-        ("/processBody", handleProcessBody)
+        ("/processBody", handleProcessBody),
+        ('/search', searchResults)
     ]
 
     return Application(urls, debug=True)
