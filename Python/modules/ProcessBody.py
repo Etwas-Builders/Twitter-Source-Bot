@@ -15,8 +15,11 @@ async def getDocumentScore(data, url, keywords):
 
     if len(text) <= 0:
         return -1
-
+    
     nlp_text = nlp(text)
+
+    if len(nlp_text._.phrases) <= 0:
+        return -1
 
     minimum_phrase_rank = 0.6 * max([phrase.rank for phrase in nlp_text._.phrases])
     number_of_phrases = len(nlp_text._.phrases)
