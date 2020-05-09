@@ -41,9 +41,9 @@ exports.googleSearch = async function (query) {
       q: query,
     },
   });
-  console.log("Citation -> googleSearch -> data", response.data);
+  //console.log("Citation -> googleSearch -> data", response.data);
   let results = response.data.results;
-  console.log("Citation -> googleSearch -> results", results);
+  //console.log("Citation -> googleSearch -> results", results);
   let topResults = results.organic_results;
   return topResults;
 };

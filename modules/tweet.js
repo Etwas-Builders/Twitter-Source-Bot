@@ -5,6 +5,7 @@ var exports = (module.exports = {});
 const nlp = require("./nlp");
 const citation = require("./citation");
 const processing = require("./processing/processing");
+const scrapper = require("./processing/scrapper");
 
 // Imports
 const sha512 = require("sha512"); // Sha512 Library
@@ -58,10 +59,11 @@ let handleNewTweet = async function (newTweet) {
   query += ` "news"`;
   console.log("Tweet -> handleNewTweet -> query", query);
   let results = await citation.googleSearch(query);
+  results = results.splice(0, 10);
   query = wordsToSearch.join(" ");
   console.log("Tweet -> handleNewTweet -> newQuery", query);
   let newResults = await citation.googleSearch(query);
-
+  newResults = newResults.splice(0,10);
   results.push(...newResults);
 
   if (results.length === 0) {
@@ -72,14 +74,22 @@ let handleNewTweet = async function (newTweet) {
 
   console.log("Tweet -> handleNewTweet -> topResult", results);
 
-  let topResult = await processing.getTopResult(results, username);
-  console.log("Tweet -> handleNewTweet -> topResult.score", topResult.score);
+  let processedOutput = await processing.getTopResult(
+    results,
+    username,
+    wordsToSearch
+  );
+
+  console.log("Tweet -> handleNewTweet -> processedOuput", processedOutput);
+  let topResult = processedOutput.topResult;
 
   if (!topResult) {
     return {
       message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
     };
   }
+  scrapper.closeCluster(processedOutput.cluster);
+  console.log("Tweet -> handleNewTweet -> topResult.score", topResult.score);
 
   // return cached citation
 
