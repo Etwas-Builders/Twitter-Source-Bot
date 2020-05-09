@@ -1,6 +1,6 @@
 require("dotenv").config();
 // Env Variable
-const port = process.env.PORT;
+const port = 3000;
 
 // Libraries
 const bodyParser = require("body-parser"); // Library for parsing data
@@ -9,6 +9,7 @@ const cors = require("cors"); // Library for handling access headers
 const { Autohook } = require("twitter-autohook");
 const OAuth = require("oauth");
 const morgan = require("morgan");
+const axios = require("axios");
 
 // Modules
 const tweetHandler = require("./modules/tweet");
@@ -20,9 +21,12 @@ const express = require("express"); // Framework for Node
 const app = express(); // Establishing Express App
 morgan("tiny");
 app.use(cors()); // Cors to Handle Url Authentication
+app.options("*", cors());
 app.use(bodyParser.json()); // Using Body Parser
 app.set("jwtTokenSecret", ""); // JWT Secret
 const server = app.listen(port); // Set Port
+
+let webhookSubscribe;
 
 // Twitter Api
 let twitterWebhook = async function () {
@@ -45,10 +49,19 @@ let twitterWebhook = async function () {
   await webhook.start();
 
   // Subscribes to a user's activity
-  await webhook.subscribe({
+  webhookSubscribe = await webhook.subscribe({
     oauth_token: process.env.ACCESS_TOKEN,
     oauth_token_secret: process.env.ACCESS_TOKEN_SECRET,
   });
+  axios.post(
+    "https://discordapp.com/api/webhooks/707319466262003802/ZInKaBlUJg3BsCI2-FjV2wJWfre3ZxxzQjdq_ylTgu1Uqkn15CgbJgYZP3yDg5x7lT7g",
+    {
+      content: `Webhook and Server Setup and Running`,
+      username: "Who Said This Bot",
+      avatar_url:
+        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
+    }
+  );
 };
 
 twitterWebhook();
@@ -111,6 +124,15 @@ app.get("/getWikiCitation", async function (req, res) {
   let returned = await citation.wiki(data);
   res.status(200).json({
     source: returned,
+  });
+});
+
+app.get("/", async function (req, res) {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, POST");
+  res.status(200).json({
+    webhookSubscribeStatus: webhookSubscribe,
+    serverStatus: "Server is On!",
   });
 });
 
