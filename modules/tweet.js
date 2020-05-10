@@ -58,16 +58,12 @@ let handleNewTweet = async function (newTweet) {
   let wordsToSearch = await nlp.wordsToSearch(content);
   console.log("Tweet -> handleNewTweet -> wordsToSearch", wordsToSearch);
 
-  let query = wordsToSearch
-    .map((e) => (e.word.includes("//t.co/") ? "" : e.word))
-    .join(" ");
+  let query = wordsToSearch.map((e) => e.word).join(" ");
   query += ` "news"`;
   console.log("Tweet -> handleNewTweet -> query", query);
   let results = await citation.googleSearch(query);
   results = results.splice(0, 10);
-  query = wordsToSearch
-    .map((e) => (e.word.includes("//t.co/") ? "" : e.word))
-    .join(" ");
+  query = wordsToSearch.map((e) => e.word).join(" ");
   console.log("Tweet -> handleNewTweet -> newQuery", query);
   let newResults = await citation.googleSearch(query);
   //console.log("Tweet -> handleNewTweet -> newResults", newResults);

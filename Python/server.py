@@ -1,9 +1,11 @@
+from modules import ProcessBody
 from tornado.web import Application, RequestHandler
 from tornado.ioloop import IOLoop
 from googlesearch import search
+import tornado
 
 from dotenv import load_dotenv
-from pathlib import Path 
+from pathlib import Path
 
 import os
 import json
@@ -11,7 +13,6 @@ import requests
 
 load_dotenv(dotenv_path=Path("../.env"))
 
-from modules import ProcessBody
 
 class GetSample(RequestHandler):
     def get(self):
@@ -30,9 +31,10 @@ class handleProcessBody(RequestHandler):
         url = body["url"]
 
         score = await ProcessBody.getDocumentScore(data, url, keywords)
-        print("FINAL SCORE",score)
+        print("FINAL SCORE", score)
 
         self.write({"score": score})
+
 
 class searchResults(RequestHandler):
     async def get(self):
@@ -46,19 +48,23 @@ class searchResults(RequestHandler):
 
         self.write({"results": processed})
 
+
 def make_app():
     urls = [
         ("/", GetSample),
         ("/processBody", handleProcessBody),
-        ('/search', searchResults)
+        ('/search', searchResults),
+        (r'/output()', tornado.web.StaticFileHandler, {'path': 'output.txt'})
     ]
     return Application(urls)
 
+
 def discord_webhook():
-        
+
     discord_url = os.getenv("DISCORD_WEBHOOK_URL")
-    requests.post(discord_url, data = {'content':'Python Server running','username' : 'Who Said This Bot(Python)','avatar_url' : 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png'})
-    
+    requests.post(discord_url, data={'content': 'Python Server running', 'username': 'Who Said This Bot(Python)',
+                                     'avatar_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png'})
+
 
 if __name__ == "__main__":
     port = 5000
@@ -66,7 +72,5 @@ if __name__ == "__main__":
     discord_webhook()
     app = make_app()
     app.listen(port)
-    
-    IOLoop.instance().start()
-    
 
+    IOLoop.instance().start()
