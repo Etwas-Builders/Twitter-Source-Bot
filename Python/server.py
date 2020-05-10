@@ -5,7 +5,6 @@ import json
 
 from modules import ProcessBody
 
-
 class GetSample(RequestHandler):
     def get(self):
         print("Baala is a big gay")
@@ -45,7 +44,7 @@ def make_app():
         ("/processBody", handleProcessBody),
         ('/search', searchResults)
     ]
-
+    
     return Application(urls, debug=True)
 
 
@@ -54,6 +53,7 @@ if __name__ == "__main__":
 
     app = make_app()
     app.listen(port)
-
+    print("Tornado is up and running!")
     IOLoop.instance().start()
+    
 
