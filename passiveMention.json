@@ -1,0 +1,104 @@
+{
+  "for_user_id": "1255487054219218944",
+  "user_has_blocked": false,
+  "tweet_create_events": [
+    {
+      "created_at": "Sun May 10 23:03:44 +0000 2020",
+      "id": 1259620166398120000,
+      "id_str": "1259620166398119937",
+      "text": "@whosaidthis_bot @ABCPolitics Passive mention",
+      "display_text_range": [
+        30,
+        45
+      ],
+      "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+      "truncated": false,
+      "in_reply_to_status_id": 1259620007270645800,
+      "in_reply_to_status_id_str": "1259620007270645760",
+      "in_reply_to_user_id": 1255487054219219000,
+      "in_reply_to_user_id_str": "1255487054219218944",
+      "in_reply_to_screen_name": "whosaidthis_bot",
+      "user": {
+        "id": 1258133916268953600,
+        "id_str": "1258133916268953601",
+        "name": "salegot",
+        "screen_name": "salegot1",
+        "location": null,
+        "url": null,
+        "description": null,
+        "translator_type": "none",
+        "protected": false,
+        "verified": false,
+        "followers_count": 0,
+        "friends_count": 3,
+        "listed_count": 0,
+        "favourites_count": 1,
+        "statuses_count": 63,
+        "created_at": "Wed May 06 20:38:12 +0000 2020",
+        "utc_offset": null,
+        "time_zone": null,
+        "geo_enabled": false,
+        "lang": null,
+        "contributors_enabled": false,
+        "is_translator": false,
+        "profile_background_color": "F5F8FA",
+        "profile_background_image_url": "",
+        "profile_background_image_url_https": "",
+        "profile_background_tile": false,
+        "profile_link_color": "1DA1F2",
+        "profile_sidebar_border_color": "C0DEED",
+        "profile_sidebar_fill_color": "DDEEF6",
+        "profile_text_color": "333333",
+        "profile_use_background_image": true,
+        "profile_image_url": "http://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+        "profile_image_url_https": "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+        "default_profile": true,
+        "default_profile_image": false,
+        "following": null,
+        "follow_request_sent": null,
+        "notifications": null
+      },
+      "geo": null,
+      "coordinates": null,
+      "place": null,
+      "contributors": null,
+      "is_quote_status": false,
+      "quote_count": 0,
+      "reply_count": 0,
+      "retweet_count": 0,
+      "favorite_count": 0,
+      "entities": {
+        "hashtags": [],
+        "urls": [],
+        "user_mentions": [
+          {
+            "screen_name": "whosaidthis_bot",
+            "name": "WhoSaidThis Bot",
+            "id": 1255487054219219000,
+            "id_str": "1255487054219218944",
+            "indices": [
+              0,
+              16
+            ]
+          },
+          {
+            "screen_name": "ABCPolitics",
+            "name": "ABC News Politics",
+            "id": 16815644,
+            "id_str": "16815644",
+            "indices": [
+              17,
+              29
+            ]
+          }
+        ],
+        "symbols": []
+      },
+      "favorited": false,
+      "retweeted": false,
+      "filter_level": "low",
+      "lang": "fr",
+      "timestamp_ms": "1589151824937"
+    }
+  ]
+}

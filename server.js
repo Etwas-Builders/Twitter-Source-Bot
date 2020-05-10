@@ -81,6 +81,12 @@ let handleNewWebHook = function (event) {
   if (event.tweet_create_events) {
     let tweet = event.tweet_create_events[0];
     if (!(tweet.user.id_str === "1255487054219218944")) {
+      let fs = require("fs");
+      let json = JSON.stringify(event, null, 2);
+      fs.writeFile("activeMention.json", json, function (err) {
+        if (err) throw err;
+        console.log("Saved!");
+      });
       // If it is not our own tweet
       if (tweet.in_reply_to_status_id) {
         // This event is a reply
@@ -98,11 +104,11 @@ let handleNewWebHook = function (event) {
         }
       }
     } else {
-      let tweetContent = tweet.text;
-      if (tweetContent.includes("Our top result for this tweet is :")) {
-        // Testing Code
-        tester.alphaTest(tweet);
-      }
+      // let tweetContent = tweet.text;
+      // if (tweetContent.includes("Our top result for this tweet is :")) {
+      //   // Testing Code
+      //   tester.alphaTest(tweet);
+      // }
     }
   }
 };
