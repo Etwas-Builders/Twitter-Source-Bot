@@ -49,7 +49,7 @@ exports.wordsToSearch = function FindWordsToSearch(text) {
       partOfSpeech == "N"
     ) {
       //finalWords.push(currentWord);
-      word_json[currentWord] = partOfSpeech;
+      word_json.push({"word" : currentWord,"partOfSpeech" : partOfSpeech})
       wordsToSearch.splice(index, 1);
       index--;
       length = wordsToSearch.length;
