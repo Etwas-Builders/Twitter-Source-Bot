@@ -4,6 +4,10 @@ import spacy
 import pytextrank
 import re
 
+#Suppresses cli output
+import sys, os
+sys.stdout = open(os.devnull, 'w')
+
 nlp = spacy.load("en_core_web_sm")
 
 text_rank = pytextrank.TextRank()
