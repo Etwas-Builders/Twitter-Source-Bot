@@ -27,7 +27,7 @@ exports.wordsToSearch = function FindWordsToSearch(text) {
 
   for (index = 0; index < length; index++) {
     let currentWord = wordsToSearch[index];
-
+    currentWord = currentWord.replace(/['"‘’“”]+/g, "");
     //Removes hashtags from tweets
     if (currentWord[0] == "#") {
       editedWord = currentWord.slice(1, currentWord.length);
@@ -58,6 +58,7 @@ exports.wordsToSearch = function FindWordsToSearch(text) {
 
   for (index = 0; index < wordsToSearch.length; index++) {
     let currentWord = wordsToSearch[index];
+    currentWord = currentWord.replace(/['"‘’“”]+/g, "");
     let partOfSpeech = GetPartOfSpeech(currentWord);
     word_json.push({ word: currentWord, partOfSpeech: partOfSpeech });
     //finalWords.push(currentWord);
