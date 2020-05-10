@@ -1,11 +1,12 @@
 {
-    "cSpell.words": [
-        "IPFS",
-        "Omrl",
-        "autohook",
-        "favorited",
-        "orbitdb",
-        "rapidapi",
-        "whosaidthis"
-    ]
+  "cSpell.words": [
+    "IPFS",
+    "autohook",
+    "domcontentloaded",
+    "favorited",
+    "orbitdb",
+    "whosaidthis"
+  ],
+  "python.pythonPath": "/usr/bin/python3",
+  "debug.allowBreakpointsEverywhere": true
 }

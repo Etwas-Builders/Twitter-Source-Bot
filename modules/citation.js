@@ -3,6 +3,7 @@ const himalaya = require("himalaya");
 const dom = require("./dom");
 const Fuse = require("fuse.js");
 var exports = (module.exports = {});
+const publicIp = require("public-ip");
 
 exports.googleNews = async function (data) {
   // Get Google News Citation
@@ -41,11 +42,17 @@ exports.googleSearch = async function (query) {
       q: query,
     },
   });
-  console.log("Citation -> googleSearch -> data", response.data);
+  //console.log("Citation -> googleSearch -> data", response.data);
+  if(response.status !== 200){
   let results = response.data.results;
-  console.log("Citation -> googleSearch -> results", results);
+  //console.log("Citation -> googleSearch -> results", results);
   let topResults = results.organic_results;
   return topResults;
+  } else {
+    console.log("Rapid Api Failed")
+    let pythonResults = await pythonScraper(query)
+    return pythonResults
+  }
 };
 
 let FindWiki = async (title) => {
@@ -92,3 +99,17 @@ exports.wiki = async function (data) {
   let results = fuse.search("Rap");
   results.reverse();
 };
+
+let pythonScraper = async function(query){
+  let ip = await publicIp.v4();
+  if(ip !== "34.71.148.202"){
+    ip = "127.0.0.1"
+  }
+  let response = await axios.get(`http://${ip}:5000/search`, {
+    params : {
+      query : query
+    }
+  });
+  let results = response.data.results
+  return results;
+}

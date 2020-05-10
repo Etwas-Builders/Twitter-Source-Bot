@@ -1,6 +1,8 @@
 var exports = (module.exports = {});
 
-//const scrapper = require("./scrapper");
+const scrapper = require("./scrapper");
+const nlp = require("../nlp");
+const any = require('promise.any');
 
 const whitelist = require("./whitelist.json");
 const blacklist = require("./blacklist.json");
@@ -26,7 +28,7 @@ const blacklist = require("./blacklist.json");
 
 */
 
-exports.getTopResult = async function (results, username) {
+exports.getTopResult = async function (results, username, keywords) {
   let topResult;
 
   for (let result of results) {
@@ -48,11 +50,13 @@ exports.getTopResult = async function (results, username) {
       if (host.includes("www")) {
         host = host.slice(4);
       }
+
       console.log("Processing -> getTopResult -> url", host);
       if (host in blacklist) {
         result.score = blacklist[host];
         console.log("Found blacklisted score", host);
       }
+      //console.log("Processing -> getTopResult -> url", host);
       if (host in whitelist) {
         result.score += 1;
         console.log("Found whitelisted source", host);
@@ -63,13 +67,53 @@ exports.getTopResult = async function (results, username) {
       result.score = -1;
     }
   }
-  results.sort((a, b) => a.score - b.score); // Sort by score
-  console.log("Processing -> getTopResult -> sortedResults", results);
+  //console.log("Processing -> getTopResult -> scoreResults", results);
+  let cleanedResults = [];
 
   for (let result of results) {
     if (result.score !== -1) {
-      topResult = result;
+      cleanedResults.push(result);
     }
   }
-  return topResult;
+
+  results = cleanedResults;
+  results.sort((a, b) => a.score - b.score); // Sort by score
+  //console.log("Processing -> getTopResult -> sortedResults", results);
+
+  let cluster = await scrapper.createCluster();
+
+  let pageContents = [];
+
+  let [scrapePromises, nlpPromises] = [[], []];
+
+  for (let result of results) {
+    let scrapePromise = scrapper.newUrl(cluster, result.url);
+    let nlpPromise = scrapePromise.then(async (data) => {
+      console.log(
+        `Processing -> getTopResult -> Promise Resolution pageContent with title ${data.title}`
+      );
+      result["title"] = data.title
+      let score = await nlp.scorePage(result, data, keywords);
+      result.score += score
+      
+      console.log("Processing -> getTopResult -> nlpScore", score);
+      if (score > 0.1) {
+        // Set Threshold
+        return { topResult: result, cluster: cluster };
+      } else {
+        return Promise.reject("Not valid score");
+      }
+    });
+    nlpPromises.push(nlpPromise);
+  }
+ return any(nlpPromises).then((data) => {
+   console.log("Processing -> getTopResult -> any")
+   return data;
+ })
+ .catch((err)=> {
+   console.log("Processing -> getTopResult -> any ERROR")
+   return {topResult : null, cluster : cluster}
+ })
+  
 };
+

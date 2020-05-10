@@ -5,6 +5,7 @@ var exports = (module.exports = {});
 const nlp = require("./nlp");
 const citation = require("./citation");
 const processing = require("./processing/processing");
+const scrapper = require("./processing/scrapper");
 
 // Imports
 const sha512 = require("sha512"); // Sha512 Library
@@ -20,6 +21,13 @@ const twitterClient = new TwitterApi({
 });
 // Modules
 const client = require("twitter-autohook/client");
+
+
+let sourceNotFound = async function(username){
+  return {
+    message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
+  };
+}
 
 let handleNewTweet = async function (newTweet) {
   // let parsedTweet = body.newParsedTweet;
@@ -54,44 +62,51 @@ let handleNewTweet = async function (newTweet) {
   let wordsToSearch = await nlp.wordsToSearch(content);
   console.log("Tweet -> handleNewTweet -> wordsToSearch", wordsToSearch);
 
-  let query = wordsToSearch.join(" ");
+  let query = wordsToSearch.map(e => e.word).join(" ")
   query += ` "news"`;
   console.log("Tweet -> handleNewTweet -> query", query);
   let results = await citation.googleSearch(query);
-  query = wordsToSearch.join(" ");
+  results = results.splice(0, 10);
+  query = wordsToSearch.map(e => e.word).join(" ")
   console.log("Tweet -> handleNewTweet -> newQuery", query);
   let newResults = await citation.googleSearch(query);
-
+  
+  newResults = newResults.splice(0,10);
   results.push(...newResults);
 
-  if (results.length === 0) {
-    return {
-      message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
-    };
-  }
+  if (results.length === 0) {return sourceNotFound(username) }
 
   console.log("Tweet -> handleNewTweet -> topResult", results);
 
-  let topResult = await processing.getTopResult(results, username);
-  console.log("Tweet -> handleNewTweet -> topResult.score", topResult.score);
+  let processedOutput = await processing.getTopResult(
+    results,
+    username,
+    wordsToSearch
+  );
+
+  console.log("Tweet -> handleNewTweet -> processedOuput", processedOutput);
+  let topResult = processedOutput.topResult;
 
   if (!topResult) {
     return {
       message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
     };
   }
+ 
+  await scrapper.closeCluster(processedOutput.cluster);
+  console.log("Tweet -> handleNewTweet -> topResult.score", topResult.score);
 
   // return cached citation
 
   // Cite
 
-  if (topResult.title.includes("@")) {
+  if (topResult.title && topResult.title.includes("@")) {
     // Handle Escaping
     topResult.title = topResult.title.replace("@", "@ ");
     // Issue #17 Temporary Fix https://github.com/Mozilla-Open-Lab-Etwas/Twitter-Source-Bot/issues/17
   }
 
-  let message = `@${username} Our top result for this tweet is : ${topResult.title} ${topResult.url} `;
+  let message = `@${username} Our top result for this tweet is : ${topResult.title} with score of ${topResult.score}  ${topResult.url} `;
 
   axios.post(
     "https://discordapp.com/api/webhooks/707319466262003802/ZInKaBlUJg3BsCI2-FjV2wJWfre3ZxxzQjdq_ylTgu1Uqkn15CgbJgYZP3yDg5x7lT7g",
