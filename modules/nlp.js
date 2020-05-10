@@ -38,7 +38,7 @@ exports.wordsToSearch = function FindWordsToSearch(text) {
 
     if (partOfSpeech == "NNPS" || partOfSpeech == "NNP") {
       //finalWords.push(currentWord);
-      word_json.push({"word" : currentWord,"partOfSpeech" : partOfSpeech})
+      word_json.push({ word: currentWord, partOfSpeech: partOfSpeech });
       //Removes the current word from the list
       wordsToSearch.splice(index, 1);
       index--;
@@ -49,7 +49,7 @@ exports.wordsToSearch = function FindWordsToSearch(text) {
       partOfSpeech == "N"
     ) {
       //finalWords.push(currentWord);
-      word_json.push({"word" : currentWord,"partOfSpeech" : partOfSpeech})
+      word_json.push({ word: currentWord, partOfSpeech: partOfSpeech });
       wordsToSearch.splice(index, 1);
       index--;
       length = wordsToSearch.length;
@@ -59,7 +59,7 @@ exports.wordsToSearch = function FindWordsToSearch(text) {
   for (index = 0; index < wordsToSearch.length; index++) {
     let currentWord = wordsToSearch[index];
     let partOfSpeech = GetPartOfSpeech(currentWord);
-    word_json.push({"word" : currentWord,"partOfSpeech" : partOfSpeech})
+    word_json.push({ word: currentWord, partOfSpeech: partOfSpeech });
     //finalWords.push(currentWord);
   }
   return word_json;
@@ -73,8 +73,8 @@ function GetPartOfSpeech(text) {
 
 exports.scorePage = async function (result, data, keywords) {
   let ip = await publicIp.v4();
-  if(ip !== "34.71.148.202"){
-    ip = "127.0.0.1"
+  if (ip !== process.env.GCP_IP) {
+    ip = "127.0.0.1";
   }
   console.log("NLP -> scorePage -> ip", ip);
   let response = await axios.post(`http://${ip}:5000/processBody`, {

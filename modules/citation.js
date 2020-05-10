@@ -13,7 +13,7 @@ exports.googleNews = async function (data) {
       `q=${keyword}&` +
       "from=2020-04-18&" +
       "sortBy=popularity&" +
-      `apiKey=${process.env.SEARCH_API_KEY}`;
+      `apiKey=${process.env.NEWS_API_KEY}`;
 
     var res = await axios.get(url);
     return res.data;
@@ -28,32 +28,32 @@ exports.googleNews = async function (data) {
 
 exports.googleSearch = async function (query) {
   try {
-  console.log("Executing Query!")
-  let response = await axios({
-    method: "GET",
-    url: "https://google-search5.p.rapidapi.com/get-results",
-    headers: {
-      "content-type": "application/octet-stream",
-      "x-rapidapi-host": "google-search5.p.rapidapi.com",
-      "x-rapidapi-key": "a5a73f927dmsh0a78b954b177d5dp1d3218jsn53070cc53b99",
-    },
-    params: {
-      country: "us",
-      offset: "0",
-      hl: "en-US",
-      q: query,
-    },
-  });
-  
-  let results = response.data.results;
-  let topResults = results.organic_results;
+    console.log("Executing Query!");
+    let response = await axios({
+      method: "GET",
+      url: "https://google-search5.p.rapidapi.com/get-results",
+      headers: {
+        "content-type": "application/octet-stream",
+        "x-rapidapi-host": "google-search5.p.rapidapi.com",
+        "x-rapidapi-key": process.env.SEARCH_API_KEY,
+      },
+      params: {
+        country: "us",
+        offset: "0",
+        hl: "en-US",
+        q: query,
+      },
+    });
 
-  return topResults
-} catch(err){
+    let results = response.data.results;
+    let topResults = results.organic_results;
+
+    return topResults;
+  } catch (err) {
     console.log("Rapid Api Failed");
     let pythonResults = await pythonScraper(query);
     return pythonResults;
-}
+  }
 };
 
 let FindWiki = async (title) => {
@@ -101,20 +101,20 @@ exports.wiki = async function (data) {
   results.reverse();
 };
 
-let pythonScraper = async function(query){
+let pythonScraper = async function (query) {
   let ip = await publicIp.v4();
-  if(ip !== "34.71.148.202"){
-    ip = "127.0.0.1"
+  if (ip !== process.env.GCP_IP) {
+    ip = "127.0.0.1";
   }
   let response = await axios.get(`http://${ip}:5000/search`, {
-    params : {
-      query : query
-    }
+    params: {
+      query: query,
+    },
   });
   let results = response.data.results;
   console.log("results", results);
-  if(results.length === 0){
-    return []
+  if (results.length === 0) {
+    return [];
   }
   return results;
-}
+};

@@ -22,12 +22,11 @@ const twitterClient = new TwitterApi({
 // Modules
 const client = require("twitter-autohook/client");
 
-
-let sourceNotFound = async function(username){
+let sourceNotFound = async function (username) {
   return {
     message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
   };
-}
+};
 
 let handleNewTweet = async function (newTweet) {
   // let parsedTweet = body.newParsedTweet;
@@ -47,36 +46,35 @@ let handleNewTweet = async function (newTweet) {
   let userScreenName = newTweet.user.name;
   let username = newTweet.user.screen_name;
 
-  axios.post(
-    "https://discordapp.com/api/webhooks/707319466262003802/ZInKaBlUJg3BsCI2-FjV2wJWfre3ZxxzQjdq_ylTgu1Uqkn15CgbJgYZP3yDg5x7lT7g",
-    {
-      content: `New Requested Citation from ${userScreenName}.\n Tweet Body :\n ${content}`,
-      username: "Who Said This Bot",
-      avatar_url:
-        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
-    }
-  );
+  axios.post(process.env.DISCORD_WEBHOOK_URL, {
+    content: `New Requested Citation from ${userScreenName}.\n Tweet Body :\n ${content}`,
+    username: "Who Said This Bot",
+    avatar_url:
+      "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
+  });
 
   // Check Cache with Hash
 
   let wordsToSearch = await nlp.wordsToSearch(content);
   console.log("Tweet -> handleNewTweet -> wordsToSearch", wordsToSearch);
 
-  let query = wordsToSearch.map(e => e.word).join(" ")
+  let query = wordsToSearch.map((e) => e.word).join(" ");
   query += ` "news"`;
   console.log("Tweet -> handleNewTweet -> query", query);
   let results = await citation.googleSearch(query);
   results = results.splice(0, 10);
-  query = wordsToSearch.map(e => e.word).join(" ")
+  query = wordsToSearch.map((e) => e.word).join(" ");
   console.log("Tweet -> handleNewTweet -> newQuery", query);
   let newResults = await citation.googleSearch(query);
   //console.log("Tweet -> handleNewTweet -> newResults", newResults);
-  if(newResults){
-    newResults = newResults.splice(0,10);
+  if (newResults) {
+    newResults = newResults.splice(0, 10);
     results.push(...newResults);
   }
 
-  if (results.length === 0) {return sourceNotFound(username) }
+  if (results.length === 0) {
+    return sourceNotFound(username);
+  }
 
   console.log("Tweet -> handleNewTweet -> topResult", results);
 
@@ -94,7 +92,7 @@ let handleNewTweet = async function (newTweet) {
       message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
     };
   }
- 
+
   await scrapper.closeCluster(processedOutput.cluster);
   console.log("Tweet -> handleNewTweet -> topResult.score", topResult.score);
 
@@ -110,15 +108,12 @@ let handleNewTweet = async function (newTweet) {
 
   let message = `@${username} Our top result for this tweet is : ${topResult.title} with score of ${topResult.score}  ${topResult.url} `;
 
-  axios.post(
-    "https://discordapp.com/api/webhooks/707319466262003802/ZInKaBlUJg3BsCI2-FjV2wJWfre3ZxxzQjdq_ylTgu1Uqkn15CgbJgYZP3yDg5x7lT7g",
-    {
-      content: `${message}`,
-      username: "Who Said This Bot",
-      avatar_url:
-        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
-    }
-  );
+  axios.post(process.env.DISCORD_WEBHOOK_URL, {
+    content: `${message}`,
+    username: "Who Said This Bot",
+    avatar_url:
+      "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
+  });
 
   return {
     message: message,

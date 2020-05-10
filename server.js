@@ -55,20 +55,17 @@ let twitterWebhook = async function () {
     oauth_token_secret: process.env.ACCESS_TOKEN_SECRET,
   });
   let ip = await publicIp.v4();
-  if(ip === "34.71.148.202"){
-    ip = "Google Cloud"
+  if (ip === process.env.GCP_IP) {
+    ip = "Google Cloud";
   } else {
-    ip = `Not From GCP Server ${ip}`
+    ip = `Not From GCP Server ${ip}`;
   }
-  axios.post(
-    "https://discordapp.com/api/webhooks/707319466262003802/ZInKaBlUJg3BsCI2-FjV2wJWfre3ZxxzQjdq_ylTgu1Uqkn15CgbJgYZP3yDg5x7lT7g",
-    {
-      content: `Webhook and Server Setup and Running From ${ip}`,
-      username: "Who Said This Bot",
-      avatar_url:
-        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
-    }
-  );
+  axios.post(process.env.DISCORD_WEBHOOK_URL, {
+    content: `Webhook and Server Setup and Running From ${ip}`,
+    username: "Who Said This Bot",
+    avatar_url:
+      "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
+  });
 };
 
 twitterWebhook();
