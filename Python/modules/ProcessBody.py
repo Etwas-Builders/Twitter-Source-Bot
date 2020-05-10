@@ -9,12 +9,10 @@ import time
 # import sys, os
 # sys.stdout = open(os.devnull, 'w')
 
-nlp = spacy.load("en_core_web_sm", disable=["tagger", "ner"])
-nlp.max_length = 2000000
+nlp = spacy.load("en_core_web_sm", disable=["tagger", "ner"], batch_size=200)
 
 text_rank = pytextrank.TextRank()
 nlp.add_pipe(text_rank.PipelineComponent, name="textrank", last=True)
-
 
 async def getDocumentScore(data, url, keywords):
     startTime = time.time()
