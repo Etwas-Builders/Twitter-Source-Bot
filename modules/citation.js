@@ -27,6 +27,8 @@ exports.googleNews = async function (data) {
 };
 
 exports.googleSearch = async function (query) {
+  try {
+  console.log("Executing Query!")
   let response = await axios({
     method: "GET",
     url: "https://google-search5.p.rapidapi.com/get-results",
@@ -42,17 +44,16 @@ exports.googleSearch = async function (query) {
       q: query,
     },
   });
-  //console.log("Citation -> googleSearch -> data", response.data);
-  if(response.status !== 200){
+  
   let results = response.data.results;
-  //console.log("Citation -> googleSearch -> results", results);
   let topResults = results.organic_results;
-  return topResults;
-  } else {
-    console.log("Rapid Api Failed")
-    let pythonResults = await pythonScraper(query)
-    return pythonResults
-  }
+
+  return topResults
+} catch(err){
+    console.log("Rapid Api Failed");
+    let pythonResults = await pythonScraper(query);
+    return pythonResults;
+}
 };
 
 let FindWiki = async (title) => {
@@ -110,6 +111,10 @@ let pythonScraper = async function(query){
       query : query
     }
   });
-  let results = response.data.results
+  let results = response.data.results;
+  console.log("results", results);
+  if(results.length === 0){
+    return []
+  }
   return results;
 }

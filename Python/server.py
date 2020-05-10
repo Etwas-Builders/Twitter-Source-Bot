@@ -35,6 +35,7 @@ class searchResults(RequestHandler):
         results = list(search("{}".format(query), num=10, stop=10, pause=2))
 
         processed = [{"url": link} for link in results]
+        print(processed)
 
         self.write({"results": processed})
 

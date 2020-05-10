@@ -70,9 +70,11 @@ let handleNewTweet = async function (newTweet) {
   query = wordsToSearch.map(e => e.word).join(" ")
   console.log("Tweet -> handleNewTweet -> newQuery", query);
   let newResults = await citation.googleSearch(query);
-  
-  newResults = newResults.splice(0,10);
-  results.push(...newResults);
+  //console.log("Tweet -> handleNewTweet -> newResults", newResults);
+  if(newResults){
+    newResults = newResults.splice(0,10);
+    results.push(...newResults);
+  }
 
   if (results.length === 0) {return sourceNotFound(username) }
 
