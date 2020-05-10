@@ -1,10 +1,17 @@
 from tornado.web import Application, RequestHandler
 from tornado.ioloop import IOLoop
 from googlesearch import search
+
+from dotenv import load_dotenv
+from pathlib import Path 
+
+import os
 import json
+import requests
+
+load_dotenv(dotenv_path=Path("../.env"))
 
 from modules import ProcessBody
-
 
 class GetSample(RequestHandler):
     def get(self):
@@ -45,15 +52,21 @@ def make_app():
         ("/processBody", handleProcessBody),
         ('/search', searchResults)
     ]
+    return Application(urls)
 
-    return Application(urls, debug=True)
-
+def discord_webhook():
+        
+    discord_url = os.getenv("DISCORD_WEBHOOK_URL")
+    requests.post(discord_url, data = {'content':'Python Server running','username' : 'Who Said This Bot(Python)','avatar_url' : 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png'})
+    
 
 if __name__ == "__main__":
     port = 5000
-
+    print("Tornado is up and running!")
+    discord_webhook()
     app = make_app()
     app.listen(port)
-
+    
     IOLoop.instance().start()
+    
 

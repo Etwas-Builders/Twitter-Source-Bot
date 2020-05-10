@@ -2,7 +2,7 @@ var exports = (module.exports = {});
 
 const scrapper = require("./scrapper");
 const nlp = require("../nlp");
-const any = require('promise.any');
+const any = require("promise.any");
 
 const whitelist = require("./whitelist.json");
 const blacklist = require("./blacklist.json");
@@ -92,10 +92,10 @@ exports.getTopResult = async function (results, username, keywords) {
       console.log(
         `Processing -> getTopResult -> Promise Resolution pageContent with title ${data.title}`
       );
-      result["title"] = data.title
+      result["title"] = data.title;
       let score = await nlp.scorePage(result, data, keywords);
-      result.score += score
-      
+      result.score += score;
+
       console.log("Processing -> getTopResult -> nlpScore", score);
       if (score > 0.2) {
         // Set Threshold
@@ -106,14 +106,13 @@ exports.getTopResult = async function (results, username, keywords) {
     });
     nlpPromises.push(nlpPromise);
   }
- return any(nlpPromises).then((data) => {
-   console.log("Processing -> getTopResult -> any")
-   return data;
- })
- .catch((err)=> {
-   console.log("Processing -> getTopResult -> any ERROR")
-   return {topResult : null, cluster : cluster}
- })
-  
+  return any(nlpPromises)
+    .then((data) => {
+      console.log("Processing -> getTopResult -> any");
+      return data;
+    })
+    .catch((err) => {
+      console.log("Processing -> getTopResult -> any ERROR");
+      return { topResult: null, cluster: cluster };
+    });
 };
-
