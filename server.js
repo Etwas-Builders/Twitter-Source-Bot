@@ -74,7 +74,7 @@ let handleNewWebHook = function (event) {
   console.log("handleNewWebHook -> event", event);
   // let fs = require("fs");
   // let json = JSON.stringify(event, null, 2);
-  // fs.writeFile("reply.json", json, function (err) {
+  // fs.writeFile("passiveRetweet.json", json, function (err) {
   //   if (err) throw err;
   //   console.log("Saved!");
   // });
@@ -83,7 +83,10 @@ let handleNewWebHook = function (event) {
     // If it is not our own tweet
     if (!(tweet.user.id_str === "1255487054219218944")) {
       // Ensure it is not replying to us
-      if (tweetHandler.notPassiveMention(tweet)) {
+      if (
+        tweetHandler.notPassiveMention(tweet) &&
+        !("retweeted_status" in tweet)
+      ) {
         if (tweet.in_reply_to_status_id) {
           // This event is a reply
           tweetHandler.handleNewReplyEvent(event);
