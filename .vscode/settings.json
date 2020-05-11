@@ -1,11 +1,16 @@
 {
   "cSpell.words": [
     "IPFS",
+    "NNPS",
     "autohook",
     "domcontentloaded",
     "favorited",
     "orbitdb",
-    "whosaidthis"
+    "salegot",
+    "stopword",
+    "stopwords",
+    "whosaidthis",
+    "wordnet"
   ],
   "python.pythonPath": "/usr/bin/python3",
   "debug.allowBreakpointsEverywhere": true

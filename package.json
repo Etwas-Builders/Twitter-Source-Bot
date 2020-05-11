@@ -30,6 +30,7 @@
     "fuse.js": "^5.2.1",
     "himalaya": "^1.1.0",
     "ipfs": "^0.43.1",
+    "lodash": "^4.17.15",
     "morgan": "^1.10.0",
     "natural": "^1.0.1",
     "node-wordnet": "^0.1.12",
