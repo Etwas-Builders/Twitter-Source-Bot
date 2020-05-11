@@ -99,6 +99,12 @@ exports.getTopResult = async function (results, username, keywords) {
       console.log("Processing -> getTopResult -> nlpScore", score);
       if (score > 0.2) {
         // Set Threshold
+        if (result.title && result.title.includes("@")) {
+          // Handle Escaping
+          result.title = result.title.replace("@", "@ ");
+          // Issue #17 Temporary Fix https://github.com/Mozilla-Open-Lab-Etwas/Twitter-Source-Bot/issues/17
+        }
+
         return { topResult: result, cluster: cluster };
       } else {
         return Promise.reject("Not valid score");

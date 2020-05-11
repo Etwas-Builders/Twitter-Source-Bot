@@ -18,7 +18,7 @@ var lexicon = new natural.Lexicon(
 var ruleSet = new natural.RuleSet("EN");
 var tagger = new natural.BrillPOSTagger(lexicon, ruleSet);
 
-exports.wordsToSearch = function FindWordsToSearch(text) {
+let wordsToSearch = function FindWordsToSearch(text) {
   const textArray = text.split(" ");
   var wordsToSearch = stopwords.removeStopwords(textArray);
   //var finalWords = [];
@@ -87,3 +87,11 @@ exports.scorePage = async function (result, data, keywords) {
   console.log("NLP -> scorePage -> score", score);
   return score; // Between 0 and 1
 };
+
+exports.handleThread = async function (text) {
+  let keywords = await wordsToSearch(text);
+  keywords = keywords.splice(0, 25);
+  return keywords;
+};
+
+exports.wordsToSearch = wordsToSearch;

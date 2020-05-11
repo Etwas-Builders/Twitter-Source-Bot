@@ -8,7 +8,6 @@ const processing = require("./processing/processing");
 const scrapper = require("./processing/scrapper");
 
 // Imports
-const sha512 = require("sha512"); // Sha512 Library
 const TwitterApi = require("twitter-lite");
 const axios = require("axios");
 const twitterClient = new TwitterApi({
@@ -28,13 +27,56 @@ let sourceNotFound = async function (username) {
   };
 };
 
-let handleNewTweet = async function (newTweet) {
-  // let parsedTweet = body.newParsedTweet;
-  // let newTweetKey = body.newTweetKey;
-  // let citation = null;
-  // let content = parsedTweet.content;
-  // let hashedTweet = await generateHash(parsedTweet);
+let getSearchResults = async function (keywords) {
+  let query = keywords.map((e) => e.word).join(" ");
+  query += ` "news"`;
+  console.log("Tweet -> getSearchResults -> query", query);
+  let results = await citation.googleSearch(query);
+  results = results.splice(0, 10);
+  query = keywords.map((e) => e.word).join(" ");
+  console.log("Tweet -> getSearchResults -> newQuery", query);
+  let newResults = await citation.googleSearch(query);
+  if (newResults) {
+    newResults = newResults.splice(0, 10);
+    results.push(...newResults);
+  }
 
+  return results;
+};
+
+exports.notPassiveMention = async function (tweet) {
+  /* 
+    A passive mention has a reply_id, and replies to us
+
+  */
+
+  if (tweet.in_reply_to_status_id) {
+    if (tweet.in_reply_to_user_id_str === "1255487054219218944") {
+      return false;
+    }
+  }
+  return true;
+};
+
+let sendReply = async function (message, tweet_id) {
+  try {
+    axios.post(process.env.DISCORD_WEBHOOK_URL, {
+      content: `${message}`,
+      username: "Who Said This Bot",
+      avatar_url:
+        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
+    });
+
+    let output = await twitterClient.post("statuses/update", {
+      status: message,
+      in_reply_to_status_id: tweet_id,
+    });
+  } catch (err) {
+    console.log("Tweet -> sendReply -> Post Error", err);
+  }
+};
+
+let handleNewTweet = async function (newTweet) {
   let tweetId = newTweet.id;
   let content = newTweet.full_text;
   if (!content) {
@@ -58,25 +100,13 @@ let handleNewTweet = async function (newTweet) {
   let wordsToSearch = await nlp.wordsToSearch(content);
   console.log("Tweet -> handleNewTweet -> wordsToSearch", wordsToSearch);
 
-  let query = wordsToSearch.map((e) => e.word).join(" ");
-  query += ` "news"`;
-  console.log("Tweet -> handleNewTweet -> query", query);
-  let results = await citation.googleSearch(query);
-  results = results.splice(0, 10);
-  query = wordsToSearch.map((e) => e.word).join(" ");
-  console.log("Tweet -> handleNewTweet -> newQuery", query);
-  let newResults = await citation.googleSearch(query);
-  //console.log("Tweet -> handleNewTweet -> newResults", newResults);
-  if (newResults) {
-    newResults = newResults.splice(0, 10);
-    results.push(...newResults);
-  }
+  let results = await getSearchResults(wordsToSearch);
 
   if (results.length === 0) {
     return sourceNotFound(username);
   }
 
-  console.log("Tweet -> handleNewTweet -> topResult", results);
+  console.log("Tweet -> handleNewTweet -> results", results);
 
   let processedOutput = await processing.getTopResult(
     results,
@@ -84,54 +114,22 @@ let handleNewTweet = async function (newTweet) {
     wordsToSearch
   );
 
-  console.log("Tweet -> handleNewTweet -> processedOuput", processedOutput);
+  console.log("Tweet -> handleNewTweet -> processedOutput", processedOutput);
   let topResult = processedOutput.topResult;
 
   if (!topResult) {
-    return {
-      message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
-    };
+    return sourceNotFound(username);
   }
 
   await scrapper.closeCluster(processedOutput.cluster);
   console.log("Tweet -> handleNewTweet -> topResult.score", topResult.score);
 
-  // return cached citation
-
-  // Cite
-
-  if (topResult.title && topResult.title.includes("@")) {
-    // Handle Escaping
-    topResult.title = topResult.title.replace("@", "@ ");
-    // Issue #17 Temporary Fix https://github.com/Mozilla-Open-Lab-Etwas/Twitter-Source-Bot/issues/17
-  }
-
   let message = `@${username} Our top result for this tweet is : ${topResult.title} with score of ${topResult.score}  ${topResult.url} `;
-
-  axios.post(process.env.DISCORD_WEBHOOK_URL, {
-    content: `${message}`,
-    username: "Who Said This Bot",
-    avatar_url:
-      "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
-  });
 
   return {
     message: message,
     url: topResult.url,
   };
-  //return `@${username} This is test citation which will be replaced with a valid citation in the near future, follow @whosaidthis_bot for updates`;
-};
-
-let generateHash = async function (tweet) {
-  let hash = {
-    username: "",
-    time: "",
-    content: "",
-  };
-  hash.username = sha512(tweet.username).toString("hex");
-  hash.time = sha512(tweet.time).toString("hex");
-  hash.content = sha512(tweet.content).toString("hex");
-  return hash;
 };
 
 exports.handleNewReplyEvent = async function (event) {
@@ -147,35 +145,22 @@ exports.handleNewReplyEvent = async function (event) {
       id_str: original_tweet_id,
       tweet_mode: "extended",
     });
-    // console.log(
-    //   "Tweet -> handleNewReplyEvent -> originalTweet_response",
-    //   originalTweet_response
-    // );
-
-    let citationResponse = await handleNewTweet(originalTweet_response);
-    let message = citationResponse.message;
-    message = `@${replyUserScreenName} ${message}`;
-    let attachment_url = citationResponse.url;
-    console.log(message);
-    try {
-      let output = await twitterClient.post("statuses/update", {
-        status: message,
-        in_reply_to_status_id: replyId,
-        //attachment_url: attachment_url,
-      });
-    } catch (error) {
-      console.log("Post Error", error);
+    if (originalTweet_response.in_reply_to_status_id) {
+      // This is a thread
+      let thread = [];
+      thread.push(originalTweet_response);
+      handleTweetThread(
+        { id: replyId, screen_name: replyUserScreenName },
+        thread
+      );
+    } else {
+      let citationResponse = await handleNewTweet(originalTweet_response);
+      let message = citationResponse.message;
+      message = `@${replyUserScreenName} ${message}`;
+      let attachment_url = citationResponse.url;
+      console.log(message);
+      await sendReply(message, replyId);
     }
-    // console.log(
-    //   "Tweet -> handleNewReplyEvent -> originalTweet_response",
-    //   originalTweet_response
-    // );
-    // let fs = require("fs");
-    // let json = JSON.stringify(originalTweet_response);
-    // fs.writeFile("original-tweet.json", json, function (err) {
-    //   if (err) throw err;
-    //   console.log("Saved!");
-    // });
   } catch (e) {
     console.log(e);
   }
@@ -209,27 +194,85 @@ exports.handleNewQuoteEvent = async function (event) {
   let citationResponse = await handleNewTweet(original_tweet);
   let message = citationResponse.message;
   message = `@${quoteUserScreenName} ${message}`;
+  await sendReply(message, quoteId);
+};
+
+let threadRecursive = async function (tweet, thread) {
+  // Base Case
+  if (!tweet.in_reply_to_status_id) {
+    // This tweet is not in reply to any other tweet
+    return thread;
+  }
+
+  let parentTweetId = tweet.in_reply_to_status_id_str;
   try {
-    let output = await twitterClient.post("statuses/update", {
-      status: message,
-      in_reply_to_status_id: quoteId,
+    let parentTweet = await twitterClient.get("statuses/show", {
+      id: parentTweetId,
+      id_str: parentTweetId,
+      tweet_mode: "extended",
     });
-  } catch (error) {
-    console.log("Post Error", error);
+    thread.push(parentTweet);
+    return await threadRecursive(parentTweet, thread);
+  } catch (err) {
+    console.log("Could not find parent tweet", err);
   }
 };
 
-exports.notPassiveMention = async function (tweet) {
-  /* 
-    A passive mention has a reply_id, and replies to us
-
-
+let handleTweetThread = async function (reply, thread) {
+  /*
+    A thread is a series of replies
   */
-
-  if (tweet.in_reply_to_status_id) {
-    if (tweet.in_reply_to_user_id_str === "1255487054219218944") {
-      return false;
-    }
+  //console.log("Tweet -> handleTweetThread -> reply , thread", reply, thread);
+  let original_tweet = thread[0];
+  let username = original_tweet.user.screen_name;
+  thread = await threadRecursive(original_tweet, thread);
+  let fullContent = "";
+  for (let tweet of thread) {
+    console.log("Tweet -> handleTweetThread -> tweet of thread", tweet);
+    let content = tweet.full_text ? tweet.full_text : tweet.text;
+    fullContent += `${content} `; // Add delimiter later
   }
-  return true;
+
+  console.log("Tweet -> handleTweetThread -> fullContent", fullContent);
+
+  axios.post(process.env.DISCORD_WEBHOOK_URL, {
+    content: `New Requested Citation from ${username}.\n Tweet Body :\n ${fullContent}`,
+    username: "Who Said This Bot",
+    avatar_url:
+      "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
+  });
+
+  let keywords = await nlp.handleThread(fullContent);
+
+  console.log("Tweet -> handleTweetThread -> keywords", keywords);
+
+  let results = await getSearchResults(keywords);
+
+  console.log("Tweet -> handleTweetThread -> results", results);
+
+  if (results.length === 0) {
+    let message = await sourceNotFound(username);
+    message = `${reply.screen_name} ${message}`;
+    await sendReply(message, reply.id);
+  } else {
+    let processedOutput = await processing.getTopResult(
+      results,
+      username,
+      keywords
+    );
+    let topResult = processedOutput.topResult;
+
+    if (!topResult) {
+      return sourceNotFound(username);
+    }
+
+    await scrapper.closeCluster(processedOutput.cluster);
+    console.log(
+      "Tweet -> handleTweetThread -> topResult.score",
+      topResult.score
+    );
+    let message = `@${username} Our top result for this tweet is : ${topResult.title} with score of ${topResult.score}  ${topResult.url} `;
+    message = `@${reply.screen_name} ${message}`;
+    await sendReply(message, reply.id);
+  }
 };
