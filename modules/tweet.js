@@ -230,7 +230,7 @@ let handleTweetThread = async function (reply, thread) {
   for (let tweet of thread) {
     console.log("Tweet -> handleTweetThread -> tweet of thread", tweet);
     let content = tweet.full_text ? tweet.full_text : tweet.text;
-    fullContent += `${content} `; // Add delimiter later
+    fullContent = `${content} ${fullContent} `; // Add delimiter later
   }
 
   console.log("Tweet -> handleTweetThread -> fullContent", fullContent);

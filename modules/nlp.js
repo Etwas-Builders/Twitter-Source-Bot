@@ -18,6 +18,12 @@ var lexicon = new natural.Lexicon(
 var ruleSet = new natural.RuleSet("EN");
 var tagger = new natural.BrillPOSTagger(lexicon, ruleSet);
 
+let removePunctuation = function (word) {
+  word = word.replace(/['"‘’“”!?]+/g, "");
+  console.log("Nlp -> removePunctuation -> word", word);
+  return word;
+};
+
 let wordsToSearch = function FindWordsToSearch(text) {
   const textArray = text.split(" ");
   var wordsToSearch = stopwords.removeStopwords(textArray);
@@ -27,7 +33,7 @@ let wordsToSearch = function FindWordsToSearch(text) {
 
   for (index = 0; index < length; index++) {
     let currentWord = wordsToSearch[index];
-    currentWord = currentWord.replace(/['"‘’“”]+/g, "");
+    currentWord = removePunctuation(currentWord);
     //Removes hashtags from tweets
     if (currentWord[0] == "#") {
       editedWord = currentWord.slice(1, currentWord.length);
@@ -38,7 +44,9 @@ let wordsToSearch = function FindWordsToSearch(text) {
 
     if (partOfSpeech == "NNPS" || partOfSpeech == "NNP") {
       //finalWords.push(currentWord);
-      word_json.push({ word: currentWord, partOfSpeech: partOfSpeech });
+      word_json = [{ word: currentWord, partOfSpeech: partOfSpeech }].concat(
+        word_json
+      );
       //Removes the current word from the list
       wordsToSearch.splice(index, 1);
       index--;
@@ -58,7 +66,7 @@ let wordsToSearch = function FindWordsToSearch(text) {
 
   for (index = 0; index < wordsToSearch.length; index++) {
     let currentWord = wordsToSearch[index];
-    currentWord = currentWord.replace(/['"‘’“”]+/g, "");
+    currentWord = removePunctuation(currentWord);
     let partOfSpeech = GetPartOfSpeech(currentWord);
     word_json.push({ word: currentWord, partOfSpeech: partOfSpeech });
     //finalWords.push(currentWord);
