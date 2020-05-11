@@ -74,35 +74,44 @@ let handleNewWebHook = function (event) {
   console.log("handleNewWebHook -> event", event);
   // let fs = require("fs");
   // let json = JSON.stringify(event, null, 2);
-  // fs.writeFile("reply.json", json, function (err) {
+  // fs.writeFile("passiveRetweet.json", json, function (err) {
   //   if (err) throw err;
   //   console.log("Saved!");
   // });
   if (event.tweet_create_events) {
     let tweet = event.tweet_create_events[0];
+    // If it is not our own tweet
     if (!(tweet.user.id_str === "1255487054219218944")) {
-      // If it is not our own tweet
-      if (tweet.in_reply_to_status_id) {
-        // This event is a reply
-        tweetHandler.handleNewReplyEvent(event);
-      } else {
-        console.log("Not Reply event");
-        let tweetEntities = tweet.entities;
-        let user_mentions = tweetEntities.user_mentions;
-        for (let user of user_mentions) {
-          console.log("handleNewWebHook -> user", user);
-          if (user.id_str === "1255487054219218944") {
-            // Mention Behaviour
-            tweetHandler.handleNewMentionEvent(event);
+      // Ensure it is not replying to us
+      if (
+        tweetHandler.notPassiveMention(tweet) &&
+        !("retweeted_status" in tweet)
+      ) {
+        if (tweet.in_reply_to_status_id) {
+          // This event is a reply
+          tweetHandler.handleNewReplyEvent(event);
+        } else if (tweet.quoted_status_id) {
+          // Quote Tweet
+          tweetHandler.handleNewQuoteEvent(event);
+        } else {
+          // Not a Reply or Not Quote
+          let tweetEntities = tweet.entities;
+          let user_mentions = tweetEntities.user_mentions;
+          for (let user of user_mentions) {
+            console.log("handleNewWebHook -> user", user);
+            if (user.id_str === "1255487054219218944") {
+              // Mention Behaviour
+              tweetHandler.handleNewMentionEvent(event);
+            }
           }
         }
       }
     } else {
-      let tweetContent = tweet.text;
-      if (tweetContent.includes("Our top result for this tweet is :")) {
-        // Testing Code
-        tester.alphaTest(tweet);
-      }
+      // let tweetContent = tweet.text;
+      // if (tweetContent.includes("Our top result for this tweet is :")) {
+      //   // Testing Code
+      //   tester.alphaTest(tweet);
+      // }
     }
   }
 };

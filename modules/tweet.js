@@ -198,3 +198,38 @@ exports.handleNewMentionEvent = async function (event) {
     console.log("Post Error", error);
   }
 };
+
+exports.handleNewQuoteEvent = async function (event) {
+  console.log("Tweet -> handleNewQuoteEvent -> event", event);
+
+  let quote = event.tweet_create_events[0];
+  let quoteId = quote.id_str;
+  let quoteUserScreenName = quote.user.screen_name;
+  let original_tweet = quote.quoted_status;
+  let citationResponse = await handleNewTweet(original_tweet);
+  let message = citationResponse.message;
+  message = `@${quoteUserScreenName} ${message}`;
+  try {
+    let output = await twitterClient.post("statuses/update", {
+      status: message,
+      in_reply_to_status_id: quoteId,
+    });
+  } catch (error) {
+    console.log("Post Error", error);
+  }
+};
+
+exports.notPassiveMention = async function (tweet) {
+  /* 
+    A passive mention has a reply_id, and replies to us
+
+
+  */
+
+  if (tweet.in_reply_to_status_id) {
+    if (tweet.in_reply_to_user_id_str === "1255487054219218944") {
+      return false;
+    }
+  }
+  return true;
+};

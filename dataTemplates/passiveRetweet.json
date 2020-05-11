@@ -1,0 +1,262 @@
+{
+  "for_user_id": "1255487054219218944",
+  "tweet_create_events": [
+    {
+      "created_at": "Sun May 10 23:58:02 +0000 2020",
+      "id": 1259633827670081500,
+      "id_str": "1259633827670081538",
+      "text": "RT @whosaidthis_bot: @salegot1 @ABCPolitics Our top result for this tweet is : Formal Talks Paused on Next Stimulus Package, Trump Economic…",
+      "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+      "truncated": false,
+      "in_reply_to_status_id": null,
+      "in_reply_to_status_id_str": null,
+      "in_reply_to_user_id": null,
+      "in_reply_to_user_id_str": null,
+      "in_reply_to_screen_name": null,
+      "user": {
+        "id": 1258133916268953600,
+        "id_str": "1258133916268953601",
+        "name": "salegot",
+        "screen_name": "salegot1",
+        "location": null,
+        "url": null,
+        "description": null,
+        "translator_type": "none",
+        "protected": false,
+        "verified": false,
+        "followers_count": 0,
+        "friends_count": 3,
+        "listed_count": 0,
+        "favourites_count": 1,
+        "statuses_count": 79,
+        "created_at": "Wed May 06 20:38:12 +0000 2020",
+        "utc_offset": null,
+        "time_zone": null,
+        "geo_enabled": false,
+        "lang": null,
+        "contributors_enabled": false,
+        "is_translator": false,
+        "profile_background_color": "F5F8FA",
+        "profile_background_image_url": "",
+        "profile_background_image_url_https": "",
+        "profile_background_tile": false,
+        "profile_link_color": "1DA1F2",
+        "profile_sidebar_border_color": "C0DEED",
+        "profile_sidebar_fill_color": "DDEEF6",
+        "profile_text_color": "333333",
+        "profile_use_background_image": true,
+        "profile_image_url": "http://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+        "profile_image_url_https": "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+        "default_profile": true,
+        "default_profile_image": false,
+        "following": null,
+        "follow_request_sent": null,
+        "notifications": null
+      },
+      "geo": null,
+      "coordinates": null,
+      "place": null,
+      "contributors": null,
+      "retweeted_status": {
+        "created_at": "Sun May 10 23:52:51 +0000 2020",
+        "id": 1259632523153375200,
+        "id_str": "1259632523153375233",
+        "text": "@salegot1 @ABCPolitics Our top result for this tweet is : Formal Talks Paused on Next Stimulus Package, Trump Econo… https://t.co/lNSloV63o1",
+        "display_text_range": [
+          10,
+          140
+        ],
+        "source": "<a href=\"https://twittersourcebot.tech/\" rel=\"nofollow\">Twitter Content 4</a>",
+        "truncated": true,
+        "in_reply_to_status_id": 1259632456530944000,
+        "in_reply_to_status_id_str": "1259632456530944001",
+        "in_reply_to_user_id": 1258133916268953600,
+        "in_reply_to_user_id_str": "1258133916268953601",
+        "in_reply_to_screen_name": "salegot1",
+        "user": {
+          "id": 1255487054219219000,
+          "id_str": "1255487054219218944",
+          "name": "WhoSaidThis Bot",
+          "screen_name": "whosaidthis_bot",
+          "location": null,
+          "url": "https://twittersourcebot.tech/",
+          "description": "Ever wanted to know the source of a tweet? Just @ me and I'll tell you where it came from\n\n\nBy @CryogenicPlanet, @itsarnavb, @gaurang_bharti and @rithvikm19",
+          "translator_type": "none",
+          "protected": false,
+          "verified": false,
+          "followers_count": 16,
+          "friends_count": 9,
+          "listed_count": 0,
+          "favourites_count": 4,
+          "statuses_count": 287,
+          "created_at": "Wed Apr 29 13:20:23 +0000 2020",
+          "utc_offset": null,
+          "time_zone": null,
+          "geo_enabled": false,
+          "lang": null,
+          "contributors_enabled": false,
+          "is_translator": false,
+          "profile_background_color": "F5F8FA",
+          "profile_background_image_url": "",
+          "profile_background_image_url_https": "",
+          "profile_background_tile": false,
+          "profile_link_color": "1DA1F2",
+          "profile_sidebar_border_color": "C0DEED",
+          "profile_sidebar_fill_color": "DDEEF6",
+          "profile_text_color": "333333",
+          "profile_use_background_image": true,
+          "profile_image_url": "http://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_normal.png",
+          "profile_image_url_https": "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_normal.png",
+          "profile_banner_url": "https://pbs.twimg.com/profile_banners/1255487054219218944/1588167225",
+          "default_profile": true,
+          "default_profile_image": false,
+          "following": null,
+          "follow_request_sent": null,
+          "notifications": null
+        },
+        "geo": null,
+        "coordinates": null,
+        "place": null,
+        "contributors": null,
+        "is_quote_status": false,
+        "extended_tweet": {
+          "full_text": "@salegot1 @ABCPolitics Our top result for this tweet is : Formal Talks Paused on Next Stimulus Package, Trump Economic Adviser Larry Kudlow Says - WSJ with score of 1.0476038772082008  https://t.co/O8s9Qe42Cl",
+          "display_text_range": [
+            10,
+            208
+          ],
+          "entities": {
+            "hashtags": [],
+            "urls": [
+              {
+                "url": "https://t.co/O8s9Qe42Cl",
+                "expanded_url": "https://www.wsj.com/articles/formal-talks-paused-on-next-stimulus-package-trump-economic-adviser-larry-kudlow-says-11588952130",
+                "display_url": "wsj.com/articles/forma…",
+                "indices": [
+                  185,
+                  208
+                ]
+              }
+            ],
+            "user_mentions": [
+              {
+                "screen_name": "salegot1",
+                "name": "salegot",
+                "id": 1258133916268953600,
+                "id_str": "1258133916268953601",
+                "indices": [
+                  0,
+                  9
+                ]
+              },
+              {
+                "screen_name": "ABCPolitics",
+                "name": "ABC News Politics",
+                "id": 16815644,
+                "id_str": "16815644",
+                "indices": [
+                  10,
+                  22
+                ]
+              }
+            ],
+            "symbols": []
+          }
+        },
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 1,
+        "favorite_count": 0,
+        "entities": {
+          "hashtags": [],
+          "urls": [
+            {
+              "url": "https://t.co/lNSloV63o1",
+              "expanded_url": "https://twitter.com/i/web/status/1259632523153375233",
+              "display_url": "twitter.com/i/web/status/1…",
+              "indices": [
+                117,
+                140
+              ]
+            }
+          ],
+          "user_mentions": [
+            {
+              "screen_name": "salegot1",
+              "name": "salegot",
+              "id": 1258133916268953600,
+              "id_str": "1258133916268953601",
+              "indices": [
+                0,
+                9
+              ]
+            },
+            {
+              "screen_name": "ABCPolitics",
+              "name": "ABC News Politics",
+              "id": 16815644,
+              "id_str": "16815644",
+              "indices": [
+                10,
+                22
+              ]
+            }
+          ],
+          "symbols": []
+        },
+        "favorited": false,
+        "retweeted": false,
+        "possibly_sensitive": false,
+        "filter_level": "low",
+        "lang": "en"
+      },
+      "is_quote_status": false,
+      "quote_count": 0,
+      "reply_count": 0,
+      "retweet_count": 0,
+      "favorite_count": 0,
+      "entities": {
+        "hashtags": [],
+        "urls": [],
+        "user_mentions": [
+          {
+            "screen_name": "whosaidthis_bot",
+            "name": "WhoSaidThis Bot",
+            "id": 1255487054219219000,
+            "id_str": "1255487054219218944",
+            "indices": [
+              3,
+              19
+            ]
+          },
+          {
+            "screen_name": "salegot1",
+            "name": "salegot",
+            "id": 1258133916268953600,
+            "id_str": "1258133916268953601",
+            "indices": [
+              21,
+              30
+            ]
+          },
+          {
+            "screen_name": "ABCPolitics",
+            "name": "ABC News Politics",
+            "id": 16815644,
+            "id_str": "16815644",
+            "indices": [
+              31,
+              43
+            ]
+          }
+        ],
+        "symbols": []
+      },
+      "favorited": false,
+      "retweeted": false,
+      "filter_level": "low",
+      "lang": "en",
+      "timestamp_ms": "1589155082038"
+    }
+  ]
+}
