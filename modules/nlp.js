@@ -3,6 +3,7 @@ const wordnet = require("node-wordnet");
 const natural = require("natural");
 const publicIp = require("public-ip");
 const axios = require("axios");
+const _ = require("lodash");
 
 var exports = (module.exports = {});
 
@@ -19,26 +20,42 @@ var ruleSet = new natural.RuleSet("EN");
 var tagger = new natural.BrillPOSTagger(lexicon, ruleSet);
 
 let removePunctuation = function (word) {
-  word = word.replace(/['"‘’“”!?]+/g, "");
-  console.log("Nlp -> removePunctuation -> word", word);
-  return word;
+  let newline_separator = ["\n", "\n\n"];
+  let words = word.split(new RegExp(newline_separator.join("|"), "g"));
+  let correctWords = [];
+  for (let w of words) {
+    let checkNum = word.replace(",", "");
+    w = w.replace(/['"‘’“”!?]+/g, "");
+    if (isNaN(checkNum)) {
+      let tempWs = w.split(",");
+      correctWords.push(...tempWs);
+    } else {
+      correctWords.push(w);
+    }
+  }
+  return correctWords;
 };
 
 let wordsToSearch = function FindWordsToSearch(text) {
-  const textArray = text.split(" ");
-  var wordsToSearch = stopwords.removeStopwords(textArray);
+  textArray = text.split(" ");
+  let stopWords = stopwords.removeStopwords(textArray);
   //var finalWords = [];
-  var word_json = [];
-  length = wordsToSearch.length;
+  let word_json = [];
 
+  let wordsToSearch = [];
+  for (let word of stopWords) {
+    let correctWords = removePunctuation(word);
+    wordsToSearch.push(...correctWords);
+  }
+  length = wordsToSearch.length;
   for (index = 0; index < length; index++) {
     let currentWord = wordsToSearch[index];
-    currentWord = removePunctuation(currentWord);
+
     //Removes hashtags from tweets
-    if (currentWord[0] == "#") {
-      editedWord = currentWord.slice(1, currentWord.length);
-      currentWord = editedWord;
-    }
+    // if (currentWord[0] == "#") {
+    //   editedWord = currentWord.slice(1, currentWord.length);
+    //   currentWord = editedWord;
+    // }
 
     let partOfSpeech = GetPartOfSpeech(currentWord);
 
@@ -66,11 +83,11 @@ let wordsToSearch = function FindWordsToSearch(text) {
 
   for (index = 0; index < wordsToSearch.length; index++) {
     let currentWord = wordsToSearch[index];
-    currentWord = removePunctuation(currentWord);
     let partOfSpeech = GetPartOfSpeech(currentWord);
     word_json.push({ word: currentWord, partOfSpeech: partOfSpeech });
     //finalWords.push(currentWord);
   }
+  word_json = _.uniqBy(word_json, "word");
   return word_json;
   //return finalWords;
 };

@@ -5,7 +5,7 @@ var exports = (module.exports = {});
 exports.createCluster = async function () {
   const cluster = await Cluster.launch({
     concurrency: Cluster.CONCURRENCY_CONTEXT,
-    maxConcurrency: 10,
+    maxConcurrency: 20,
   });
 
   console.log("Created Cluster");

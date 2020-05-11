@@ -51,6 +51,10 @@ exports.getTopResult = async function (results, username, keywords) {
         host = host.slice(4);
       }
 
+      if (host.includes("live") || host.includes("latest")) {
+        result.score -= 0.5;
+      }
+
       console.log("Processing -> getTopResult -> url", host);
       if (host in blacklist) {
         result.score = blacklist[host];
@@ -97,7 +101,7 @@ exports.getTopResult = async function (results, username, keywords) {
       result.score += score;
 
       console.log("Processing -> getTopResult -> nlpScore", score);
-      if (score > 0.2) {
+      if (result.score > 0.2) {
         // Set Threshold
         if (result.title && result.title.includes("@")) {
           // Handle Escaping
