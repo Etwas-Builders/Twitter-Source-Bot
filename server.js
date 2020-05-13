@@ -12,6 +12,7 @@ const morgan = require("morgan");
 const axios = require("axios");
 const publicIp = require("public-ip");
 const fs = require("fs");
+const mongoose = require("mongoose");
 
 // Modules
 const tweetHandler = require("./modules/tweet");
@@ -21,12 +22,27 @@ const tester = require("./modules/test");
 // Server
 const express = require("express"); // Framework for Node
 const app = express(); // Establishing Express App
+
 morgan("tiny");
 app.use(cors()); // Cors to Handle Url Authentication
 app.options("*", cors());
 app.use(bodyParser.json()); // Using Body Parser
 app.set("jwtTokenSecret", ""); // JWT Secret
 const server = app.listen(port); // Set Port
+
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useUnifiedTopology", true);
+
+mongoose
+  .connect(`mongodb://${process.env.MONGO_URL}`)
+  .then((con) => {
+    console.log("db connected");
+    app.set("con", con);
+  })
+  .catch((err) => {
+    console.log(err);
+    throw err;
+  });
 
 let webhookSubscribe;
 

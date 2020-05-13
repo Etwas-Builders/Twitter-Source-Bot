@@ -25,11 +25,8 @@ async def getDocumentScore(data, url, keywords):
 
     nlp_text = nlp(text)
 
-    print("Passed!")
     if len(nlp_text._.phrases) <= 0:
         return -1
-
-    print("NLP Phrases\n", nlp_text._.phrases)
 
     minimum_phrase_rank = 0.6 * \
         max([phrase.rank for phrase in nlp_text._.phrases])
@@ -42,8 +39,7 @@ async def getDocumentScore(data, url, keywords):
         if(time.time() - startTime > 30):
             print("Overtime break")
             return -1
-        # print("Dictionary")
-        # print(dictionary)
+
         keyword = dictionary["word"]
 
         if "partOfSpeech" in list(dictionary.keys()):
@@ -108,10 +104,6 @@ async def getDocumentScore(data, url, keywords):
 
         if (score > 1.25):
             number_of_positive_scores += 1
-            print("Keyword: " + keyword)
-            print("Word Score: " + str(score))
-            print("Occurrences : " + str(keyword_occurrences))
-            print("--------")
 
     print("Number of positive scores: " + str(number_of_positive_scores))
     if (number_of_positive_scores > minimum_number_of_scores_needed and minimum_number_of_scores_needed != 0):
