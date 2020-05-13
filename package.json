@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "start": "sudo nodemon server.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
