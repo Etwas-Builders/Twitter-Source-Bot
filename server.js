@@ -169,12 +169,20 @@ app.get("/getWikiCitation", async function (req, res) {
 app.get("/", async function (req, res) {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, POST");
-  let lastRestart = JSON.parse(fs.readFileSync("./lastRestart.json"));
-  res.status(200).json({
-    webhookSubscribeStatus: webhookSubscribe,
-    serverStatus: "Server is On!",
-    lastRestart,
-  });
+  try {
+    let lastRestart = JSON.parse(fs.readFileSync("./lastRestart.json"));
+    res.status(200).json({
+      webhookSubscribeStatus: webhookSubscribe,
+      serverStatus: "Server is On!",
+      lastRestart: lastRestart,
+    });
+  } catch (err) {
+    res.status(200).json({
+      webhookSubscribeStatus: webhookSubscribe,
+      serverStatus: "Server is On!",
+      err: err,
+    });
+  }
 });
 
 // Post Requests

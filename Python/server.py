@@ -16,7 +16,7 @@ load_dotenv(dotenv_path=Path("../.env"))
 
 class GetSample(RequestHandler):
     def get(self):
-        print("Baala is a big gay")
+        print("Baala is a big gay!")
         self.write({"status": "true"})
 
 
