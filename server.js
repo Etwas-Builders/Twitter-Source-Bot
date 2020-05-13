@@ -30,8 +30,6 @@ const server = app.listen(port); // Set Port
 
 let webhookSubscribe;
 
-let webhookState = true;
-
 // Twitter Api
 let twitterWebhook = async function () {
   try {
@@ -42,7 +40,7 @@ let twitterWebhook = async function () {
       consumer_key: process.env.CONSUMER_KEY,
       consumer_secret: process.env.CONSUMER_SECRET,
       env: process.env.TWITTER_WEBHOOK_ENV,
-      port: webhookState ? 1337 : 25565,
+      port: 1337,
     });
     // Removes existing webhooks
     await webhook.removeWebhooks();
@@ -70,7 +68,6 @@ let twitterWebhook = async function () {
       avatar_url:
         "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
     });
-    webhookState = !webhookState;
   } catch (err) {
     console.log("Error in starting server", err);
     let ip = await publicIp.v4();
@@ -80,7 +77,6 @@ let twitterWebhook = async function () {
       avatar_url:
         "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
     });
-    webhookState = !webhookState;
     setTimeout(() => {
       fs.writeFileSync(
         "./lastRestart.json",
