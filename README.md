@@ -26,7 +26,7 @@ Primarily we need feedback especially on where our bot is making mistakes, we wo
 
 [Rithvik Manhindra](https://www.linkedin.com/in/rithvik-mahindra/)
 
-[Gaurang Bharti] (https://www.linkedin.com/in/gaurang-bharti-269441181/)
+[Gaurang Bharti](https://www.linkedin.com/in/gaurang-bharti-269441181/)
 
 [Arnav Bansal (Lunaroyster)](https://github.com/lunaroyster)
 
