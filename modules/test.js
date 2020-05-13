@@ -1,6 +1,7 @@
 var exports = (module.exports = {});
 
 const TwitterApi = require("twitter-lite");
+const axios = require("axios");
 const twitterClient = new TwitterApi({
   subdomain: "api",
   version: "1.1",
@@ -40,5 +41,14 @@ exports.alphaTest = async function (tweet) {
     }
   } catch (error) {
     console.log("Could not find tweet", error);
+  }
+};
+
+exports.checkServerActive = async function (content, source) {
+  const testUrl = ``;
+  try {
+    await axios.post(testUrl, { content: content, source: source });
+  } catch (err) {
+    console.log("Test url down", err);
   }
 };
