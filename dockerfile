@@ -1,0 +1,7 @@
+FROM ubuntu:focal
+
+WORKDIR /opt/Twitter-Source-Bot
+
+EXPOSE 1337
+EXPOSE 5000
+EXPOSE 3000
