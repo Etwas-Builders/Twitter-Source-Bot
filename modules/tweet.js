@@ -6,7 +6,9 @@ const nlp = require("./nlp");
 const citation = require("./citation");
 const processing = require("./processing/processing");
 const scrapper = require("./processing/scrapper");
-
+const tester = require("./test");
+const fs = require("fs");
+//const imageResponse = require("./imageResponse/test.png");
 // Imports
 const TwitterApi = require("twitter-lite");
 const axios = require("axios");
@@ -18,10 +20,34 @@ const twitterClient = new TwitterApi({
   access_token_key: process.env.ACCESS_TOKEN,
   access_token_secret: process.env.ACCESS_TOKEN_SECRET,
 });
+const uploadClient = new TwitterApi({
+  subdomain: "upload",
+  version: "1.1",
+  consumer_key: process.env.CONSUMER_KEY,
+  consumer_secret: process.env.CONSUMER_SECRET,
+  access_token_key: process.env.ACCESS_TOKEN,
+  access_token_secret: process.env.ACCESS_TOKEN_SECRET,
+});
 // Modules
-const client = require("twitter-autohook/client");
 
 let sourceNotFound = async function (username) {
+  console.log("Not Found");
+  let imageResponse = "test";
+
+  // const imageData = fs.readFileSync("modules/imageResponse/test.png");
+  // try {
+  //   let response = await uploadClient.post("media/upload", {
+  //     media: imageData,
+  //   });
+  //   console.log("Tweet -> sourceNotFound -> response", response);
+  //   let mediaId = response.data.media_id_string;
+  //   return {
+  //     message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
+  //     mediaId: mediaId,
+  //   };
+  // } catch (err) {
+  //   console.log(err);
+  // }
   return {
     message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
   };
@@ -70,6 +96,25 @@ let sendReply = async function (message, tweet_id) {
     let output = await twitterClient.post("statuses/update", {
       status: message,
       in_reply_to_status_id: tweet_id,
+    });
+  } catch (err) {
+    console.log("Tweet -> sendReply -> Post Error", err);
+  }
+};
+
+let sendReplyWithImage = async function (message, tweet_id, media_id) {
+  try {
+    axios.post(process.env.DISCORD_WEBHOOK_URL, {
+      content: `${message}`,
+      username: "Who Said This Bot",
+      avatar_url:
+        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
+    });
+
+    let output = await twitterClient.post("statuses/update", {
+      status: message,
+      in_reply_to_status_id: tweet_id,
+      media_ids: media_id,
     });
   } catch (err) {
     console.log("Tweet -> sendReply -> Post Error", err);
@@ -155,11 +200,16 @@ exports.handleNewReplyEvent = async function (event) {
       );
     } else {
       let citationResponse = await handleNewTweet(originalTweet_response);
+
       let message = citationResponse.message;
       message = `@${replyUserScreenName} ${message}`;
       let attachment_url = citationResponse.url;
       console.log(message);
-      await sendReply(message, replyId);
+      if (citationResponse.mediaId) {
+        await sendReplyWithImage(message, replyId, mediaId);
+      } else {
+        await sendReply(message, replyId);
+      }
     }
   } catch (e) {
     console.log(e);
@@ -173,14 +223,26 @@ exports.handleNewMentionEvent = async function (event) {
   let mentionId = mention.id_str;
   let citationResponse = await handleNewTweet(mention);
   let message = citationResponse.message;
+  let isTestTweet = false;
 
-  try {
-    let output = await twitterClient.post("statuses/update", {
-      status: message,
-      in_reply_to_status_id: mentionId,
-    });
-  } catch (error) {
-    console.log("Post Error", error);
+  if (mention.user.id_str === "1258133916268953601") {
+    if (
+      mention.text.includes(
+        "J.C. Penney is negotiating a bankruptcy deal that would slash the department-store chain’s debt in exchange for control of the company"
+      )
+    ) {
+      // Test Tweet from Salegot
+      isTestTweet = true;
+      await tester.checkServerActive(mention.text, message);
+      return;
+    }
+  }
+  if (!isTestTweet) {
+    if (citationResponse.mediaId) {
+      await sendReplyWithImage(message, mentionId, mediaId);
+    } else {
+      await sendReply(message, mentionId);
+    }
   }
 };
 
@@ -194,7 +256,13 @@ exports.handleNewQuoteEvent = async function (event) {
   let citationResponse = await handleNewTweet(original_tweet);
   let message = citationResponse.message;
   message = `@${quoteUserScreenName} ${message}`;
-  await sendReply(message, quoteId);
+  if (citationResponse.mediaId) {
+    await sendReplyWithImage(message, mentionId, quoteId);
+  } else {
+    await sendReply(message, quoteId);
+  }
+
+  //await sendReply(message, quoteId);
 };
 
 let threadRecursive = async function (tweet, thread) {
@@ -251,9 +319,10 @@ let handleTweetThread = async function (reply, thread) {
   console.log("Tweet -> handleTweetThread -> results", results);
 
   if (results.length === 0) {
-    let message = await sourceNotFound(username);
-    message = `${reply.screen_name} ${message}`;
-    await sendReply(message, reply.id);
+    let citationResponse = await sourceNotFound(username);
+    message = `${reply.screen_name} ${citationResponse.message}`;
+
+    await sendReplyWithImage(message, reply.id, citationResponse.mediaIdI);
   } else {
     let processedOutput = await processing.getTopResult(
       results,
@@ -263,7 +332,10 @@ let handleTweetThread = async function (reply, thread) {
     let topResult = processedOutput.topResult;
 
     if (!topResult) {
-      return sourceNotFound(username);
+      let citationResponse = sourceNotFound(username);
+      message = `${reply.screen_name} ${citationResponse.message}`;
+
+      await sendReplyWithImage(message, reply.id, citationResponse.mediaIdI);
     }
 
     await scrapper.closeCluster(processedOutput.cluster);
