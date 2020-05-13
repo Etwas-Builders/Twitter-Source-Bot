@@ -11,6 +11,7 @@ const OAuth = require("oauth");
 const morgan = require("morgan");
 const axios = require("axios");
 const publicIp = require("public-ip");
+const fs = require("fs");
 
 // Modules
 const tweetHandler = require("./modules/tweet");
@@ -31,45 +32,69 @@ let webhookSubscribe;
 
 // Twitter Api
 let twitterWebhook = async function () {
-  const webhook = new Autohook({
-    token: process.env.ACCESS_TOKEN,
-    token_secret: process.env.ACCESS_TOKEN_SECRET,
-    consumer_key: process.env.CONSUMER_KEY,
-    consumer_secret: process.env.CONSUMER_SECRET,
-    env: process.env.TWITTER_WEBHOOK_ENV,
-    port: 1337,
-  });
+  try {
+    console.log("Starting Webhook ...");
+    let webhook = new Autohook({
+      token: process.env.ACCESS_TOKEN,
+      token_secret: process.env.ACCESS_TOKEN_SECRET,
+      consumer_key: process.env.CONSUMER_KEY,
+      consumer_secret: process.env.CONSUMER_SECRET,
+      env: process.env.TWITTER_WEBHOOK_ENV,
+      port: 1337,
+    });
+    // Removes existing webhooks
+    await webhook.removeWebhooks();
 
-  // Removes existing webhooks
-  await webhook.removeWebhooks();
+    // Listens to incoming activity
+    webhook.on("event", (event) => handleNewWebHook(event));
 
-  // Listens to incoming activity
-  webhook.on("event", (event) => handleNewWebHook(event));
+    // Starts a server and adds a new webhook
+    await webhook.start();
 
-  // Starts a server and adds a new webhook
-  await webhook.start();
-
-  // Subscribes to a user's activity
-  webhookSubscribe = await webhook.subscribe({
-    oauth_token: process.env.ACCESS_TOKEN,
-    oauth_token_secret: process.env.ACCESS_TOKEN_SECRET,
-  });
-  let ip = await publicIp.v4();
-  if (ip === process.env.GCP_IP) {
-    ip = "Google Cloud";
-  } else {
-    ip = `Not From GCP Server ${ip}`;
+    // Subscribes to a user's activity
+    webhookSubscribe = await webhook.subscribe({
+      oauth_token: process.env.ACCESS_TOKEN,
+      oauth_token_secret: process.env.ACCESS_TOKEN_SECRET,
+    });
+    let ip = await publicIp.v4();
+    if (ip === process.env.GCP_IP) {
+      ip = "Google Cloud";
+    } else {
+      ip = `Not From GCP Server ${ip}`;
+    }
+    axios.post(process.env.DISCORD_WEBHOOK_URL, {
+      content: `Webhook Running From ${ip}`,
+      username: "Who Said This Bot",
+      avatar_url:
+        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
+    });
+  } catch (err) {
+    console.log("Error in starting server", err);
+    let ip = await publicIp.v4();
+    axios.post(process.env.DISCORD_WEBHOOK_URL, {
+      content: `@here Webhook Could not Start because of ${err} From ${ip}`,
+      username: "Who Said This Bot",
+      avatar_url:
+        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
+    });
+    setTimeout(() => {
+      fs.writeFileSync(
+        "./lastRestart.json",
+        JSON.stringify({ time: new Date() })
+      );
+    }, 60 * 1000); // Wait 1 Min
   }
-  axios.post(process.env.DISCORD_WEBHOOK_URL, {
-    content: `Webhook and Server Setup and Running From ${ip}`,
-    username: "Who Said This Bot",
-    avatar_url:
-      "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
-  });
 };
-
-twitterWebhook();
-
+let main = async function () {
+  await twitterWebhook();
+  setTimeout(() => {
+    fs.writeFileSync(
+      "./lastRestart.json",
+      JSON.stringify({ time: new Date() })
+    );
+  }, 3600 * 1000);
+};
+main();
 let handleNewWebHook = function (event) {
   console.log("handleNewWebHook -> event", event);
   // let fs = require("fs");
@@ -81,6 +106,7 @@ let handleNewWebHook = function (event) {
   if (event.tweet_create_events) {
     let tweet = event.tweet_create_events[0];
     // If it is not our own tweet
+
     if (!(tweet.user.id_str === "1255487054219218944")) {
       // Ensure it is not replying to us
       if (
@@ -143,18 +169,12 @@ app.get("/getWikiCitation", async function (req, res) {
 app.get("/", async function (req, res) {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, POST");
+  let lastRestart = fs.readFileSync("./lastRestart.json");
   res.status(200).json({
     webhookSubscribeStatus: webhookSubscribe,
     serverStatus: "Server is On!",
+    lastRestart,
   });
-});
-
-app.get("/dbTest", async function (req, res) {
-  // let orbitdb = await initOrbitDb();
-  // const counter = await orbitdb.counter("Mozilla-Open-Lab-Etwas");
-  // await counter.inc();
-  // console.log("Orbit Db", counter.value);
-  // res.send(counter.value);
 });
 
 // Post Requests

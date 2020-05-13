@@ -27,33 +27,37 @@ exports.googleNews = async function (data) {
 };
 
 exports.googleSearch = async function (query) {
+  // try {
+  //   console.log("Executing Query!");
+  //   let response = await axios({
+  //     method: "GET",
+  //     url: "https://google-search5.p.rapidapi.com/get-results",
+  //     headers: {
+  //       "content-type": "application/octet-stream",
+  //       "x-rapidapi-host": "google-search5.p.rapidapi.com",
+  //       "x-rapidapi-key": process.env.SEARCH_API_KEY,
+  //     },
+  //     params: {
+  //       country: "us",
+  //       offset: "0",
+  //       hl: "en-US",
+  //       q: query,
+  //     },
+  //   });
+
+  //   let results = response.data.results;
+  //   let topResults = results.organic_results;
+
+  //   return topResults;
+  //} catch (err) {
   try {
-    console.log("Executing Query!");
-    let response = await axios({
-      method: "GET",
-      url: "https://google-search5.p.rapidapi.com/get-results",
-      headers: {
-        "content-type": "application/octet-stream",
-        "x-rapidapi-host": "google-search5.p.rapidapi.com",
-        "x-rapidapi-key": process.env.SEARCH_API_KEY,
-      },
-      params: {
-        country: "us",
-        offset: "0",
-        hl: "en-US",
-        q: query,
-      },
-    });
-
-    let results = response.data.results;
-    let topResults = results.organic_results;
-
-    return topResults;
-  } catch (err) {
     console.log("Rapid Api Failed");
     let pythonResults = await pythonScraper(query);
     return pythonResults;
+  } catch (err) {
+    return [];
   }
+  //}
 };
 
 let FindWiki = async (title) => {
