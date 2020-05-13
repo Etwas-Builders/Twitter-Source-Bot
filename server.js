@@ -7,7 +7,7 @@ const bodyParser = require("body-parser"); // Library for parsing data
 const jsonParser = bodyParser.json(); // Using Data type Json
 const cors = require("cors"); // Library for handling access headers
 const { Autohook } = require("twitter-autohook");
-const OAuth = require("oauth");
+
 const morgan = require("morgan");
 const axios = require("axios");
 const publicIp = require("public-ip");
@@ -169,7 +169,7 @@ app.get("/getWikiCitation", async function (req, res) {
 app.get("/", async function (req, res) {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, POST");
-  let lastRestart = fs.readFileSync("./lastRestart.json");
+  let lastRestart = JSON.parse(fs.readFileSync("./lastRestart.json"));
   res.status(200).json({
     webhookSubscribeStatus: webhookSubscribe,
     serverStatus: "Server is On!",
