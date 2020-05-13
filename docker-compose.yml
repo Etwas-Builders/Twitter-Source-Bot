@@ -1,0 +1,7 @@
+version: '2'
+services:
+  listenserver:
+      build:
+        context: .
+        dockerfile: dockerfile
+      ports: ['3000:3000', '5000:5000', '1337:1337']
