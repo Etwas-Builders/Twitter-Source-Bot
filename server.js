@@ -86,7 +86,6 @@ let twitterWebhook = async function () {
   }
 };
 let main = async function () {
-  fs.writeFileSync("./lastRestart.json", JSON.stringify({ time: new Date() }));
   await twitterWebhook();
   setTimeout(() => {
     fs.writeFileSync(
