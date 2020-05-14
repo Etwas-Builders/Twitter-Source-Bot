@@ -78,7 +78,7 @@ let twitterWebhook = async function () {
     } else {
       ip = `Not From GCP Server ${ip}`;
     }
-    axios.post(process.env.DISCORD_WEBHOOK_URL, {
+    axios.post(process.env.DISCORD_SERVER_URL, {
       content: `Webhook Running From ${ip}`,
       username: "Who Said This Bot",
       avatar_url:
@@ -87,7 +87,7 @@ let twitterWebhook = async function () {
   } catch (err) {
     console.log("Error in starting server", err);
     let ip = await publicIp.v4();
-    axios.post(process.env.DISCORD_WEBHOOK_URL, {
+    axios.post(process.env.DISCORD_SERVER_URL, {
       content: `@here Webhook Could not Start because of ${err} From ${ip}`,
       username: "Who Said This Bot",
       avatar_url:
