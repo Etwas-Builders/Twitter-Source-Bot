@@ -5,11 +5,13 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon server.js"
+    "build": "nodemon server.js",
+    "start": "node server.js"
   },
   "nodemonConfig": {
     "ignore": [
-      "Python/output.txt"
+      "Python/output.txt",
+      "nlpOutput.txt"
     ]
   },
   "repository": {
@@ -32,15 +34,11 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "fuse.js": "^5.2.1",
-    "himalaya": "^1.1.0",
-    "ipfs": "^0.43.1",
     "lodash": "^4.17.15",
+    "mongoose": "^5.9.13",
     "morgan": "^1.10.0",
     "natural": "^1.0.1",
     "node-wordnet": "^0.1.12",
-    "oauth": "^0.9.15",
-    "orbit-db": "^0.23.1",
     "promise.any": "^2.0.1",
     "public-ip": "^4.0.1",
     "puppeteer": "^3.0.4",
@@ -48,7 +46,6 @@
     "sha512": "0.0.1",
     "stopword": "^1.0.1",
     "twitter-autohook": "^1.6.0",
-    "twitter-lite": "^0.11.0",
-    "website-scraper": "^4.2.1"
+    "twitter-lite": "^0.11.0"
   }
 }

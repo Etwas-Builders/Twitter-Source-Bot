@@ -3,6 +3,8 @@ from tornado.web import Application, RequestHandler
 from tornado.ioloop import IOLoop
 from googlesearch import search
 import tornado
+import asyncio
+from pymongo import MongoClient
 
 from dotenv import load_dotenv
 from pathlib import Path
@@ -20,6 +22,26 @@ class GetSample(RequestHandler):
         self.write({"status": "true"})
 
 
+async def db_output(output, tweetId):
+    tweetId = str(tweetId)
+    client = MongoClient('mongodb://{}'.format(os.getenv("MONGO_URL")))
+    db = client['tweets']
+
+    output = [str(item) for item in output]
+
+    tweet = db.nlpSchemas.find_one(
+        {"tweetId": tweetId})
+    if tweet is not None:
+        nlpOutput = tweet['nlpOutput'] + "\n".join(output)
+        db.nlpSchemas.update_one({"tweetId": tweetId}, {
+            "$set": {"nlpOutput": nlpOutput}
+        })
+    else:
+        nlpOutput = "\n".join(output)
+        db.nlpSchemas.insert_one(
+            {"tweetId": tweetId, "nlpOutput": nlpOutput})
+
+
 class handleProcessBody(RequestHandler):
     async def post(self):
         body = self.request.body
@@ -29,9 +51,12 @@ class handleProcessBody(RequestHandler):
         data = body["data"]
         keywords = body["keywords"]
         url = body["url"]
+        tweetId = body["tweetId"]
 
-        score = await ProcessBody.getDocumentScore(data, url, keywords)
+        score, output = await ProcessBody.getDocumentScore(data, url, keywords)
         print("FINAL SCORE", score)
+
+        await db_output(output, tweetId)
 
         self.write({"score": score})
 
@@ -54,7 +79,6 @@ def make_app():
         ("/", GetSample),
         ("/processBody", handleProcessBody),
         ('/search', searchResults),
-        (r'/output()', tornado.web.StaticFileHandler, {'path': 'output.txt'})
     ]
     return Application(urls)
 

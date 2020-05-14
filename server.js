@@ -12,6 +12,7 @@ const morgan = require("morgan");
 const axios = require("axios");
 const publicIp = require("public-ip");
 const fs = require("fs");
+const mongoose = require("mongoose");
 
 // Modules
 const tweetHandler = require("./modules/tweet");
@@ -21,12 +22,27 @@ const tester = require("./modules/test");
 // Server
 const express = require("express"); // Framework for Node
 const app = express(); // Establishing Express App
+
 morgan("tiny");
 app.use(cors()); // Cors to Handle Url Authentication
 app.options("*", cors());
 app.use(bodyParser.json()); // Using Body Parser
 app.set("jwtTokenSecret", ""); // JWT Secret
 const server = app.listen(port); // Set Port
+
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useUnifiedTopology", true);
+
+mongoose
+  .connect(`mongodb://${process.env.MONGO_URL}`)
+  .then((con) => {
+    console.log("db connected");
+    app.set("con", con);
+  })
+  .catch((err) => {
+    console.log(err);
+    throw err;
+  });
 
 let webhookSubscribe;
 
@@ -163,6 +179,33 @@ app.get("/getWikiCitation", async function (req, res) {
   let returned = await citation.wiki(data);
   res.status(200).json({
     source: returned,
+  });
+});
+
+app.get("/nlpOutput", async function (req, res) {
+  let tweetId = req.query.tweetId;
+
+  mongoose.connection.db.collection("nlpSchemas", async function (
+    err,
+    collection
+  ) {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    }
+    //console.log("schema accessed");
+    console.log(tweetId);
+
+    let response = await collection.findOne({ tweetId: tweetId });
+    //console.log(response);
+    if (!response) {
+      res
+        .status(200)
+        .json({ output: "Sorry not output found for this tweet id" });
+    } else {
+      fs.writeFileSync("./nlpOutput.txt", response.nlpOutput);
+      res.sendFile(require("path").join(__dirname, "./nlpOutput.txt"));
+    }
   });
 });
 

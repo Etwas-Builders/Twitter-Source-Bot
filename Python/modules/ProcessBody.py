@@ -16,34 +16,34 @@ nlp.add_pipe(text_rank.PipelineComponent, name="textrank", last=True)
 
 
 async def getDocumentScore(data, url, keywords):
+
+    output = []
+
     startTime = time.time()
-    print("URL:" + url)
+    output.append("URL:" + url)
+
     text = data["text"]
 
     if len(text) <= 0:
-        return -1
+        return (-1, output)
 
     nlp_text = nlp(text)
 
-    print("Passed!")
     if len(nlp_text._.phrases) <= 0:
-        return -1
-
-    print("NLP Phrases\n", nlp_text._.phrases)
+        return (-1, output)
 
     minimum_phrase_rank = 0.6 * \
         max([phrase.rank for phrase in nlp_text._.phrases])
     number_of_phrases = len(nlp_text._.phrases)
     number_of_positive_scores = 0
 
-    # print(keywords)
+    # output.append(keywords)
 
     for dictionary in keywords:
         if(time.time() - startTime > 30):
-            print("Overtime break")
-            return -1
-        # print("Dictionary")
-        # print(dictionary)
+            output.append("Overtime break")
+            return (-1, output)
+
         keyword = dictionary["word"]
 
         if "partOfSpeech" in list(dictionary.keys()):
@@ -53,8 +53,8 @@ async def getDocumentScore(data, url, keywords):
 
         keyword = keyword.lower()
         keyword = re.sub(r"""
-            [,.;@#?!&$]+  
-            \ *           
+            [,.;@#?!&$]+
+            \ *
             """,
                          "",
                          keyword, flags=re.VERBOSE)
@@ -67,26 +67,26 @@ async def getDocumentScore(data, url, keywords):
 
         for phrase in nlp_text._.phrases:
             if(time.time() - startTime > 30):
-                print("Overtime break")
-                return -1
+                output.append("Overtime break")
+                return (-1, output)
 
             rank = phrase.rank
             if (rank >= minimum_phrase_rank):
                 chunk_words = [re.sub(r"""
-            [,.;@#?!&$]+  
-            \ *           
+            [,.;@#?!&$]+
+            \ *
             """,
                                       "",
                                       str(word), flags=re.VERBOSE).lower()
                                for line in set(phrase.chunks) for word in line]
-                print("Current Keyword: " + keyword)
-                print("Chunk words:")
-                print(chunk_words)
+                output.append("Current Keyword: " + keyword)
+                output.append("Chunk words:")
+                output.append("\t".join(chunk_words))
 
                 for word in chunk_words:
                     if(time.time() - startTime > 30):
-                        print("Overtime break")
-                        return -1
+                        output.append("Overtime break")
+                        return (-1, output)
                     # Checks if 50% of the keyword is in the word from the phrase or vice-versa.
                     if keyword in word and (len(keyword) >= int(0.5 * len(word))) or word in keyword and (len(word) >= int(0.5 * len(keyword))):
                         keyword_occurrences += 1
@@ -104,19 +104,17 @@ async def getDocumentScore(data, url, keywords):
             score = 0
 
         minimum_number_of_scores_needed = math.log(number_of_phrases, 8)
-        print("Minimum number: " + str(minimum_number_of_scores_needed))
+        output.append("Minimum number: " +
+                      str(minimum_number_of_scores_needed))
 
         if (score > 1.25):
             number_of_positive_scores += 1
-            print("Keyword: " + keyword)
-            print("Word Score: " + str(score))
-            print("Occurrences : " + str(keyword_occurrences))
-            print("--------")
 
-    print("Number of positive scores: " + str(number_of_positive_scores))
+    output.append("Number of positive scores: " +
+                  str(number_of_positive_scores))
     if (number_of_positive_scores > minimum_number_of_scores_needed and minimum_number_of_scores_needed != 0):
-        print("Final Score: " + str((math.log(number_of_positive_scores /
-                                              minimum_number_of_scores_needed))))
-        return math.log(number_of_positive_scores / minimum_number_of_scores_needed)
+        output.append("Final Score: " + str((math.log(number_of_positive_scores /
+                                                      minimum_number_of_scores_needed))))
+        return (math.log(number_of_positive_scores / minimum_number_of_scores_needed), output)
     else:
-        return 0
+        return (0, output)
