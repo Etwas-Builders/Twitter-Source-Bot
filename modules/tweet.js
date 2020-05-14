@@ -7,7 +7,7 @@ const citation = require("./citation");
 const processing = require("./processing/processing");
 const scrapper = require("./processing/scrapper");
 const tester = require("./test");
-const fs = require("fs");
+const notFound = require("./notFound/notFound");
 // Models
 const tweetSchema = require("../models/tweetSchema");
 
@@ -15,6 +15,9 @@ const tweetSchema = require("../models/tweetSchema");
 // Imports
 const TwitterApi = require("twitter-lite");
 const axios = require("axios");
+const fs = require("fs");
+
+// Constants
 const twitterClient = new TwitterApi({
   subdomain: "api",
   version: "1.1",
@@ -23,47 +26,13 @@ const twitterClient = new TwitterApi({
   access_token_key: process.env.ACCESS_TOKEN,
   access_token_secret: process.env.ACCESS_TOKEN_SECRET,
 });
-const uploadClient = new TwitterApi({
-  subdomain: "upload",
-  version: "1.1",
-  consumer_key: process.env.CONSUMER_KEY,
-  consumer_secret: process.env.CONSUMER_SECRET,
-  access_token_key: process.env.ACCESS_TOKEN,
-  access_token_secret: process.env.ACCESS_TOKEN_SECRET,
-});
-// Modules
 
 let sourceNotFound = async function (cachedParams, username) {
   cachedParams.cited = false;
   cachedParams.citation = null;
   await updateDatabase(cachedParams);
 
-  console.log("Not Found");
-  let imageResponse = "test";
-
-  let cycle = Math.floor(Math.random() * 3) + 1;
-  //const filename = "modules/imageResponse/test.png";
-  let filePath = `modules/imageResponse/image${cycle}.png`;
-  var params = {
-    encoding: "base64",
-  };
-  var b64content = fs.readFileSync(filename, params);
-  try {
-    let response = await uploadClient.post("media/upload", {
-      media: b64content,
-    });
-    console.log("Tweet -> sourceNotFound -> response", response);
-    let mediaId = response.media_id_string;
-    return {
-      message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
-      mediaId: mediaId,
-    };
-  } catch (err) {
-    console.log(err);
-  }
-  //return {
-  //message: `@${username} Hey we couldn't find a valid citation for this right now. In the future, I might have the required intelligence to find the valid source follow @whosaidthis_bot for updates`,
-  //};
+  return await notFound.sourceNotFound(username);
 };
 
 let getSearchResults = async function (keywords) {
