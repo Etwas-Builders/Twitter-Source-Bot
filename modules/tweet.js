@@ -121,11 +121,12 @@ let checkDatabase = async function (tweetId) {
   }).sort({ cacheCreated: "ascending" });
 
   if (!existingTweet) {
+    console.log("Tweet -> checkDatabase -> notCached");
     return null;
   } else {
     console.log("Tweet -> checkDatabase -> existingTweet", existingTweet);
     if (
-      // existingTweet.cacheCreated < Date.now() - 2 * 24 * 60 * 60 * 1000 &&
+      existingTweet.cacheCreated > Date.now() - 2 * 24 * 60 * 60 * 1000 &&
       existingTweet.cited === true
     ) {
       // 48 hr window and is cited
@@ -133,6 +134,7 @@ let checkDatabase = async function (tweetId) {
       let topResult = existingTweet.citation;
       return `Our top result for this tweet is : ${topResult.title} with score of ${existingTweet.score}  ${topResult.url}`;
     } else {
+      console.log("Tweet -> checkDatabase -> notCached");
       return null;
     }
   }
