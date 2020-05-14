@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "build": "nodemon server.js",
+    "build": "npx nodemon server.js",
     "start": "node server.js"
   },
   "nodemonConfig": {
