@@ -28,7 +28,7 @@ const blacklist = require("./blacklist.json");
 
 */
 
-exports.getTopResult = async function (results, username, keywords) {
+exports.getTopResult = async function (results, username, keywords, tweetId) {
   let topResult;
 
   for (let result of results) {
@@ -97,7 +97,7 @@ exports.getTopResult = async function (results, username, keywords) {
         `Processing -> getTopResult -> Promise Resolution pageContent with title ${data.title}`
       );
       result["title"] = data.title;
-      let score = await nlp.scorePage(result, data, keywords);
+      let score = await nlp.scorePage(result, data, keywords, tweetId);
       result.score += score;
 
       console.log("Processing -> getTopResult -> nlpScore", score);

@@ -10,7 +10,8 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "Python/output.txt"
+      "Python/output.txt",
+      "nlpOutput.txt"
     ]
   },
   "repository": {

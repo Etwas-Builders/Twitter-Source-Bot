@@ -97,7 +97,7 @@ function GetPartOfSpeech(text) {
   return sentence["taggedWords"][0]["tag"];
 }
 
-exports.scorePage = async function (result, data, keywords) {
+exports.scorePage = async function (result, data, keywords, tweetId) {
   let ip = await publicIp.v4();
   if (ip !== process.env.GCP_IP) {
     ip = "127.0.0.1";
@@ -107,6 +107,7 @@ exports.scorePage = async function (result, data, keywords) {
     data: data,
     keywords: keywords,
     url: result.url,
+    tweetId: tweetId,
   });
   let score = response.data.score;
   console.log("NLP -> scorePage -> score", score);

@@ -8,7 +8,6 @@ const processing = require("./processing/processing");
 const scrapper = require("./processing/scrapper");
 const tester = require("./test");
 const fs = require("fs");
-
 // Models
 const tweetSchema = require("../models/tweetSchema");
 
@@ -42,7 +41,9 @@ let sourceNotFound = async function (cachedParams, username) {
   console.log("Not Found");
   let imageResponse = "test";
 
-  const filename = "modules/imageResponse/test.png";
+  let cycle = Math.floor(Math.random() * 3) + 1;
+  //const filename = "modules/imageResponse/test.png";
+  let filePath = `modules/imageResponse/image${cycle}.png`;
   var params = {
     encoding: "base64",
   };
@@ -188,7 +189,7 @@ let sendReplyWithImage = async function (message, tweet_id, media_id) {
 };
 
 let handleNewTweet = async function (newTweet, replyId) {
-  let tweetId = newTweet.id;
+  let tweetId = newTweet.id_str;
   let cachedContent = await checkDatabase(tweetId);
   let username = newTweet.user.screen_name;
   if (cachedContent) {
@@ -237,7 +238,8 @@ let handleNewTweet = async function (newTweet, replyId) {
   let processedOutput = await processing.getTopResult(
     results,
     username,
-    wordsToSearch
+    wordsToSearch,
+    tweetId
   );
 
   console.log("Tweet -> handleNewTweet -> processedOutput", processedOutput);
@@ -434,7 +436,8 @@ let handleTweetThread = async function (reply, thread) {
       let processedOutput = await processing.getTopResult(
         results,
         username,
-        keywords
+        keywords,
+        original_tweet.id_str
       );
       let topResult = processedOutput.topResult;
 

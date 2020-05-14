@@ -45,6 +45,7 @@ const TweetSchema = new Schema({
   originalTweet: {},
   nlpOutput: {
     type: String,
+    default: "",
   },
 });
 

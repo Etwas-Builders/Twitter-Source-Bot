@@ -182,6 +182,33 @@ app.get("/getWikiCitation", async function (req, res) {
   });
 });
 
+app.get("/nlpOutput", async function (req, res) {
+  let tweetId = req.query.tweetId;
+
+  mongoose.connection.db.collection("nlpSchemas", async function (
+    err,
+    collection
+  ) {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    }
+    //console.log("schema accessed");
+    console.log(tweetId);
+
+    let response = await collection.findOne({ tweetId: tweetId });
+    //console.log(response);
+    if (!response) {
+      res
+        .status(200)
+        .json({ output: "Sorry not output found for this tweet id" });
+    } else {
+      fs.writeFileSync("./nlpOutput.txt", response.nlpOutput);
+      res.sendFile(require("path").join(__dirname, "./nlpOutput.txt"));
+    }
+  });
+});
+
 app.get("/", async function (req, res) {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, POST");
