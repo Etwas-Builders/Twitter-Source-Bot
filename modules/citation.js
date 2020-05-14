@@ -1,30 +1,30 @@
 const axios = require("axios");
-const himalaya = require("himalaya");
-const dom = require("./dom");
-const Fuse = require("fuse.js");
+// const himalaya = require("himalaya");
+// const dom = require("./dom");
+// const Fuse = require("fuse.js");
 var exports = (module.exports = {});
 const publicIp = require("public-ip");
 
-exports.googleNews = async function (data) {
-  // Get Google News Citation
-  let getNewsByKeyword = async (keyword) => {
-    var url =
-      "http://newsapi.org/v2/everything?" +
-      `q=${keyword}&` +
-      "from=2020-04-18&" +
-      "sortBy=popularity&" +
-      `apiKey=${process.env.NEWS_API_KEY}`;
+// exports.googleNews = async function (data) {
+//   // Get Google News Citation
+//   let getNewsByKeyword = async (keyword) => {
+//     var url =
+//       "http://newsapi.org/v2/everything?" +
+//       `q=${keyword}&` +
+//       "from=2020-04-18&" +
+//       "sortBy=popularity&" +
+//       `apiKey=${process.env.NEWS_API_KEY}`;
 
-    var res = await axios.get(url);
-    return res.data;
-  };
+//     var res = await axios.get(url);
+//     return res.data;
+//   };
 
-  (async () => {
-    let output = await getNewsByKeyword("Apple");
-    global.output = output;
-    console.log(output.articles);
-  })();
-};
+//   (async () => {
+//     let output = await getNewsByKeyword("Apple");
+//     global.output = output;
+//     console.log(output.articles);
+//   })();
+// };
 
 exports.googleSearch = async function (query) {
   // try {
@@ -66,44 +66,44 @@ let FindWiki = async (title) => {
   return output.data;
 };
 
-exports.wiki = async function (data) {
-  // Get Wiki Citation
-  let title = data.title;
-  let html = await FindWiki(title);
-  let json = await himalaya.parse(html);
-  let document = json.find((el) => tagName == "html");
-  let body = await dom.getElementByTag(document, "body")[0];
-  let texts = await dom.getElementByType(document, "text");
-  let allTextContent = [];
+// exports.wiki = async function (data) {
+//   // Get Wiki Citation
+//   let title = data.title;
+//   let html = await FindWiki(title);
+//   let json = await himalaya.parse(html);
+//   let document = json.find((el) => tagName == "html");
+//   let body = await dom.getElementByTag(document, "body")[0];
+//   let texts = await dom.getElementByType(document, "text");
+//   let allTextContent = [];
 
-  for (let text of texts) {
-    if (
-      (text.content.includes("\n") && text.content.length <= 2) ||
-      text.content == null ||
-      text.content.length <= 2
-    ) {
-      continue;
-    }
-    allTextContent.push({ text: text.content }); // HERE
-  }
+//   for (let text of texts) {
+//     if (
+//       (text.content.includes("\n") && text.content.length <= 2) ||
+//       text.content == null ||
+//       text.content.length <= 2
+//     ) {
+//       continue;
+//     }
+//     allTextContent.push({ text: text.content }); // HERE
+//   }
 
-  const options = {
-    isCaseSensitive: false,
-    findAllMatches: false,
-    includeMatches: false,
-    includeScore: true,
-    useExtendedSearch: true,
-    minMatchCharLength: 1,
-    shouldSort: true,
-    threshold: 0.6,
-    location: 0,
-    distance: 100,
-    keys: ["text"],
-  };
-  const fuse = new Fuse(allTextContent, options);
-  let results = fuse.search("Rap");
-  results.reverse();
-};
+//   const options = {
+//     isCaseSensitive: false,
+//     findAllMatches: false,
+//     includeMatches: false,
+//     includeScore: true,
+//     useExtendedSearch: true,
+//     minMatchCharLength: 1,
+//     shouldSort: true,
+//     threshold: 0.6,
+//     location: 0,
+//     distance: 100,
+//     keys: ["text"],
+//   };
+//   const fuse = new Fuse(allTextContent, options);
+//   let results = fuse.search("Rap");
+//   results.reverse();
+// };
 
 let pythonScraper = async function (query) {
   let ip = await publicIp.v4();
