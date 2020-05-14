@@ -85,7 +85,7 @@ def make_app():
 
 def discord_webhook():
 
-    discord_url = os.getenv("DISCORD_WEBHOOK_URL")
+    discord_url = os.getenv("DISCORD_SERVER_URL")
     requests.post(discord_url, data={'content': 'Python Server running', 'username': 'Who Said This Bot(Python)',
                                      'avatar_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png'})
 
