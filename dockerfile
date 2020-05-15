@@ -6,6 +6,9 @@ COPY . .
 
 RUN npm install
 
-EXPOSE 1337
-EXPOSE 5000
-EXPOSE 3000
+RUN apk add --no-cache --virtual .build-deps gcc musl-dev
+RUN apk add python3
+# RUN sh Python/install.sh
+# RUN apk del .build-deps
+
+EXPOSE 1337 5000 3000
