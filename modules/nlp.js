@@ -1,9 +1,10 @@
 const stopwords = require("stopword");
 const wordnet = require("node-wordnet");
 const natural = require("natural");
-const publicIp = require("public-ip");
 const axios = require("axios");
 const _ = require("lodash");
+
+const IP = require("./ip");
 
 var exports = (module.exports = {});
 
@@ -98,11 +99,7 @@ function GetPartOfSpeech(text) {
 }
 
 exports.scorePage = async function (result, data, keywords, tweetId) {
-  let ip = await publicIp.v4();
-  if (ip !== process.env.GCP_IP) {
-    ip = "127.0.0.1";
-  }
-  console.log("NLP -> scorePage -> ip", ip);
+  let ip = await IP.getCurrentIp();
   let response = await axios.post(`http://${ip}:5000/processBody`, {
     data: data,
     keywords: keywords,
