@@ -1,5 +1,4 @@
 const stopwords = require("stopword");
-const wordnet = require("node-wordnet");
 const natural = require("natural");
 const axios = require("axios");
 const _ = require("lodash");

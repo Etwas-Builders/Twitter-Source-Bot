@@ -10,7 +10,6 @@
     "stopword",
     "stopwords",
     "whosaidthis",
-    "wordnet"
   ],
   "python.pythonPath": "/usr/bin/python3",
   "debug.allowBreakpointsEverywhere": true
