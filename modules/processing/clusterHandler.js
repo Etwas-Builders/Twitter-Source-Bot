@@ -1,4 +1,4 @@
-const scrapper = require("./scrapper");
+const scrapper = require("./scraper");
 let main = async function () {
   let urls = [
     // "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then",

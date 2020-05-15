@@ -1,6 +1,6 @@
 var exports = (module.exports = {});
 
-const scrapper = require("./scrapper");
+const scrapper = require("./scraper");
 const nlp = require("../nlp");
 const any = require("promise.any");
 
