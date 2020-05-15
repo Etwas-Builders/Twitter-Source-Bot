@@ -4,7 +4,7 @@
   "description": "Mozilla Open Lab Backend Repo",
   "main": "server.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --verbose",
     "build": "npx nodemon server.js",
     "start": "node server.js"
   },
@@ -25,9 +25,11 @@
   },
   "homepage": "https://github.com/Mozilla-Open-Lab-Etwas/Backend#readme",
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.1.5",
     "jest": "^25.3.0"
   },
   "dependencies": {
+    "@types/jest": "^25.2.2",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "cheerio": "^1.0.0-rc.3",
