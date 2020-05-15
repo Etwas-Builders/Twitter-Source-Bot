@@ -88,7 +88,7 @@ let twitterWebhook = async function () {
     console.log("Error in starting server", err);
     let ip = await publicIp.v4();
     axios.post(process.env.DISCORD_SERVER_URL, {
-      content: `@here Webhook Could not Start because of ${err} From ${ip}`,
+      content: `<@285449811975733248> <@491917392646111243> <@179264835618471936> <@367812757485125642> <@311891570570035200> Webhook Could not Start because of ${err} From ${ip}`,
       username: "Who Said This Bot",
       avatar_url:
         "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
