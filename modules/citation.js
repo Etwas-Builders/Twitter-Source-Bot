@@ -5,8 +5,35 @@ const IP = require("./ip");
 
 let googleSearch = async function (query) {
   try {
-    let pythonResults = await pythonScraper(query);
-    return pythonResults;
+    //let results = await pythonScraper(query);
+    let results = await sebitesApi(query);
+    return results;
+  } catch (err) {
+    return await pythonScraper(query);
+  }
+};
+
+let sebitesApi = async function (query) {
+  try {
+    console.log("Rapid Api!");
+    let response = await axios({
+      method: "GET",
+      url: "https://api.sebites.com/gs/search-results",
+      headers: {
+        "content-type": "application/octet-stream",
+        "X-SEBITES-KEY": process.env.SEARCH_API_KEY,
+      },
+      params: {
+        country: "us",
+        hl: "en-US",
+        q: query,
+      },
+    });
+
+    let results = response.data.results;
+    let topResults = results.organic_results;
+
+    return topResults;
   } catch (err) {
     return [];
   }
