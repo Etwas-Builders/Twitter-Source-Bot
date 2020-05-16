@@ -1,0 +1,38 @@
+[
+  {
+    "id": "bakersFieldAc",
+    "type": "Good",
+    "pagePath": "/webPages/bakersField.txt",
+    "content": "Air conditioning is needed by so many people, especially in Miami!! The poor people are suffering most of all from this heat"
+  },
+  {
+    "id": "ibmNewCollar",
+    "type": "Good",
+    "content": "“Growth and comfort never coexist” - inspiring message from Ginni Rometty who began her life on food stamps & is now one of the most powerful execs in America. She and her company IBM are offering free training for “new collar” jobs - which are hiring & don’t require 4 yr degree",
+    "pagePath": "/webPages/forbesIbmNewCollar.txt"
+  },
+  {
+    "id": "teslaMovingOut",
+    "type": "Good",
+    "content": "Tesla is moving away from California?? Well I understand both sides of the argument, but that move might be hard and expensive to do in the current short term.",
+    "pagePath": "/webPages/teslaMovingOut.txt"
+  },
+  {
+    "id": "covidFlatteningExample",
+    "type": "Good",
+    "content": " The curve is flattening but I don't know how long the coronavirus crisis will continue. Life will be difficult for quite some time to come.",
+    "pagePath": "/webPages/covidFlatteningExample.txt"
+  },
+  {
+    "id": "nvidiaNewGpu",
+    "type": "Good",
+    "content": "Nvidia has a new GPU!",
+    "pagePath": "/webPages/nvidiaNewGpu.txt"
+  },
+  {
+    "id": "lastAirbenderNetlfix",
+    "type": "Good",
+    "content": " now that avatar the last airbender is back on Netflix it’s time to discuss the cold hard truth that Zuko and Katara were way better matched than Katara and Aang https://t.co/fVfOHSY81f",
+    "pagePath": "/webPages/lastAirbenderNetlfix.txt"
+  }
+]

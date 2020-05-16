@@ -10,14 +10,14 @@ const { Autohook } = require("twitter-autohook");
 
 const morgan = require("morgan");
 const axios = require("axios");
-const publicIp = require("public-ip");
 const fs = require("fs");
 const mongoose = require("mongoose");
 
 // Modules
 const tweetHandler = require("./modules/tweet");
 const citation = require("./modules/citation");
-const tester = require("./modules/test");
+// const tester = require("./modules/tester");
+const IP = require("./modules/ip");
 
 // Server
 const express = require("express"); // Framework for Node
@@ -72,12 +72,7 @@ let twitterWebhook = async function () {
       oauth_token: process.env.ACCESS_TOKEN,
       oauth_token_secret: process.env.ACCESS_TOKEN_SECRET,
     });
-    let ip = await publicIp.v4();
-    if (ip === process.env.GCP_IP) {
-      ip = "Google Cloud";
-    } else {
-      ip = `Not From GCP Server ${ip}`;
-    }
+    let ip = await IP.checkGCP();
     axios.post(process.env.DISCORD_SERVER_URL, {
       content: `Webhook Running From ${ip}`,
       username: "Who Said This Bot",
@@ -86,9 +81,9 @@ let twitterWebhook = async function () {
     });
   } catch (err) {
     console.log("Error in starting server", err);
-    let ip = await publicIp.v4();
+    let ip = await IP.checkGCP();
     axios.post(process.env.DISCORD_SERVER_URL, {
-      content: `@here Webhook Could not Start because of ${err} From ${ip}`,
+      content: `<@285449811975733248> <@491917392646111243> <@179264835618471936> <@367812757485125642> <@311891570570035200> Webhook Could not Start because of ${err} From ${ip}`,
       username: "Who Said This Bot",
       avatar_url:
         "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
@@ -166,19 +161,12 @@ let handleNewWebHook = function (event) {
 
 // Testing Routes
 
-app.get("/getGoogleNewsCitation", async function (req, res) {
-  let data = req.query.data;
-  let returned = await citation.googleNews(data);
+app.get("/dbCheckTweet", async function (req, res) {
+  let database = require("./modules/database");
+  let tweetId = req.query.tweetId;
+  let output = await database.checkTweetCache(tweetId);
   res.status(200).json({
-    source: returned,
-  });
-});
-
-app.get("/getWikiCitation", async function (req, res) {
-  let data = req.query.data;
-  let returned = await citation.wiki(data);
-  res.status(200).json({
-    source: returned,
+    output: output,
   });
 });
 

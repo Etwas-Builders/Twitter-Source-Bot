@@ -6,11 +6,13 @@
     "domcontentloaded",
     "favorited",
     "orbitdb",
+    "pytextrank",
     "salegot",
+    "spacy",
     "stopword",
     "stopwords",
-    "whosaidthis",
-    "wordnet"
+    "twittersourcebot",
+    "whosaidthis"
   ],
   "python.pythonPath": "/usr/bin/python3",
   "debug.allowBreakpointsEverywhere": true

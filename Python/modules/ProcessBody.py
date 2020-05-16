@@ -20,7 +20,8 @@ async def getDocumentScore(data, url, keywords):
     output = []
 
     startTime = time.time()
-    output.append("URL:" + url)
+    output.append(
+        "\n ----- \n ---- New Source ---- \n ----- \n" + "URL:" + url)
 
     text = data["text"]
 
@@ -61,9 +62,13 @@ async def getDocumentScore(data, url, keywords):
 
         keyword_occurrences = 0
         isProperNoun = False
+        isVerb = False
 
         if(partOfSpeech == "NNPS" or partOfSpeech == "NNP"):
             isProperNoun = True
+
+        elif (partOfSpeech == "VBG" or partOfSpeech == "VBN" or partOfSpeech == "VB"):
+            isVerb = True
 
         for phrase in nlp_text._.phrases:
             if(time.time() - startTime > 30):
@@ -81,7 +86,7 @@ async def getDocumentScore(data, url, keywords):
                                for line in set(phrase.chunks) for word in line]
                 output.append("Current Keyword: " + keyword)
                 output.append("Chunk words:")
-                output.append("\t".join(chunk_words))
+                output.append(" , ".join(chunk_words))
 
                 for word in chunk_words:
                     if(time.time() - startTime > 30):
@@ -93,17 +98,22 @@ async def getDocumentScore(data, url, keywords):
 
         if keyword_occurrences > 0:
             if (isProperNoun):
-                # Ranges between 0-2.
-                score = 0.5 + (2 * (math.exp(keyword_occurrences) /
-                                    (1 + math.exp(keyword_occurrences))))
-            else:
-                # Ranges between 0-2.
-                score = 2 * (math.exp(keyword_occurrences) /
-                             (1 + math.exp(keyword_occurrences)))
-        else:
-            score = 0
+                # Ranges between 0.75 to 2.75.
+                score = 0.75 + (2 * (math.exp(keyword_occurrences) /
+                                     (1 + math.exp(keyword_occurrences))))
+            elif (isVerb):
+                # Ranges between 0.25 to 2.25.
+                score = 0.25 + (2 * (math.exp(keyword_occurrences) /
+                                     (1 + math.exp(keyword_occurrences))))
 
-        minimum_number_of_scores_needed = math.log(number_of_phrases, 8)
+            else:
+                # Ranges between -0.35 to 1.65.
+                score = (2 * (math.exp(keyword_occurrences) /
+                              (1 + math.exp(keyword_occurrences)))) - 0.35
+        else:
+            score = -0.05
+
+        minimum_number_of_scores_needed = math.log(number_of_phrases, 12)
         output.append("Minimum number: " +
                       str(minimum_number_of_scores_needed))
 
@@ -111,10 +121,17 @@ async def getDocumentScore(data, url, keywords):
             number_of_positive_scores += 1
 
     output.append("Number of positive scores: " +
-                  str(number_of_positive_scores))
+                  str(number_of_positive_scores) + "\n")
     if (number_of_positive_scores > minimum_number_of_scores_needed and minimum_number_of_scores_needed != 0):
-        output.append("Final Score: " + str((math.log(number_of_positive_scores /
-                                                      minimum_number_of_scores_needed))))
+        output.append("Final Score with base e: " + str((math.log(number_of_positive_scores /
+                                                                  minimum_number_of_scores_needed))) + "\n")
         return (math.log(number_of_positive_scores / minimum_number_of_scores_needed), output)
+
+    elif(number_of_positive_scores > 0.5 * (minimum_number_of_scores_needed and minimum_number_of_scores_needed != 0)):
+        output.append("Final Score with base 4.5: " + str(abs((math.log(
+            minimum_number_of_scores_needed - number_of_positive_scores, 4.5)))) + "\n")
+        return (abs((math.log(
+            minimum_number_of_scores_needed - number_of_positive_scores, 4.5))), output)
+
     else:
         return (0, output)

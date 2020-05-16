@@ -24,18 +24,24 @@ exports.createCluster = async function () {
     console.log("Added url to queue", url);
 
     await page.goto(url, { waitUntil: "domcontentloaded" });
-    await page.addScriptTag({
-      url: "https://code.jquery.com/jquery-3.2.1.min.js",
-    });
+    await page.setDefaultNavigationTimeout(50000);
     await page.waitFor(200);
     const data = await page.evaluate(() => {
       const body = document.querySelector("body");
-      let title =
-        document.querySelectorAll("head > meta[name='twitter:title']")[0]
-          .content ||
-        document.querySelectorAll("head > meta[name='og:title']")[0].content ||
-        document.querySelectorAll("head > meta[name='title']")[0].content ||
-        document.title;
+      let twitterTitle = document.querySelectorAll(
+        "head > meta[name='twitter:title']"
+      )[0];
+      let ogTitle = document.querySelectorAll(
+        "head > meta[name='og:title']"
+      )[0];
+      let metaTitle = document.querySelectorAll("head > meta[name='title']")[0];
+      let title = twitterTitle
+        ? twitterTitle.content
+        : null || ogTitle
+        ? ogTitle
+        : null || metaTitle
+        ? metaTitle.content
+        : null || document.title;
 
       let text = body.innerText;
       //console.log("Cluster -> Task -> title", title);
@@ -44,11 +50,11 @@ exports.createCluster = async function () {
       data.text = text;
       return data;
     });
-    console.log("Data from scrapper", data.title, data.text.length);
+    //console.log("Data from scrapper", data.title, data.text.length);
     if (!data.title) {
       data.title = "test";
       //await page.setViewport({ width: 1920, height: 1080 });
-      await page.screenshot({ path: `./${data.title}.png`, fullPage: true });
+      //await page.screenshot({ path: `./${data.title}.png`, fullPage: true });
     }
 
     return data;
