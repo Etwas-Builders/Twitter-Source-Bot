@@ -1,0 +1,245 @@
+Skip to main content
+THE SOURCE FOR TECH BUYING ADVICE
+Search
+Subscribe
+RSS
+US Edition
+ 
+How To
+ 
+Reviews
+ 
+Phones
+ 
+TVs
+ 
+Laptops
+ 
+Cameras
+ 
+Deals
+ More 
+Pro
+TRENDING
+iPhone 12
+ 
+PS5
+ 
+iPhone SE 2020
+ 
+Disney+
+ 
+Things to do
+ 
+Best Laptop
+ 
+Best Phone
+ 
+VPN
+TechRadar is supported by its audience. When you purchase through links on our site, we may earn an affiliate commission. Learn more
+Home News
+Nvidia GeForce RTX 3080 release date, price and specs: all the RTX 3080 rumors
+
+By Bill Thomas 5 hours ago
+
+Will we see the GeForce RTX 3080 in 2020?
+
+ 
+ 
+ 
+(Image credit: Future)
+
+With the rumored Nvidia GeForce RTX 3080 allegedly slated to hit the streets sometime this year, alongside the rest of the RTX 3000, speculation about the next-generation RTX cards have been stacking up. We’re now seeing a ton of leaks about the Nvidia Ampere, for example, the popular theory being that it will be the graphics architecture behind the next lineup of Nvidia GeForce GPUs.
+
+Nvidia recently announced Ampere for Data Center with no mention of PC gaming or GeForce, much in the same way it did when Nvidia Volta preceded the Nvidia Turing graphics cards. However, that doesn’t mean that we won’t actually see the GeForce RTX 3080 this year. 
+
+Nvidia CEO Jensen Huang has already said that the 7nm Ampere microarchitecture will be used for all of its next-generation graphics cards, which presumably includes the next GeForce cards. So, we’re still holding on to hope that the Q3 2020 release theory holds water, especially with AIB partners said to be clearing out their stock to prepare for an Nvidia Ampere launch.
+
+As we inch closer to the RTX 3000’s rumored August 2020 launch date, speculations are only getting more specific. Leaked benchmarks – like that of an Nvidia GPU with 33 teraflops of theoretical floating point performance and an Nvidia graphics card with 124 compute units – are hinting towards what the Nvidia GeForce RTX 3080 could look like. Meanwhile, a top-end Ampere consumer offering, most likely to bear the RTX 3080 Ti moniker, has also been leaked. And, it could usher in a new era of 4K gaming on PC.
+
+We gathered all the Nvidia GeForce RTX 3080 leaks, gossips and hints in one spot. Keep this page bookmarked, as we’ll keep it updated with all the latest RTX 3080 information that comes our way.
+
+Cut to the chase
+What is it? The next Nvidia GeForce flagship
+When is it out? Possibly in August 2020
+How much is it? Likely around the same price as the Nvidia GeForce RTX 2080
+
+(Image credit: Flickr)
+RTX 3080 release date
+
+For a while, the rumor mill was suggesting that we're going to see the next GeForce lineup make an appearance at GTC, or the GPU Technology Conference in March. But, Nvidia has since canceled its ‘exciting’ GTC graphics card revelations. Since then, Nvidia has officially announced the Nvidia Ampere for Data Center. And, as expected, it did so before the RTX 3000 lineup, just like when it launched Volta in May 2017 more than a year before Turing. 
+
+Luckily, it doesn’t seem like we have to wait until 2021 to get a glimpse of the next generation RTX cards. In the past, Nvidia GeForce lineups have been about two years apart. For instance, the Nvidia GeForce GTX 1080 dropped back in May 2016, with the GeForce RTX 2080 succeeding it in August 2018. The time between the GTX 980 and GTX 1080 was a bit shorter, with the former arriving in September 2014. Still as a general rule, we've been able to historically count on there being a new lineup of graphics cards every couple of years. 
+
+Tweaktown has reported that Nvidia plans to unveil the Ampere GPU architecture in August this year and launch it in September at Computex 2020. This is highly likely, as it’s similar to how Nvidia launched Turing at Gamescom back in August 2018, and would mark a straight 2-year cycle for the current-generation cards. Furthermore, AIB partners are said to be clearing out their stock now, allegedly in preparation for an Nvidia Ampere launch in Q3 2020.
+
+New Great-Fitting Menswear
+
+Get 15% off your first order, plus free shipping & extended returns in the U.S.
+
+Learn more
+Promoted by Bonobos
+
+We’ve also heard that the Nvidia GeForce RTX 3080 Ti, which may be up to 40% faster than its predecessor and run with hugely fast boost clocks of up to 2.2GHz as well as 18Gbps video memory, could launch by the end of 2020. With how these things typically go, we won't actually know when the RTX 3080 is on its way until Nvidia is ready. In fact, we won't know if it'll even be called the RTX 3080. 
+
+(Image credit: Nvidia)
+RTX 3080 price
+
+Because we're so far out from a potential GeForce RTX 3080 release, we obviously have no idea how much it will cost. But, that doesn't mean we can't do a bit of speculation about it. 
+
+Nvidia Turing graphics cards saw a large price jump over their Pascal predecessors, and we'd almost expect the same to happen with whatever comes next. However, we have heard some rumors that suggest that the next-generation graphics cards will be more affordable. That said, this rumor revolves around another rumor that the cards will be manufactured using Samsung 7nm EUV (extreme ultraviolet) manufacturing process. We'd take that one with a grain of salt. 
+
+One thing that absolutely needs to be taken into consideration when talking about RTX 3080 price is 'Big Navi'. When Nvidia Turing hit the streets it was basically completely unopposed by AMD. Even when Team Red dropped the Radeon VII in February 2019 it was totally incapable of dethroning the RTX 2080. Competition has definitely heated up since then, though. 
+
+Both the Radeon RX 5700 series and the Radeon RX 5600 XT have caused Nvidia to drop prices in response, and the threat of 'Big Navi' supposedly beating the RTX 2080 Ti by 30% could force Nvidia to drop its prices to compete. Still, we won't know the RTX 3080's price until we see Nvidia lift the veil – or at least until more substantial leaks surface.
+
+(Image credit: TechRadar)
+RTX 3080 specs
+
+We have seen a lot of really vague speculation and rumors surrounding supposed RTX 3080 specs, but there are some constants: that it’ll be 7nm and will be faster than the RTX 2080. That second one should be super obvious, of course – why would Nvidia put out new graphics cards if they're not significantly faster?
+
+The other rumor, the 7nm manufacturing process, is much more interesting. If you've been following the AMD vs Intel smackdown over the last year, you're probably aware that one of the things that's kept AMD on top of the CPU world is the fact that it's been able to fully adopt 7nm while Intel, at least when it comes to desktop, being stuck at 14nm. If Nvidia is able to adopt a 7nm manufacturing process for the RTX 3080, AMD won't have such an easy time dunking on it.
+
+If these rumors are actually true, it would mean that Nvidia could significantly boost performance - up to 50% according to some rumors - while boosting power efficiency significantly. When combined with DLSS, which will absolutely be a part of whatever graphics cards Nvidia puts out next, could potentially lead to 4K graphics cards being available in the mid-range sector for the first time. 
+
+Exactly how much faster and more powerful the RTX 3080 would be, it’s too early to tell. However, there’s a Nvidia GPU with a whopping 33 teraflops, 24GB of memory and 1.11GHz clock that was recently spotted in a benchmark. While this card may be too powerful to be the RTX 3080, it could also hint towards what the Nvidia GeForce RTX 3080 may look like.
+
+We have even seen some more specific spec leaks, notably one from hardware leaker KittyCorgi, who suggests that Nvidia's next-generation flagship could potentially come with up to 20GB of VRAM. Of course, this is a leak we'd take with a hefty dose of salt, but it could potentially prove our theory that the next graphics architecture Nvidia announces will in fact be for professionals. The Quadro RTX 6000, for instance, packs 24GB of GDDR6 - but it also costs $4,000 (£4,066, AU$6,999).
+
+Right now, if we had to put our money down, we'd suggest that these leaked specs are for an Nvidia Quadro or Tesla card, or maybe even the follow-up to the Nvidia Titan V. Whatever the GeForce RTX 3080 looks like, we seriously doubt we've seen it yet.
+
+Meanwhile, a massive leak from Moore’s Law is Dead reveals a GA102 GPU that will theoretically be Nvidia’s top-end Ampere consumer offering. It’s highly likely going to be named the RTX 3080 Ti, and looks to be an out-and-out beast of a graphics card with hugely fast boost clocks of up to 2.2GHz, offering 21 TFlops of raw performance, 18Gbps video memory – 864GB/s of memory bandwidth, around 40% more than the 2080 Ti (at 616GB/s), and PCIe 4.0 support.
+
+Other lesser graphics cards in the 3000 range have been revealed as well, and they may push those boost clocks to 2.5GHz. Moore’s Law is Dead argues that 4K graphics will become the mainstream standard with these new Ampere models.
+
+Don't worry, though. We'll keep our eyes open for the next generation of GeForce, and we'll be sure to update this article as soon as we see any juicy RTX 3080 spec rumors. 
+
+Best Nvidia graphics cards 2020: finding the best GPU for you
+
+Receive notifications from TechRadar?
+
+SUBSCRIBE TO PUSH NOTIFICATIONS
+SEE MORE COMPUTING COMPONENTS NEWS
+MORE ABOUT...
+Microsoft open-sources its coronavirus threat intelligence
+Best PC games 2020: the must-play titles you don’t want to miss
+SEE MORE RELATED
+LATEST
+Nvidia reveals most powerful AI system ever
+SEE MORE LATEST
+AMD’s beastly new Big Navi graphics card could be twice as powerful as the RX 5700 XT
+AMD’s so-called ‘Big Navi’ graphics card, the incoming high-end GPU to challenge the top Nvidia GeForce performers, could be twice as powerful as the RX 5700 XT, based on speculation which has poured forth following a leak on Twitter.The fresh info was highlighted by Komachi, a prolific source of
+TechRadar
+This Could Be the Biggest Winner of the Stock Market Crash
+The Motley Fool
+|
+Sponsored
+Get A Free Sample Of This Virtually Invisible Hearing Aid
+The nearly invisible, comfortable & rechargeable hearing aid for mild to severe high-frequency hearing loss
+Eargo Hearing Aids
+|
+Sponsored
+Back In Stock: Disposable Masks Available Here
+Stratton Medical Supply
+|
+Sponsored
+These SUVs Are So Cool It's Hard to Believe They Cost Under $30K! Research Best Crossover SUV 2020
+SUV
+|
+Sponsored
+AMD threatens to wreck Nvidia’s launch party with monster graphics card release
+TechRadar
+The best graphics cards 2020: all the top GPUs for gaming
+TechRadar
+Your iPhone is Worthless. Here's Why.
+The Legacy Report for Bonner and Partners
+|
+Sponsored
+
+MOST POPULAR
+
+Best budget gaming PC 2020: top gaming desktops for less
+
+By Matt HansonMay 15, 2020
+
+READ MORE
+The best USB-C adapters 2020: the best deals for Macbook Pros and laptop users
+
+By Tabitha BakerMay 15, 2020
+
+READ MORE
+The all-new XPS 13 laptop gets a $100 price cut at Dell
+
+By Mackenzie FrazierMay 15, 2020
+
+READ MORE
+How to test VPNs: This is how TechRadar does it
+
+By Mike WilliamsMay 15, 2020
+
+READ MORE
+Those Apple-exclusive Ice Lake processors aren't faster than the 15W versions in other laptops
+
+By Carly PageMay 15, 2020
+
+READ MORE
+Best business laptops 2020: top devices for small businesses and working from home
+
+By Desire Athow, Brian TurnerMay 15, 2020
+
+READ MORE
+Remote desktop developer Parsec captures million-dollar financing
+
+By Michael GrawMay 15, 2020
+
+READ MORE
+Best NAS hard drives of 2020: Network attached storage for home office and small business
+
+By Kane FultonMay 15, 2020
+
+READ MORE
+7 sneaky VPN sales tricks to avoid: avoid the pitfalls and get the greatest
+
+By Mike WilliamsMay 15, 2020
+
+READ MORE
+How to enable and use remote desktop in Windows 10
+
+By Alex McOmieMay 15, 2020
+
+READ MORE
+AMD Ryzen 4000 desktop CPUs could blow Intel away with nearing 20% IPC boost
+
+By Darren AllanMay 15, 2020
+
+READ MORE
+Advertisement
+TECH DEALS, PRIZES AND LATEST NEWS
+
+Get the best tech deals, reviews, product advice, competitions, unmissable tech news and more!
+
+No spam, we promise. You can unsubscribe at any time and we'll never share your details without your permission.
+Advertisement
+MOST POPULAR
+MOST SHARED
+1
+Your Google Home speaker is getting some fancy new controls
+2
+AMD threatens to wreck Nvidia’s launch party with monster graphics card release
+3
+Google Chromecast Ultra 2 release date, price, news and rumors
+4
+Best free games 2020: the top free games to download on PC
+5
+PS5 release date, specs, news and features for Sony’s PlayStation 5
+
+TechRadar is part of Future US Inc, an international media group and leading digital publisher. Visit our corporate site.
+
+About Us
+Terms and conditions
+Privacy policy
+Cookies policy
+Advertise with us
+Web notifications
+
+© Future US, Inc. 11 West 42nd Street, 15th Floor, New York, NY 10036.

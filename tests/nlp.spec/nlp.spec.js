@@ -56,12 +56,16 @@ describe("Score Page", () => {
   });
 });
 
-describe("Score Page Automated Test", () => {
-  testCases.forEach(({ id, type, keywords, pagePath }) => {
+describe("Score Page Automated Testing", () => {
+  testCases.forEach(({ id, type, content, pagePath }) => {
     test(`${type} test of pagePath ${id}`, async () => {
       let filePath = path.join(__dirname, pagePath);
       let text = fs.readFileSync(filePath).toString();
       //console.info(text);
+      const keywords = await nlp.wordsToSearch(content);
+      expect(keywords).toBeTruthy;
+      expect(keywords.length).toBeGreaterThan(0);
+      expect(keywords[0].word).toBeTruthy;
       const data = {
         title: id,
         text: text,

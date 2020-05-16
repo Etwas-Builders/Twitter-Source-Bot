@@ -2,58 +2,37 @@
   {
     "id": "bakersFieldAc",
     "type": "Good",
-    "keywords": [
-      { "word": "Miami", "partOfSpeech": "NNP" },
-      { "word": "Air", "partOfSpeech": "NNP" },
-      { "word": "people", "partOfSpeech": "NNS" },
-      { "word": "heat", "partOfSpeech": "NN" },
-      { "word": "conditioning", "partOfSpeech": "VBG" },
-      { "word": "needed", "partOfSpeech": "VBN" },
-      { "word": "so", "partOfSpeech": "RB" },
-      { "word": "", "partOfSpeech": "undefined" },
-      { "word": "especially", "partOfSpeech": "RB" },
-      { "word": "poor", "partOfSpeech": "JJ" },
-      { "word": "suffering", "partOfSpeech": "VBG" }
-    ],
-    "pagePath": "/webPages/bakersField.txt"
+    "pagePath": "/webPages/bakersField.txt",
+    "content": "Air conditioning is needed by so many people, especially in Miami!! The poor people are suffering most of all from this heat"
   },
   {
     "id": "ibmNewCollar",
     "type": "Good",
-    "keywords": [
-      { "word": "IBM", "partOfSpeech": "NNP" },
-      { "word": "Rometty", "partOfSpeech": "NNP" },
-      { "word": "Ginni", "partOfSpeech": "NNP" },
-      { "word": "Growth", "partOfSpeech": "NN" },
-      { "word": "comfort", "partOfSpeech": "NN" },
-      { "word": "message", "partOfSpeech": "NN" },
-      { "word": "life", "partOfSpeech": "NN" },
-      { "word": "food", "partOfSpeech": "NN" },
-      { "word": "stamps", "partOfSpeech": "NNS" },
-      { "word": "&amp;", "partOfSpeech": "N" },
-      { "word": "one", "partOfSpeech": "N" },
-      { "word": "execs", "partOfSpeech": "NNS" },
-      { "word": "company", "partOfSpeech": "NN" },
-      { "word": "collar", "partOfSpeech": "NN" },
-      { "word": "jobs", "partOfSpeech": "NNS" },
-      { "word": "dont", "partOfSpeech": "N" },
-      { "word": "4", "partOfSpeech": "N" },
-      { "word": "yr", "partOfSpeech": "NN" },
-      { "word": "degree", "partOfSpeech": "NN" },
-      { "word": "coexist", "partOfSpeech": "VB" },
-      { "word": "-", "partOfSpeech": ":" },
-      { "word": "inspiring", "partOfSpeech": "JJ" },
-      { "word": "began", "partOfSpeech": "VBD" },
-      { "word": "powerful", "partOfSpeech": "JJ" },
-      { "word": "America.", "partOfSpeech": "URL" },
-      { "word": "She", "partOfSpeech": "PRP" },
-      { "word": "offering", "partOfSpeech": "VBG" },
-      { "word": "free", "partOfSpeech": "JJ" },
-      { "word": "training", "partOfSpeech": "VBG" },
-      { "word": "new", "partOfSpeech": "JJ" },
-      { "word": "hiring", "partOfSpeech": "VBG" },
-      { "word": "require", "partOfSpeech": "VB" }
-    ],
+    "content": "“Growth and comfort never coexist” - inspiring message from Ginni Rometty who began her life on food stamps & is now one of the most powerful execs in America. She and her company IBM are offering free training for “new collar” jobs - which are hiring & don’t require 4 yr degree",
     "pagePath": "/webPages/forbesIbmNewCollar.txt"
+  },
+  {
+    "id": "teslaMovingOut",
+    "type": "Good",
+    "content": "Tesla is moving away from California?? Well I understand both sides of the argument, but that move might be hard and expensive to do in the current short term.",
+    "pagePath": "/webPages/teslaMovingOut.txt"
+  },
+  {
+    "id": "covidFlatteningExample",
+    "type": "Good",
+    "content": " The curve is flattening but I don't know how long the coronavirus crisis will continue. Life will be difficult for quite some time to come.",
+    "pagePath": "/webPages/covidFlatteningExample.txt"
+  },
+  {
+    "id": "nvidiaNewGpu",
+    "type": "Good",
+    "content": "Nvidia has a new GPU!",
+    "pagePath": "/webPages/nvidiaNewGpu.txt"
+  },
+  {
+    "id": "lastAirbenderNetlfix",
+    "type": "Good",
+    "content": " now that avatar the last airbender is back on Netflix it’s time to discuss the cold hard truth that Zuko and Katara were way better matched than Katara and Aang https://t.co/fVfOHSY81f",
+    "pagePath": "/webPages/lastAirbenderNetlfix.txt"
   }
 ]
