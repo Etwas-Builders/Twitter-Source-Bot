@@ -5,7 +5,6 @@ const IP = require("./ip");
 
 let googleSearch = async function (query) {
   try {
-    console.log("Rapid Api Failed");
     let pythonResults = await pythonScraper(query);
     return pythonResults;
   } catch (err) {
@@ -21,7 +20,7 @@ let pythonScraper = async function (query) {
     },
   });
   let results = response.data.results;
-  console.log("results", results);
+  //console.log("results", results);
   if (results.length === 0) {
     return [];
   }

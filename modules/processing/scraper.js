@@ -54,7 +54,7 @@ exports.createCluster = async function () {
     if (!data.title) {
       data.title = "test";
       //await page.setViewport({ width: 1920, height: 1080 });
-      await page.screenshot({ path: `./${data.title}.png`, fullPage: true });
+      //await page.screenshot({ path: `./${data.title}.png`, fullPage: true });
     }
 
     return data;
