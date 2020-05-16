@@ -24,7 +24,7 @@ Primarily we need feedback especially on where our bot is making mistakes, we wo
 
 [Rahul Tarak (CryogenicPlanet)](https://cryogenicplanet.tech/)
 
-[Rithvik Manhindra](https://www.linkedin.com/in/rithvik-mahindra/)
+[Rithvik Mahindra](https://www.linkedin.com/in/rithvik-mahindra/)
 
 [Gaurang Bharti](https://www.linkedin.com/in/gaurang-bharti-269441181/)
 
