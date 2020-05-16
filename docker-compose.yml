@@ -1,7 +1,12 @@
 version: '2'
 services:
-  listenserver:
+  listener:
       build:
         context: .
-        dockerfile: dockerfile
-      ports: ['3000:3000', '5000:5000', '1337:1337']
+        dockerfile: dockerfile.listener
+      ports: ['3000:3000', '1337:1337']
+  nlp:
+      build:
+        context: .
+        dockerfile: dockerfile.nlp
+      ports: ['5000:5000']

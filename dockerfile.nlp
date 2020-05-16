@@ -1,0 +1,9 @@
+FROM python:3.8-slim
+
+WORKDIR /opt/Twitter-Source-Bot
+
+COPY . .
+
+RUN sh Python/install.sh
+
+EXPOSE 5000
