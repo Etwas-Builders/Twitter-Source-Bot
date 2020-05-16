@@ -48,6 +48,7 @@ let wordsToSearch = function FindWordsToSearch(text) {
     wordsToSearch.push(...correctWords);
   }
   length = wordsToSearch.length;
+  let mainWords = [];
   for (index = 0; index < length; index++) {
     let currentWord = wordsToSearch[index];
 
@@ -56,14 +57,15 @@ let wordsToSearch = function FindWordsToSearch(text) {
     //   editedWord = currentWord.slice(1, currentWord.length);
     //   currentWord = editedWord;
     // }
+    if (currentWord == "@whosaidthis_bot") {
+      continue;
+    }
 
     let partOfSpeech = GetPartOfSpeech(currentWord);
 
     if (partOfSpeech == "NNPS" || partOfSpeech == "NNP") {
       //finalWords.push(currentWord);
-      word_json = [{ word: currentWord, partOfSpeech: partOfSpeech }].concat(
-        word_json
-      );
+      mainWords.push({ word: currentWord, partOfSpeech: partOfSpeech });
       //Removes the current word from the list
       wordsToSearch.splice(index, 1);
       index--;
@@ -78,9 +80,19 @@ let wordsToSearch = function FindWordsToSearch(text) {
       wordsToSearch.splice(index, 1);
       index--;
       length = wordsToSearch.length;
+    } else if (
+      partOfSpeech == "VBG" ||
+      partOfSpeech == "VBN" ||
+      partOfSpeech == "VB"
+    ) {
+      //finalWords.push(currentWord);
+      word_json.push({ word: currentWord, partOfSpeech: partOfSpeech });
+      wordsToSearch.splice(index, 1);
+      index--;
+      length = wordsToSearch.length;
     }
   }
-
+  word_json = mainWords.concat(word_json);
   for (index = 0; index < wordsToSearch.length; index++) {
     let currentWord = wordsToSearch[index];
     let partOfSpeech = GetPartOfSpeech(currentWord);
