@@ -21,10 +21,17 @@ class GetSample(RequestHandler):
         print("Baala is a big gay!")
         self.write({"status": "true"})
 
+def env_or_break(var):
+    """
+    Get the environment variable `var` or break.
+    """
+    val = os.getenv(var)
+    if val is None:
+        raise ValueError(f"Environment variable `{var}` needs to be set.")
 
 async def db_output(output, tweetId):
     tweetId = str(tweetId)
-    client = MongoClient('mongodb://{}'.format(os.getenv("MONGO_URL")))
+    client = MongoClient('mongodb://{}'.format(env_or_break("MONGO_URL")))
     db = client['tweets']
 
     output = [str(item) for item in output]
@@ -85,7 +92,7 @@ def make_app():
 
 def discord_webhook():
 
-    discord_url = os.getenv("DISCORD_SERVER_URL")
+    discord_url = env_or_break("DISCORD_SERVER_URL")
     requests.post(discord_url, data={'content': 'Python Server running', 'username': 'Who Said This Bot(Python)',
                                      'avatar_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png'})
 
