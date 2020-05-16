@@ -5,11 +5,12 @@ var exports = (module.exports = {});
 const nlp = require("./nlp");
 const citation = require("./citation");
 const processing = require("./processing/processing");
-const scrapper = require("./processing/scrapper");
-const tester = require("./test");
+const scrapper = require("./processing/scraper");
+const tester = require("./tester");
 const notFound = require("./notFound/notFound");
+const database = require("./database");
+const replyHandler = require("./reply");
 // Models
-const tweetSchema = require("../models/tweetSchema");
 
 //const imageResponse = require("./imageResponse/test.png");
 // Imports
@@ -30,26 +31,9 @@ const twitterClient = new TwitterApi({
 let sourceNotFound = async function (cachedParams, username) {
   cachedParams.cited = false;
   cachedParams.citation = null;
-  await updateDatabase(cachedParams);
+  await database.updateTweetCache(cachedParams);
 
   return await notFound.sourceNotFound(username);
-};
-
-let getSearchResults = async function (keywords) {
-  let query = keywords.map((e) => e.word).join(" ");
-  query += ` "news"`;
-  console.log("Tweet -> getSearchResults -> query", query);
-  let results = await citation.googleSearch(query);
-  results = results.splice(0, 10);
-  query = keywords.map((e) => e.word).join(" ");
-  console.log("Tweet -> getSearchResults -> newQuery", query);
-  let newResults = await citation.googleSearch(query);
-  if (newResults) {
-    newResults = newResults.splice(0, 10);
-    results.push(...newResults);
-  }
-
-  return results;
 };
 
 exports.notPassiveMention = async function (tweet) {
@@ -66,102 +50,9 @@ exports.notPassiveMention = async function (tweet) {
   return true;
 };
 
-let sendReply = async function (message, tweet_id) {
-  try {
-    axios.post(process.env.DISCORD_WEBHOOK_URL, {
-      content: `${message}`,
-      username: "Who Said This Bot",
-      avatar_url:
-        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
-    });
-
-    let output = await twitterClient.post("statuses/update", {
-      status: message,
-      in_reply_to_status_id: tweet_id,
-    });
-  } catch (err) {
-    console.log("Tweet -> sendReply -> Post Error", err);
-  }
-};
-
-let updateDatabase = async function (cachedParams) {
-  let tweetId, tweetCreated, replyId, cited, citation, textContent, tweet;
-  ({
-    tweetId,
-    tweetCreated,
-    replyId,
-    cited,
-    citation,
-    textContent,
-    tweet,
-  } = cachedParams);
-
-  let new_entry = new tweetSchema.TweetSchema({
-    tweetId: tweetId,
-    tweetCreated: tweetCreated,
-    replyId: replyId ? replyId : "-1",
-    cited: cited,
-    citation: {
-      title: cited ? citation.title : "Not Found",
-      url: cited ? citation.url : "Not Found",
-    },
-    score: cited ? citation.score : 0,
-    textContent: textContent,
-    originalTweet: tweet ? tweet : null,
-  });
-
-  let tweetEntry = await new_entry.save();
-
-  //let existing_user = await models.User.findOne({email: email});
-};
-
-let checkDatabase = async function (tweetId) {
-  let existingTweet = await tweetSchema.TweetSchema.findOne({
-    tweetId: tweetId,
-  }).sort({ cacheCreated: "ascending" });
-
-  if (!existingTweet) {
-    console.log("Tweet -> checkDatabase -> notCached");
-    return null;
-  } else {
-    console.log("Tweet -> checkDatabase -> existingTweet", existingTweet);
-    if (
-      existingTweet.cacheCreated > Date.now() - 2 * 24 * 60 * 60 * 1000 &&
-      existingTweet.cited === true
-    ) {
-      // 48 hr window and is cited
-
-      let topResult = existingTweet.citation;
-      return `Our top result for this tweet is : ${topResult.title} with score of ${existingTweet.score}  ${topResult.url}`;
-    } else {
-      console.log("Tweet -> checkDatabase -> notCached");
-      return null;
-    }
-  }
-};
-
-let sendReplyWithImage = async function (message, tweet_id, media_id) {
-  try {
-    axios.post(process.env.DISCORD_WEBHOOK_URL, {
-      content: `${message}`,
-      username: "Who Said This Bot",
-      avatar_url:
-        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
-    });
-
-    let output = await twitterClient.post("statuses/update", {
-      status: message,
-      in_reply_to_status_id: tweet_id,
-      media_ids: media_id,
-    });
-  } catch (err) {
-    console.log("Tweet -> sendReply -> Post Error", err);
-  }
-};
-
 let handleNewTweet = async function (newTweet, replyId) {
   let tweetId = newTweet.id_str;
-  let cachedContent = await checkDatabase(tweetId);
+  let cachedContent = await database.checkTweetCache(tweetId);
   let username = newTweet.user.screen_name;
   if (cachedContent) {
     let message = cachedContent;
@@ -198,7 +89,7 @@ let handleNewTweet = async function (newTweet, replyId) {
   let wordsToSearch = await nlp.wordsToSearch(content);
   console.log("Tweet -> handleNewTweet -> wordsToSearch", wordsToSearch);
 
-  let results = await getSearchResults(wordsToSearch);
+  let results = await citation.getSearchResults(wordsToSearch);
 
   if (results.length === 0) {
     return sourceNotFound(cachedParams, username);
@@ -229,7 +120,7 @@ let handleNewTweet = async function (newTweet, replyId) {
   cachedParams.citation.url = topResult.url;
   cachedParams.citation.score = topResult.score;
 
-  await updateDatabase(cachedParams);
+  await database.updateTweetCache(cachedParams);
 
   let message = `@${username} Our top result for this tweet is : ${topResult.title} with score of ${topResult.score}  ${topResult.url} `;
 
@@ -270,11 +161,11 @@ exports.handleNewReplyEvent = async function (event) {
       message = `@${replyUserScreenName} ${message}`;
       let attachment_url = citationResponse.url;
       console.log(message);
-      if (citationResponse.mediaId) {
-        await sendReplyWithImage(message, replyId, citationResponse.mediaId);
-      } else {
-        await sendReply(message, replyId);
-      }
+      await replyHandler.handleReply(
+        citationResponse.mediaId,
+        message,
+        replyId
+      );
     }
   } catch (e) {
     console.log(e);
@@ -303,11 +194,7 @@ exports.handleNewMentionEvent = async function (event) {
     }
   }
   if (!isTestTweet) {
-    if (citationResponse.mediaId) {
-      await sendReplyWithImage(message, mentionId, citationResponse.mediaId);
-    } else {
-      await sendReply(message, mentionId);
-    }
+    await replyHandler.handleReply(citation.mediaId, message, mentionId);
   }
 };
 
@@ -321,13 +208,8 @@ exports.handleNewQuoteEvent = async function (event) {
   let citationResponse = await handleNewTweet(original_tweet, quoteId);
   let message = citationResponse.message;
   message = `@${quoteUserScreenName} ${message}`;
-  if (citationResponse.mediaId) {
-    await sendReplyWithImage(message, mentionId, quoteId);
-  } else {
-    await sendReply(message, quoteId);
-  }
 
-  //await sendReply(message, quoteId);
+  await replyHandler.handleReply(citationResponse.mediaId, message, quoteId);
 };
 
 let threadRecursive = async function (tweet, thread) {
@@ -355,16 +237,15 @@ let handleTweetThread = async function (reply, thread) {
   /*
     A thread is a series of replies
   */
-  //console.log("Tweet -> handleTweetThread -> reply , thread", reply, thread);
   let original_tweet = thread[0];
   let username = original_tweet.user.screen_name;
-  let cachedContent = await checkDatabase(original_tweet.id_str);
+  let cachedContent = await database.checkTweetCache(original_tweet.id_str);
   if (cachedContent) {
     let message = cachedContent;
     let username = original_tweet.user.screen_name;
     message = `@${username} ${message}`;
     message = `@${reply.screen_name} ${message}`;
-    await sendReply(message, reply.id);
+    await replyHandler.handleReply(null, message, reply.id);
   } else {
     thread = await threadRecursive(original_tweet, thread);
     let fullContent = "";
@@ -394,7 +275,7 @@ let handleTweetThread = async function (reply, thread) {
 
     console.log("Tweet -> handleTweetThread -> keywords", keywords);
 
-    let results = await getSearchResults(keywords);
+    let results = await citation.getSearchResults(keywords);
 
     console.log("Tweet -> handleTweetThread -> results", results);
 
@@ -402,7 +283,11 @@ let handleTweetThread = async function (reply, thread) {
       let citationResponse = await sourceNotFound(cachedParams, username);
       message = `${reply.screen_name} ${citationResponse.message}`;
 
-      await sendReplyWithImage(message, reply.id, citationResponse.mediaId);
+      await replyHandler.handleReply(
+        citationResponse.mediaId,
+        message,
+        reply.id
+      );
     } else {
       let processedOutput = await processing.getTopResult(
         results,
@@ -416,7 +301,11 @@ let handleTweetThread = async function (reply, thread) {
         let citationResponse = sourceNotFound(cachedParams, username);
         message = `${reply.screen_name} ${citationResponse.message}`;
 
-        await sendReplyWithImage(message, reply.id, citationResponse.mediaId);
+        await replyHandler.handleReply(
+          citationResponse.mediaId,
+          message,
+          reply.id
+        );
       }
 
       cachedParams.cited = true;
@@ -431,11 +320,11 @@ let handleTweetThread = async function (reply, thread) {
         topResult.score
       );
 
-      await updateDatabase(cachedParams);
+      await database.updateTweetCache(cachedParams);
 
       let message = `@${username} Our top result for this tweet is : ${topResult.title} with score of ${topResult.score}  ${topResult.url} `;
       message = `@${reply.screen_name} ${message}`;
-      await sendReply(message, reply.id);
+      await replyHandler.handleReply(null, message, reply.id); // Cited
     }
   }
 };

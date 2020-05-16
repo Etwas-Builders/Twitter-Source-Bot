@@ -20,7 +20,7 @@ exports.sourceNotFound = async function (username) {
   let text = notText.text;
 
   let cycle = Math.floor(Math.random() * 14) + 1;
-  let textCycle = Math.floor(Math.random() * 2) + 0;
+  let textCycle = Math.floor(Math.random() * 4) + 0;
   console.log("Meme Number", cycle, textCycle);
   let xkcdSource = "";
   let filename;
