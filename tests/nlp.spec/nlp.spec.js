@@ -1,7 +1,10 @@
 /**
  * @jest-environment node
  */
-const nlp = require("../modules/nlp");
+const nlp = require("../../modules/nlp");
+const testCases = require("./nlp.testCases.json");
+const path = require("path");
+const fs = require("fs");
 
 describe("Words to Search", function () {
   it("Words to Search is Defined", () => {
@@ -19,8 +22,11 @@ describe("Words to Search", function () {
     //console.log(results);
     expect(firstWord).toBeDefined();
     expect(firstWord.length).toBeGreaterThan(0);
+    const partOfSpeech = results[0].partOfSpeech;
+    expect(partOfSpeech).toBe("NNP");
+    expect(firstWord.includes("!")).toBeFalsy;
+    expect(firstWord[0] === "m").toBeTruthy;
   });
-  // @rithvik MORE Unit tests here
 });
 
 describe("Score Page", () => {
@@ -47,5 +53,28 @@ describe("Score Page", () => {
     const score = await nlp.scorePage(result, data, keywords, tweetId);
     expect(score).toBeDefined();
     expect(typeof score).toBe("number");
+  });
+});
+
+describe("Score Page Automated Test", () => {
+  testCases.forEach(({ id, type, keywords, pagePath }) => {
+    test(`${type} test of pagePath ${id}`, async () => {
+      let filePath = path.join(__dirname, pagePath);
+      let text = fs.readFileSync(filePath).toString();
+      //console.info(text);
+      const data = {
+        title: id,
+        text: text,
+      };
+      const result = { url: pagePath };
+      const tweetId = `jestScorePageTest${id}`;
+      const score = await nlp.scorePage(result, data, keywords, tweetId);
+      expect(score).toBeDefined;
+      if (type === "Good") {
+        expect(score).toBeGreaterThan(0.45);
+      } else if (type === "Bad") {
+        expect(score).toBeLessThan(0.45);
+      }
+    });
   });
 });

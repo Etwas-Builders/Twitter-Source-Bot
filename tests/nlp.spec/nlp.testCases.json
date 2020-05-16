@@ -1,0 +1,59 @@
+[
+  {
+    "id": "bakersFieldAc",
+    "type": "Good",
+    "keywords": [
+      { "word": "Miami", "partOfSpeech": "NNP" },
+      { "word": "Air", "partOfSpeech": "NNP" },
+      { "word": "people", "partOfSpeech": "NNS" },
+      { "word": "heat", "partOfSpeech": "NN" },
+      { "word": "conditioning", "partOfSpeech": "VBG" },
+      { "word": "needed", "partOfSpeech": "VBN" },
+      { "word": "so", "partOfSpeech": "RB" },
+      { "word": "", "partOfSpeech": "undefined" },
+      { "word": "especially", "partOfSpeech": "RB" },
+      { "word": "poor", "partOfSpeech": "JJ" },
+      { "word": "suffering", "partOfSpeech": "VBG" }
+    ],
+    "pagePath": "/webPages/bakersField.txt"
+  },
+  {
+    "id": "ibmNewCollar",
+    "type": "Good",
+    "keywords": [
+      { "word": "IBM", "partOfSpeech": "NNP" },
+      { "word": "Rometty", "partOfSpeech": "NNP" },
+      { "word": "Ginni", "partOfSpeech": "NNP" },
+      { "word": "Growth", "partOfSpeech": "NN" },
+      { "word": "comfort", "partOfSpeech": "NN" },
+      { "word": "message", "partOfSpeech": "NN" },
+      { "word": "life", "partOfSpeech": "NN" },
+      { "word": "food", "partOfSpeech": "NN" },
+      { "word": "stamps", "partOfSpeech": "NNS" },
+      { "word": "&amp;", "partOfSpeech": "N" },
+      { "word": "one", "partOfSpeech": "N" },
+      { "word": "execs", "partOfSpeech": "NNS" },
+      { "word": "company", "partOfSpeech": "NN" },
+      { "word": "collar", "partOfSpeech": "NN" },
+      { "word": "jobs", "partOfSpeech": "NNS" },
+      { "word": "dont", "partOfSpeech": "N" },
+      { "word": "4", "partOfSpeech": "N" },
+      { "word": "yr", "partOfSpeech": "NN" },
+      { "word": "degree", "partOfSpeech": "NN" },
+      { "word": "coexist", "partOfSpeech": "VB" },
+      { "word": "-", "partOfSpeech": ":" },
+      { "word": "inspiring", "partOfSpeech": "JJ" },
+      { "word": "began", "partOfSpeech": "VBD" },
+      { "word": "powerful", "partOfSpeech": "JJ" },
+      { "word": "America.", "partOfSpeech": "URL" },
+      { "word": "She", "partOfSpeech": "PRP" },
+      { "word": "offering", "partOfSpeech": "VBG" },
+      { "word": "free", "partOfSpeech": "JJ" },
+      { "word": "training", "partOfSpeech": "VBG" },
+      { "word": "new", "partOfSpeech": "JJ" },
+      { "word": "hiring", "partOfSpeech": "VBG" },
+      { "word": "require", "partOfSpeech": "VB" }
+    ],
+    "pagePath": "/webPages/forbesIbmNewCollar.txt"
+  }
+]
