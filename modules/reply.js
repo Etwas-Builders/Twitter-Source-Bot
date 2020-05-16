@@ -50,12 +50,10 @@ let sendReplyWithImage = async function (message, tweet_id, media_id) {
   }
 };
 
-let handleReply = async function (mediaId, message, tweetId) {
+exports.handleReply = async function (mediaId, message, tweetId) {
   if (mediaId) {
     await sendReplyWithImage(message, tweetId, mediaId);
   } else {
     await sendReply(message, tweetId);
   }
 };
-
-exports.handleReply = handleReply;

@@ -9,7 +9,7 @@ const scrapper = require("./processing/scraper");
 const tester = require("./tester");
 const notFound = require("./notFound/notFound");
 const database = require("./database");
-const reply = require("./reply");
+const replyHandler = require("./reply");
 // Models
 
 //const imageResponse = require("./imageResponse/test.png");
@@ -161,7 +161,11 @@ exports.handleNewReplyEvent = async function (event) {
       message = `@${replyUserScreenName} ${message}`;
       let attachment_url = citationResponse.url;
       console.log(message);
-      await reply.handleReply(citationResponse.mediaId, message, replyId);
+      await replyHandler.handleReply(
+        citationResponse.mediaId,
+        message,
+        replyId
+      );
     }
   } catch (e) {
     console.log(e);
@@ -190,7 +194,7 @@ exports.handleNewMentionEvent = async function (event) {
     }
   }
   if (!isTestTweet) {
-    await reply.handleReply(citation.mediaId, message, mentionId);
+    await replyHandler.handleReply(citation.mediaId, message, mentionId);
   }
 };
 
@@ -205,7 +209,7 @@ exports.handleNewQuoteEvent = async function (event) {
   let message = citationResponse.message;
   message = `@${quoteUserScreenName} ${message}`;
 
-  await reply.handleReply(citationResponse.mediaId, message, quoteId);
+  await replyHandler.handleReply(citationResponse.mediaId, message, quoteId);
 };
 
 let threadRecursive = async function (tweet, thread) {
@@ -241,7 +245,7 @@ let handleTweetThread = async function (reply, thread) {
     let username = original_tweet.user.screen_name;
     message = `@${username} ${message}`;
     message = `@${reply.screen_name} ${message}`;
-    await reply.handleReply(null, message, reply.id);
+    await replyHandler.handleReply(null, message, reply.id);
   } else {
     thread = await threadRecursive(original_tweet, thread);
     let fullContent = "";
@@ -279,7 +283,11 @@ let handleTweetThread = async function (reply, thread) {
       let citationResponse = await sourceNotFound(cachedParams, username);
       message = `${reply.screen_name} ${citationResponse.message}`;
 
-      await reply.handleReply(citationResponse.mediaId, message, reply.id);
+      await replyHandler.handleReply(
+        citationResponse.mediaId,
+        message,
+        reply.id
+      );
     } else {
       let processedOutput = await processing.getTopResult(
         results,
@@ -293,7 +301,11 @@ let handleTweetThread = async function (reply, thread) {
         let citationResponse = sourceNotFound(cachedParams, username);
         message = `${reply.screen_name} ${citationResponse.message}`;
 
-        await reply.handleReply(citationResponse.mediaId, message, reply.id);
+        await replyHandler.handleReply(
+          citationResponse.mediaId,
+          message,
+          reply.id
+        );
       }
 
       cachedParams.cited = true;
@@ -312,7 +324,7 @@ let handleTweetThread = async function (reply, thread) {
 
       let message = `@${username} Our top result for this tweet is : ${topResult.title} with score of ${topResult.score}  ${topResult.url} `;
       message = `@${reply.screen_name} ${message}`;
-      await reply.handleReply(null, message, reply.id); // Cited
+      await replyHandler.handleReply(null, message, reply.id); // Cited
     }
   }
 };
