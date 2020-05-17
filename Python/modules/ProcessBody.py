@@ -36,6 +36,7 @@ async def getDocumentScore(data, url, keywords):
     minimum_phrase_rank = 0.6 * \
         max([phrase.rank for phrase in nlp_text._.phrases])
     number_of_phrases = len(nlp_text._.phrases)
+    output.append("Number of phrases: " + str(number_of_phrases))
     number_of_positive_scores = 0
 
     # output.append(keywords)
@@ -84,7 +85,8 @@ async def getDocumentScore(data, url, keywords):
                                       "",
                                       str(word), flags=re.VERBOSE).lower()
                                for line in set(phrase.chunks) for word in line]
-                output.append("Current Keyword: " + keyword)
+                output.append("Keyword: " + keyword)
+                output.append("Phrase: " + str(phrase))
                 output.append("Chunk words:")
                 output.append(" , ".join(chunk_words))
 
@@ -97,32 +99,37 @@ async def getDocumentScore(data, url, keywords):
                         keyword_occurrences += 1
 
         if keyword_occurrences > 0:
+            output.append("Keyword occurrences: " + str(keyword_occurrences))
             if (isProperNoun):
-                # Ranges between 0.75 to 2.75.
-                score = 0.75 + (2 * (math.exp(keyword_occurrences) /
-                                     (1 + math.exp(keyword_occurrences))))
+                # Ranges between 5 to 15.
+                score = 5 + (10 * (math.exp(keyword_occurrences) /
+                                   (1 + math.exp(keyword_occurrences))))
             elif (isVerb):
-                # Ranges between 0.25 to 2.25.
-                score = 0.25 + (2 * (math.exp(keyword_occurrences) /
-                                     (1 + math.exp(keyword_occurrences))))
+                # Ranges between 2 to 12.
+                score = 2 + (10 * (math.exp(keyword_occurrences) /
+                                   (1 + math.exp(keyword_occurrences))))
 
             else:
-                # Ranges between -0.35 to 1.65.
-                score = (2 * (math.exp(keyword_occurrences) /
-                              (1 + math.exp(keyword_occurrences)))) - 0.35
+                # Ranges between 0 to 10.
+                score = (10 * (math.exp(keyword_occurrences) /
+                               (1 + math.exp(keyword_occurrences))))
         else:
-            score = -0.05
+            score = 0
 
-        minimum_number_of_scores_needed = math.log(number_of_phrases, 12)
-        output.append("Minimum number: " +
-                      str(minimum_number_of_scores_needed))
+        output.append("Keyword score: " + str(score))
 
-        if (score > 1.25):
+        if (score >= 6.5 and isProperNoun):
+            number_of_positive_scores += 2.5
+        elif (score >= 6.5 and isVerb):
             number_of_positive_scores += 1
+        elif (number_of_phrases > 100):
+            number_of_positive_scores -= 0.02
+        elif(number_of_phrases < 100):
+            number_of_positive_scores -= 0.05
 
     output.append("Number of positive scores: " +
                   str(number_of_positive_scores) + "\n")
-    if (number_of_positive_scores > minimum_number_of_scores_needed and minimum_number_of_scores_needed != 0):
+    '''if (number_of_positive_scores > minimum_number_of_scores_needed and minimum_number_of_scores_needed != 0):
         output.append("Final Score with base e: " + str((math.log(number_of_positive_scores /
                                                                   minimum_number_of_scores_needed))) + "\n")
         return (math.log(number_of_positive_scores / minimum_number_of_scores_needed), output)
@@ -134,4 +141,12 @@ async def getDocumentScore(data, url, keywords):
             minimum_number_of_scores_needed - number_of_positive_scores, 4.5))), output)
 
     else:
-        return (0, output)
+        return (0, output)'''
+    output.append("URL: " + url + "\n")
+    output.append("Number of phrases: " + str(number_of_phrases))
+    adjusted_number_of_phrases = math.log(number_of_phrases, 50)
+    output.append("Adjusted number of phrases: " +
+                  str(adjusted_number_of_phrases))
+    output.append("Final Score: " +
+                  str(number_of_positive_scores / adjusted_number_of_phrases))
+    return ((number_of_positive_scores / adjusted_number_of_phrases), output)

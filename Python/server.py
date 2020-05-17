@@ -21,6 +21,7 @@ class GetSample(RequestHandler):
         print("Baala is a big gay!")
         self.write({"status": "true"})
 
+
 def env_or_break(var):
     """
     Get the environment variable `var` or break.
@@ -28,6 +29,8 @@ def env_or_break(var):
     val = os.getenv(var)
     if val is None:
         raise ValueError(f"Environment variable `{var}` needs to be set.")
+    return val
+
 
 async def db_output(output, tweetId):
     tweetId = str(tweetId)
@@ -63,6 +66,15 @@ class handleProcessBody(RequestHandler):
         score, output = await ProcessBody.getDocumentScore(data, url, keywords)
         print("FINAL SCORE", score)
 
+        output.append("---- Keywords  ----")
+        for keyword in keywords:
+            if "partOfSpeech" in list(keyword.keys()):
+                partOfSpeech = keyword["partOfSpeech"]
+            else:
+                partOfSpeech = "None"
+
+            output.append(
+                "Word: " + keyword['word'] + " | Part of Speech: " + partOfSpeech)
         await db_output(output, tweetId)
 
         self.write({"score": score})

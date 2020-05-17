@@ -7,6 +7,9 @@ let googleSearch = async function (query) {
   try {
     //let results = await pythonScraper(query);
     let results = await sebitesApi(query);
+    if (results.length === 0) {
+      return await pythonScraper(query);
+    }
     return results;
   } catch (err) {
     return await pythonScraper(query);
@@ -23,16 +26,18 @@ let sebitesApi = async function (query) {
         "content-type": "application/octet-stream",
         "X-SEBITES-KEY": process.env.SEARCH_API_KEY,
       },
+      useQueryString: true,
       params: {
-        country: "us",
+        limit: 10,
         hl: "en-US",
         q: query,
       },
     });
 
     let results = response.data.results;
-    let topResults = results.organic_results;
 
+    let topResults = results.organic_results;
+    console.log("Rapid API Top Results", topResults);
     return topResults;
   } catch (err) {
     return [];
@@ -55,20 +60,26 @@ let pythonScraper = async function (query) {
 };
 
 let getSearchResults = async function (keywords) {
-  let query = keywords.map((e) => e.word).join(" ");
-  query += ` "news"`;
-  console.log("Tweet -> getSearchResults -> query", query);
-  let results = await googleSearch(query);
-  results = results.splice(0, 10);
-  query = keywords.map((e) => e.word).join(" ");
-  console.log("Tweet -> getSearchResults -> newQuery", query);
-  let newResults = await googleSearch(query);
-  if (newResults) {
-    newResults = newResults.splice(0, 10);
-    results.push(...newResults);
+  let words = keywords.map((e) => e.word);
+  if (words.length > 10) {
+    words = words.splice(0, Math.floor(words.length * 0.5));
   }
 
-  return results;
+  let query = words.join(" ");
+  query += ` "news"`;
+  console.log("Tweet -> getSearchResults -> query", query);
+  let results = googleSearch(query);
+  query = words.join(" ");
+  console.log("Tweet -> getSearchResults -> newQuery", query);
+  let newResults = googleSearch(query);
+
+  return Promise.all([results, newResults]).then((allResults) => {
+    for (let result of allResults) {
+      result = result.splice(0, 10);
+    }
+    let output = [].concat.apply([], allResults);
+    return output;
+  });
 };
 
 exports.getSearchResults = getSearchResults;

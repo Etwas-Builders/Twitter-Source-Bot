@@ -49,17 +49,23 @@ let wordsToSearch = function FindWordsToSearch(text) {
   }
   length = wordsToSearch.length;
   let mainWords = [];
+  let normalNouns = [];
   for (index = 0; index < length; index++) {
     let currentWord = wordsToSearch[index];
 
-    //Removes hashtags from tweets
-    // if (currentWord[0] == "#") {
-    //   editedWord = currentWord.slice(1, currentWord.length);
-    //   currentWord = editedWord;
-    // }
-    if (currentWord == "@whosaidthis_bot") {
+    if (currentWord === "@whosaidthis_bot") {
       continue;
     }
+    let editedWord =
+      currentWord[0] === "@" || currentWord[0] === "#"
+        ? currentWord.slice(1)
+        : currentWord;
+
+    currentWord =
+      GetPartOfSpeech(editedWord) === "NNPS" ||
+      GetPartOfSpeech(editedWord) === "NNP"
+        ? editedWord
+        : currentWord;
 
     let partOfSpeech = GetPartOfSpeech(currentWord);
 
@@ -76,14 +82,20 @@ let wordsToSearch = function FindWordsToSearch(text) {
       partOfSpeech == "N"
     ) {
       //finalWords.push(currentWord);
-      word_json.push({ word: currentWord, partOfSpeech: partOfSpeech });
+      if (currentWord[0] === "#" && Math.random() <= 0.25) {
+        normalNouns = [
+          { word: currentWord, partOfSpeech: partOfSpeech },
+        ].concat(normalNouns);
+      } else {
+        normalNouns.push({ word: currentWord, partOfSpeech: partOfSpeech });
+      }
       wordsToSearch.splice(index, 1);
       index--;
       length = wordsToSearch.length;
     } else if (
-      partOfSpeech == "VBG" ||
-      partOfSpeech == "VBN" ||
-      partOfSpeech == "VB"
+      partOfSpeech === "VBG" ||
+      partOfSpeech === "VBN" ||
+      partOfSpeech === "VB"
     ) {
       //finalWords.push(currentWord);
       word_json.push({ word: currentWord, partOfSpeech: partOfSpeech });
@@ -92,20 +104,26 @@ let wordsToSearch = function FindWordsToSearch(text) {
       length = wordsToSearch.length;
     }
   }
-  word_json = mainWords.concat(word_json);
+  let temp = mainWords.concat(normalNouns);
+  word_json = mainWords.concat(temp);
   for (index = 0; index < wordsToSearch.length; index++) {
     let currentWord = wordsToSearch[index];
+    if (currentWord === "@whosaidthis_bot") {
+      continue;
+    }
     let partOfSpeech = GetPartOfSpeech(currentWord);
     word_json.push({ word: currentWord, partOfSpeech: partOfSpeech });
-    //finalWords.push(currentWord);
   }
+
+  //finalWords.push(currentWord);
+
   word_json = _.uniqBy(word_json, "word");
   return word_json;
   //return finalWords;
 };
 
-function GetPartOfSpeech(text) {
-  let sentence = tagger.tag(text.split(" "));
+function GetPartOfSpeech(word) {
+  let sentence = tagger.tag(word.split(" "));
   return sentence["taggedWords"][0]["tag"];
 }
 
