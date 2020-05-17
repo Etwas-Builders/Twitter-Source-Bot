@@ -98,6 +98,7 @@ let twitterWebhook = async function () {
 };
 let main = async function () {
   await twitterWebhook();
+  await tweetHandler.getMentionTimeline();
   setTimeout(() => {
     fs.writeFileSync(
       "./lastRestart.json",
