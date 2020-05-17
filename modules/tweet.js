@@ -54,6 +54,7 @@ let handleNewTweet = async function (newTweet, replyId) {
   let tweetId = newTweet.id_str;
   let cachedContent = await database.checkTweetCache(tweetId);
   let username = newTweet.user.screen_name;
+  let name = newTweet.user.name;
   if (cachedContent) {
     let message = cachedContent;
     message = `@${username} ${message}`;
@@ -100,6 +101,7 @@ let handleNewTweet = async function (newTweet, replyId) {
   let processedOutput = await processing.getTopResult(
     results,
     username,
+    name,
     wordsToSearch,
     tweetId
   );
@@ -239,6 +241,7 @@ let handleTweetThread = async function (reply, thread) {
   */
   let original_tweet = thread[0];
   let username = original_tweet.user.screen_name;
+  let name = original_tweet.user.name;
   let cachedContent = await database.checkTweetCache(original_tweet.id_str);
   if (cachedContent) {
     let message = cachedContent;
@@ -292,6 +295,7 @@ let handleTweetThread = async function (reply, thread) {
       let processedOutput = await processing.getTopResult(
         results,
         username,
+        name,
         keywords,
         original_tweet.id_str
       );

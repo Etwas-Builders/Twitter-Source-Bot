@@ -27,7 +27,13 @@ const blacklist = require("./blacklist.json");
 
 */
 
-exports.getTopResult = async function (results, username, keywords, tweetId) {
+exports.getTopResult = async function (
+  results,
+  username,
+  userScreenName,
+  keywords,
+  tweetId
+) {
   let topResult;
 
   for (let result of results) {
@@ -109,7 +115,13 @@ exports.getTopResult = async function (results, username, keywords, tweetId) {
             ? `Score negative prior to ML ${result.score} for ${result.url}`
             : ""
         );
-        let score = await nlp.scorePage(result, data, keywords, tweetId);
+        let score = await nlp.scorePage(
+          result,
+          data,
+          keywords,
+          tweetId,
+          userScreenName
+        );
         result.score += score;
 
         console.log(
