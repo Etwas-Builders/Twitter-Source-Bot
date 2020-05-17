@@ -30,6 +30,7 @@ let sebitesApi = async function (query) {
       params: {
         limit: 10,
         hl: "en-US",
+        gl: "us",
         q: query,
       },
     });

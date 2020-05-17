@@ -45,7 +45,7 @@ async def getDocumentScore(data, url, keywords):
         if(time.time() - startTime > 30):
             output.append("Overtime break")
             return (-1, output)
-
+            
         keyword = dictionary["word"]
 
         if "/tco/" in keyword:
