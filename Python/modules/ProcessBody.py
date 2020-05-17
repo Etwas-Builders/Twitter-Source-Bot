@@ -48,6 +48,9 @@ async def getDocumentScore(data, url, keywords):
 
         keyword = dictionary["word"]
 
+        if "/tco/" in keyword:
+            continue
+
         if "partOfSpeech" in list(dictionary.keys()):
             partOfSpeech = dictionary["partOfSpeech"]
         else:
@@ -64,12 +67,18 @@ async def getDocumentScore(data, url, keywords):
         keyword_occurrences = 0
         isProperNoun = False
         isVerb = False
+        isNoun = False
+        isSpecial = False
 
         if(partOfSpeech == "NNPS" or partOfSpeech == "NNP"):
             isProperNoun = True
 
         elif (partOfSpeech == "VBG" or partOfSpeech == "VBN" or partOfSpeech == "VB"):
             isVerb = True
+        elif(partOfSpeech == "N" or partOfSpeech == "NN" or partOfSpeech == "NNS"):
+            isNoun = True
+        elif(partOfSpeech == "SP"):
+            isSpecial = True
 
         for phrase in nlp_text._.phrases:
             if(time.time() - startTime > 30):
@@ -122,6 +131,10 @@ async def getDocumentScore(data, url, keywords):
             number_of_positive_scores += 2.5
         elif (score >= 6.5 and isVerb):
             number_of_positive_scores += 1
+        elif(score >= 8 and isNoun):
+            number_of_positive_scores += 0.2
+        elif(score >= 8 and isSpecial):
+            number_of_positive_scores += 0.3
         elif (number_of_phrases > 100):
             number_of_positive_scores -= 0.02
         elif(number_of_phrases < 100):

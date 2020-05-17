@@ -75,6 +75,10 @@ class handleProcessBody(RequestHandler):
 
             output.append(
                 "Word: " + keyword['word'] + " | Part of Speech: " + partOfSpeech)
+        output.append(" ---- Full Body --- ")
+        output.append("---- Url ---- \t" + url)
+        output.append(data['text'])
+        output.append("\n\n")
         await db_output(output, tweetId)
 
         self.write({"score": score})

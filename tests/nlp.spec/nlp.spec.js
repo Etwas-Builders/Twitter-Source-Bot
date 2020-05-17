@@ -5,6 +5,10 @@ const nlp = require("../../modules/nlp");
 const testCases = require("./nlp.testCases.json");
 const path = require("path");
 const fs = require("fs");
+const mongoose = require("mongoose");
+
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useUnifiedTopology", true);
 
 describe("Words to Search", function () {
   it("Words to Search is Defined", () => {
@@ -57,12 +61,36 @@ describe("Score Page", () => {
 });
 
 describe("Score Page Automated Testing", () => {
+  // beforeAll(async () => {
+  //   await mongoose.connect(`mongodb://${process.env.MONGO_URL}`, (err) => {
+  //     if (err) {
+  //       console.log(err);
+  //       expect(err).toThrowError(err);
+  //     }
+  //   });
+
+  //   mongoose.connection.db.collection("nlpSchemas", async function (
+  //     err,
+  //     collection
+  //   ) {
+  //     if (err) {
+  //       console.error(err);
+  //     }
+  //     console.info("schema accessed");
+  //     let response = await collection.remove({
+  //       tweetId: { $regex: "jestScorePageTest*" },
+  //     });
+  //     console.info(response);
+  //   });
+  // });
+
   testCases.forEach(({ id, type, content, pagePath }) => {
-    test(`${type} test of pagePath ${id}`, async () => {
+    test(`${type} test of id ${id}`, async () => {
       let filePath = path.join(__dirname, pagePath);
       let text = fs.readFileSync(filePath).toString();
       //console.info(text);
       const keywords = await nlp.wordsToSearch(content);
+      //console.info(id, keywords);
       expect(keywords).toBeTruthy;
       expect(keywords.length).toBeGreaterThan(0);
       expect(keywords[0].word).toBeTruthy;
@@ -72,10 +100,16 @@ describe("Score Page Automated Testing", () => {
       };
       const result = { url: pagePath };
       const tweetId = `jestScorePageTest-${id}`;
-      const score = await nlp.scorePage(result, data, keywords, tweetId);
-      console.info(pagePath);
-      console.info(result);
-      console.info(score);
+      const score = await nlp.scorePage(
+        result,
+        data,
+        keywords,
+        tweetId,
+        "jestTest"
+      );
+      //console.info(pagePath);
+      //console.info(result);
+      //console.info(score);
       expect(score).toBeDefined;
       if (type === "Good") {
         expect(score).toBeGreaterThan(3);
@@ -84,4 +118,9 @@ describe("Score Page Automated Testing", () => {
       }
     });
   });
+  // afterAll(async () => {
+  //   console.info("Database closing");
+  //   await mongoose.connection.close();
+  //   console.info("Database closed");
+  // });
 });
