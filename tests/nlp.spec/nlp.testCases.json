@@ -1,90 +1,106 @@
 [
   {
     "id": "bakersFieldAc",
+    "url": "https://www.bakersfield.com/ap/national/with-a-pandemic-lost-jobs-and-record-heat-miami-s-poor-can-t-afford-air/article_067ea36f-bcb5-5ebe-8241-9b55a5bead52.html",
     "type": "Good",
     "pagePath": "/webPages/bakersField.txt",
     "content": "Air conditioning is needed by so many people, especially in Miami!! The poor people are suffering most of all from this heat"
   },
   {
     "id": "teslaMovingOut",
+    "url": "https://fee.org/articles/elon-musks-act-of-civil-disobedience-pays-off-as-california-health-officials-back-down/",
     "type": "Good",
     "content": "Tesla is moving away from California?? Well I understand both sides of the argument, but that move might be hard and expensive to do in the current short term.",
     "pagePath": "/webPages/teslaMovingOut.txt"
   },
   {
     "id": "covidFlatteningExample",
+    "url": "https://www.abc.net.au/news/2020-05-16/coronavirus-second-wave-hits-rural-america/12251058",
     "type": "Good",
     "content": "The curve is flattening but I do not know how long the coronavirus crisis will continue. Life will be difficult for quite some time to come.",
     "pagePath": "/webPages/covidFlatteningExample.txt"
   },
   {
     "id": "nvidiaNewGpu",
+    "url": "https://www.techradar.com/news/rtx-3080",
     "type": "Good",
     "content": "Nvidia has a new GPU!",
     "pagePath": "/webPages/nvidiaNewGpu.txt"
   },
   {
     "id": "lastAirbenderNetlfix",
+    "url": "https://www.cnet.com/news/avatar-the-last-airbender-animated-series-arrives-on-netflix/",
     "type": "Good",
     "content": " now that avatar the last airbender is back on Netflix it’s time to discuss the cold hard truth that Zuko and Katara were way better matched than Katara and Aang https://t.co/fVfOHSY81f",
     "pagePath": "/webPages/lastAirbenderNetlfix.txt"
   },
   {
     "id": "teslaMovingOutBad",
+    "url": "https://www.citylab.com/life/2014/04/what-running-out-power-tesla-side-highway-taught-me-about-road-trip-tomorrow/8978/",
     "type": "Bad",
     "content": "Tesla is moving away from California?? Well I understand both sides of the argument, but that move might be hard and expensive to do in the current short term.",
     "pagePath": "/webPages/teslaMovingOutBad.txt"
   },
   {
     "id": "curveSlowingDownBad",
+    "url": "https://www.theatlantic.com/ideas/archive/2020/03/moral-instincts-coronavirus/608305/",
     "type": "Bad",
     "content": "The curve is slowing but I don't know how long the coronavirus crises will continue. Life will be difficult for quite some time to come.",
     "pagePath": "/webPages/curveSlowingDownBad.txt"
   },
   {
     "id": "growthAndCoexist",
+    "url": "https://en.wikipedia.org/wiki/New-collar_worker",
     "type": "Good",
     "content": "“Growth and comfort never coexist” - inspiring message from Ginni Rometty who began her life on food stamps & is now one of the most powerful execs in America. She and her company IBM are offering free training for “new collar” jobs - which are hiring & don’t require 4 yr degree",
     "pagePath": "/webPages/growthAndCoexist.txt"
   },
   {
     "id": "whiteHouseNativeAmericanBadSource",
+    "url": "https://www.phe.gov/Preparedness/planning/abc/Pages/tribal-preparedness.aspx",
     "type": "Bad",
     "content": "President @realDonaldTrump is working to make sure Native American communities have the support they need during this crisis—including $8 billion through the CARES Act to address Coronavirus preparedness, response, and recovery.",
     "pagePath": "/webPages/whiteHouseNativeAmericanBadSource.txt"
   },
   {
     "id": "miamiAcBadSource",
+    "url": "https://time.com/4405338/air-conditioning-human-right/",
     "type": "Bad",
     "content": "Air conditioning is needed by so many people, especially in Miami!! The poor people are suffering most of all from this heat",
-    "pagePath": "/webPages/miamiAcBadSource.txt"
+    "pagePath": "/webPages/miamiAcBadSource.txt",
+    "slow": true
   },
   {
     "id": "growthAndCollarBusinessInsider",
+    "url": "https://www.businessinsider.com/ibm-ceo-growth-and-comfort-dont-co-exist-2014-10",
     "type": "Good",
     "content": "“Growth and comfort never coexist” - inspiring message from Ginni Rometty who began her life on food stamps & is now one of the most powerful execs in America. She and her company IBM are offering free training for “new collar” jobs - which are hiring & don’t require 4 yr degree",
     "pagePath": "/webPages/growthAndCoexistGoodBusinessInsider.txt"
   },
   {
     "id": "barathPetroleumApp",
+    "url": "https://play.google.com/store/apps/details?id=com.cgt.bharatgas&hl=en_US",
     "type": "Good",
     "content": "Our Bharatgas App has been pivotal in revolutionising the way LPG cylinders are ordered and delivered in India. It enables people to make and manage their bookings at a click of a button. #Technology #DigitalIndia",
     "pagePath": "/webPages/googlePlayStoreApp.txt"
   },
   {
     "id": "APNewsBrazil",
+    "url": "https://apnews.com/2ebc74ac301d5cf866e562850dd448c5",
     "type": "Good",
     "content": "The latest on the coronavirus from around the world: —In Brazil, confusion helped fuel the virus’s spread —A Nigerian fraud ring has been implicated in a vast attack on U.S. unemployment agencies —Many in Europe are celebrating easing lockdowns Read more.",
     "pagePath": "webPages/APNewsBrazil.txt"
   },
   {
     "id": "BundesligaOpens",
+    "url": "https://www.aljazeera.com/news/2020/05/german-football-league-bundesliga-coronavirus-break-200515115945548.html",
     "type": "Good",
     "content": "🎉ITS BACK! The Bundesliga today becomes the first major football league in the world to return amid the coronavirus pandemic. All matches will be played behind closed doors, as they were before the division was brought to a halt in March. https://t.co/OPzKBAUvdb",
     "pagePath": "/webPages/bundesligaOpen.txt"
   },
   {
     "id": "smartMoneyBad",
+    "url": "https://25iq.com/2015/04/11/a-dozen-things-ive-learned-from-stanley-druckenmiller-about-investing/",
     "type": "Bad",
     "content": "What the smart money is saying: David Tepper: this is the 2nd most overvalued stock market ever Buffett: hasn't made any big investments Druckenmiller: risk-reward in stocks is the worst he's seen Meanwhile, S&P 500 forward P/E ratio is at its highest since the late-1990s",
     "pagePath": "webPages/smartMoneyBad.txt"

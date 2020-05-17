@@ -25,7 +25,7 @@ let removePunctuation = function (word) {
   let correctWords = [];
   for (let w of words) {
     let checkNum = word.replace(",", "");
-    w = w.replace(/['"‘’“”]+/g, "");
+    w = w.replace(/['"‘’“”●☞']+/g, "");
     w = w.replace(
       /([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g,
       ""
@@ -47,12 +47,13 @@ let isSpecial = function (word) {
     word.includes("coronavirus") ||
     word.includes("covid");
   isSpecial = word.length < 3 ? false : isSpecial;
-  isSpecial ? console.info(isSpecial, word) : null;
-  word = word.replace(/['"‘’“”?!]+/g, "");
+  //isSpecial ? console.info(isSpecial, word) : null;
+  word = word.replace(/['"‘’“”?!●]+/g, "");
   word = word.replace(
     /([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g,
     ""
   );
+  word = word.toLowerCase();
   return isSpecial ? word : NaN;
 };
 
@@ -104,8 +105,9 @@ let wordsToSearch = function FindWordsToSearch(text) {
             partOfSpeech: partOfSpeech,
           },
         ].concat(mainWords);
+      } else {
+        mainWords.push({ word: currentWord, partOfSpeech: partOfSpeech });
       }
-      mainWords.push({ word: currentWord, partOfSpeech: partOfSpeech });
       //Removes the current word from the list
       wordsToSearch.splice(index, 1);
       index--;
@@ -121,19 +123,20 @@ let wordsToSearch = function FindWordsToSearch(text) {
           word: isSpecial(currentCopy),
           partOfSpeech: "SP",
         });
-      }
-      if (currentWord[0] === "#" && Math.random() <= 0.25) {
-        normalNouns = [
-          { word: currentWord, partOfSpeech: partOfSpeech },
-        ].concat(normalNouns);
       } else {
-        if (currentWord.includes("/t.co/")) {
+        if (currentWord[0] === "#" && Math.random() <= 0.25) {
           normalNouns = [
             { word: currentWord, partOfSpeech: partOfSpeech },
           ].concat(normalNouns);
-        }
+        } else {
+          if (currentWord.includes("/t.co/")) {
+            normalNouns = [
+              { word: currentWord, partOfSpeech: partOfSpeech },
+            ].concat(normalNouns);
+          }
 
-        normalNouns.push({ word: currentWord, partOfSpeech: partOfSpeech });
+          normalNouns.push({ word: currentWord, partOfSpeech: partOfSpeech });
+        }
       }
       wordsToSearch.splice(index, 1);
       index--;
@@ -148,12 +151,13 @@ let wordsToSearch = function FindWordsToSearch(text) {
           word: isSpecial(currentCopy),
           partOfSpeech: "SP",
         });
+      } else {
+        //finalWords.push(currentWord);
+        verbGerard.push({ word: currentWord, partOfSpeech: partOfSpeech });
+        wordsToSearch.splice(index, 1);
+        index--;
+        length = wordsToSearch.length;
       }
-      //finalWords.push(currentWord);
-      verbGerard.push({ word: currentWord, partOfSpeech: partOfSpeech });
-      wordsToSearch.splice(index, 1);
-      index--;
-      length = wordsToSearch.length;
     }
   }
 
@@ -170,9 +174,9 @@ let wordsToSearch = function FindWordsToSearch(text) {
         word: isSpecial(currentCopy),
         partOfSpeech: "SP",
       });
+    } else {
+      remainingWords.push({ word: currentWord, partOfSpeech: partOfSpeech });
     }
-
-    remainingWords.push({ word: currentWord, partOfSpeech: partOfSpeech });
   }
   let temp = mainWords.concat(special);
   temp = temp.concat(normalNouns);
@@ -200,6 +204,7 @@ exports.scorePage = async function (
   keywords = keywords.filter((element) => {
     return !element.word.includes("/t.co/");
   });
+
   keywords.push({ word: userScreenName, partOfSpeech: "NNP" });
   let ip = await IP.getCurrentIp();
   let response = await axios.post(`http://${ip}:5000/processBody`, {

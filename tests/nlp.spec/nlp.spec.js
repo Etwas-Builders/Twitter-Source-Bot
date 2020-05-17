@@ -2,6 +2,8 @@
  * @jest-environment node
  */
 const nlp = require("../../modules/nlp");
+const whitelist = require("../../modules/processing/whitelist.json");
+const blacklist = require("../../modules/processing/blacklist.json");
 const testCases = require("./nlp.testCases.json");
 const path = require("path");
 const fs = require("fs");
@@ -54,7 +56,13 @@ describe("Score Page", () => {
     ];
     const tweetId = "jestTestTweet";
 
-    const score = await nlp.scorePage(result, data, keywords, tweetId);
+    const score = await nlp.scorePage(
+      result,
+      data,
+      keywords,
+      tweetId,
+      "jestTest"
+    );
     expect(score).toBeDefined();
     expect(typeof score).toBe("number");
   });
@@ -84,7 +92,7 @@ describe("Score Page Automated Testing", () => {
   //   });
   // });
 
-  testCases.forEach(({ id, type, content, pagePath }) => {
+  testCases.forEach(({ id, type, content, pagePath, url, slow }) => {
     test(`${type} test of id ${id}`, async () => {
       let filePath = path.join(__dirname, pagePath);
       let text = fs.readFileSync(filePath).toString();
@@ -100,21 +108,40 @@ describe("Score Page Automated Testing", () => {
       };
       const result = { url: pagePath };
       const tweetId = `jestScorePageTest-${id}`;
-      const score = await nlp.scorePage(
+      let score = await nlp.scorePage(
         result,
         data,
         keywords,
         tweetId,
         "jestTest"
       );
-      //console.info(pagePath);
-      //console.info(result);
-      //console.info(score);
+
+      let pathArray = url.split("/");
+      let host = pathArray[2];
+      if (host.includes("www")) {
+        host = host.slice(4);
+      }
+      if (host in whitelist) {
+        score += 1;
+      }
+      if (host in blacklist) {
+        score = blacklist[host] !== 1 ? score - 10 * blacklist[host] : -1;
+        if (score === -1) {
+          if (type === "Good") {
+            expect(score).toThrowError("Good Case in Absolute Blacklist");
+          }
+        }
+      }
+
       expect(score).toBeDefined;
       if (type === "Good") {
         expect(score).toBeGreaterThan(3);
       } else if (type === "Bad") {
-        expect(score).toBeLessThan(3);
+        if (slow) {
+          expect(score).toBeLessThan(5);
+        } else {
+          expect(score).toBeLessThan(3);
+        }
       }
     });
   });
