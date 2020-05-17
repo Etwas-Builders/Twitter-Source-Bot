@@ -65,7 +65,7 @@ let isTweetHandled = async function (tweetId) {
 
 try {
   exports.updateTweetCache = updateDatabase;
-
+  exports.isTweetHandled = isTweetHandled;
   exports.checkTweetCache = checkDatabase;
 } catch (err) {
   console.log("Export Error", err);
