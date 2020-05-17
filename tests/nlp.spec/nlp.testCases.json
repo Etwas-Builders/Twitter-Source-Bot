@@ -6,12 +6,6 @@
     "content": "Air conditioning is needed by so many people, especially in Miami!! The poor people are suffering most of all from this heat"
   },
   {
-    "id": "ibmNewCollar",
-    "type": "Good",
-    "content": "“Growth and comfort never coexist” - inspiring message from Ginni Rometty who began her life on food stamps & is now one of the most powerful execs in America. She and her company IBM are offering free training for “new collar” jobs - which are hiring & don’t require 4 yr degree",
-    "pagePath": "/webPages/forbesIbmNewCollar.txt"
-  },
-  {
     "id": "teslaMovingOut",
     "type": "Good",
     "content": "Tesla is moving away from California?? Well I understand both sides of the argument, but that move might be hard and expensive to do in the current short term.",
@@ -20,7 +14,7 @@
   {
     "id": "covidFlatteningExample",
     "type": "Good",
-    "content": " The curve is flattening but I don't know how long the coronavirus crisis will continue. Life will be difficult for quite some time to come.",
+    "content": "The curve is flattening but I do not know how long the coronavirus crisis will continue. Life will be difficult for quite some time to come.",
     "pagePath": "/webPages/covidFlatteningExample.txt"
   },
   {
@@ -34,5 +28,41 @@
     "type": "Good",
     "content": " now that avatar the last airbender is back on Netflix it’s time to discuss the cold hard truth that Zuko and Katara were way better matched than Katara and Aang https://t.co/fVfOHSY81f",
     "pagePath": "/webPages/lastAirbenderNetlfix.txt"
+  },
+  {
+    "id": "teslaMovingOutBad",
+    "type": "Bad",
+    "content": "Tesla is moving away from California?? Well I understand both sides of the argument, but that move might be hard and expensive to do in the current short term.",
+    "pagePath": "/webPages/teslaMovingOutBad.txt"
+  },
+  {
+    "id": "curveSlowingDownBad",
+    "type": "Bad",
+    "content": "The curve is slowing but I don't know how long the coronavirus crises will continue. Life will be difficult for quite some time to come.",
+    "pagePath": "/webPages/curveSlowingDownBad.txt"
+  },
+  {
+    "id": "growthAndCoexist",
+    "type": "Good",
+    "content": "“Growth and comfort never coexist” - inspiring message from Ginni Rometty who began her life on food stamps & is now one of the most powerful execs in America. She and her company IBM are offering free training for “new collar” jobs - which are hiring & don’t require 4 yr degree",
+    "pagePath": "/webPages/growthAndCoexist.txt"
+  },
+  {
+    "id": "whiteHouseNativeAmericanBadSource",
+    "type": "Bad",
+    "content": "President @realDonaldTrump is working to make sure Native American communities have the support they need during this crisis—including $8 billion through the CARES Act to address Coronavirus preparedness, response, and recovery.",
+    "pagePath": "/webPages/whiteHouseNativeAmericanBadSource.txt"
+  },
+  {
+    "id": "miamiAcBadSource",
+    "type": "Bad",
+    "content": "Air conditioning is needed by so many people, especially in Miami!! The poor people are suffering most of all from this heat",
+    "pagePath": "/webPages/miamiAcBadSource.txt"
+  },
+  {
+    "id": "growthAndCollarBusinessInsider",
+    "type": "Good",
+    "content": "“Growth and comfort never coexist” - inspiring message from Ginni Rometty who began her life on food stamps & is now one of the most powerful execs in America. She and her company IBM are offering free training for “new collar” jobs - which are hiring & don’t require 4 yr degree",
+    "pagePath": "/webPages/growthAndCoexistGoodBusinessInsider.txt"
   }
 ]

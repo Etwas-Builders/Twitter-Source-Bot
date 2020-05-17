@@ -71,13 +71,16 @@ describe("Score Page Automated Testing", () => {
         text: text,
       };
       const result = { url: pagePath };
-      const tweetId = `jestScorePageTest${id}`;
+      const tweetId = `jestScorePageTest-${id}`;
       const score = await nlp.scorePage(result, data, keywords, tweetId);
+      console.info(pagePath);
+      console.info(result);
+      console.info(score);
       expect(score).toBeDefined;
       if (type === "Good") {
-        expect(score).toBeGreaterThan(0.45);
+        expect(score).toBeGreaterThan(3);
       } else if (type === "Bad") {
-        expect(score).toBeLessThan(0.45);
+        expect(score).toBeLessThan(3);
       }
     });
   });

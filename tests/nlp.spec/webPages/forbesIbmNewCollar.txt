@@ -1,14 +1,3 @@
-Please help us continue to provide you with free, quality journalism by turning off your ad blocker on our site.
-
-For instructions on how to disable your ad blocker, click here.
-
-I’ve Turned Off My Ad Blocker
-Or Sign In To Continue Using An Ad Blocker
-Google
-Facebook
-Twitter
-I agree to receive occasional updates and announcements about Forbes products and services. You may opt out at any time.
-Forbes takes privacy seriously and is committed to transparency. We will never share your email address with third parties without your permission. By signing in, you are indicating that you accept our Terms of Service and Privacy Statement.
 Billionaires
 Innovation
 Leadership
@@ -21,7 +10,7 @@ Advisor
 Featured
 Breaking
 More
-7,276 views|Jan 24, 2019,08:11am EST
+7,301 views|Jan 24, 2019,08:11am EST
 New-Collar Workers- Who Are They And How Are They Contributing To Our Labor Shortage?
 Scholley BubenikFormer Contributor
 Entrepreneurs
@@ -38,9 +27,9 @@ What is a new-collar worker?
 A new-collar worker is an individual who develops the technical and soft skills needed to work in technology jobs through nontraditional education paths. These workers do not have a four-year degree from college. Instead, the new-collar worker is trained through community colleges, vocational schools, software boot camps, technical certification programs, high school technical education and on-the job apprentices and internships.
 
 Today In: Entrepreneurs
+FortressIQ Raises $30 Million To Shake Up RPA (Robotic Process Automation)
 How Government Cash Is Helping Britain’s Entrepreneurs Survive COVID-19
 How To Build Your Network When There Are No Networking Events
-How Two Young Influencer Marketing Entrepreneurs Have Tapped Into TikToK
 
 The term, new-collar worker originated by IBM’s CEO Ginni Rometty. This classification of employee evolved when faced with the challenge of hiring technical jobs including cloud computing technicians, database managers, cybersecurity, user interface designers and other IT roles. But IBM is not the only employer faced with the economy’s War for Talent.
 
@@ -76,4 +65,3 @@ Terms
 Privacy
 © 2020 Forbes Media LLC. All Rights Reserved.
 AdChoices
-Play Video

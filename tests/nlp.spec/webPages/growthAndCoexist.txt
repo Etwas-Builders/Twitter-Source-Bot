@@ -1,0 +1,111 @@
+New-collar worker
+From Wikipedia, the free encyclopedia
+Jump to navigation
+Jump to search
+	
+This article or section may contain misleading parts. Please help clarify this article according to any suggestions provided on the talk page. (February 2018)
+
+A new-collar worker is an individual who develops technical and soft skills needed to work in the contemporary technology industry through nontraditional education paths.[1][2] The term was introduced by IBM CEO Ginni Rometty in late 2016 and refers to "middle-skill" occupations in technology, such as cybersecurity analysts, application developers and cloud computing specialists.
+
+Contents
+1	Etymology
+2	Occupations and education requirements
+3	Usage
+4	See also
+5	References
+Etymology[edit]
+
+The term "new-collar job" is a play on “blue-collar job”. It originated with IBM's CEO Ginni Rometty,[3][4] relating to the company's efforts to increase the number of people qualified for technology jobs.[5] In November 2016, Rometty wrote an open letter to then-President-elect Donald Trump, which introduced the idea of "new-collar jobs" and urged his support for the creation of these types of roles.[6][5] Rometty coined the term in response to new employment designations as industries are moving into a new technology era,[3][7] and jobs are created that require new skills in data science, cloud computing and artificial intelligence.[8]
+
+Occupations and education requirements[edit]
+
+According to Rometty, "relevant skills, sometimes obtained through vocational training", are the qualifying characteristics of new-collar work.[5] Typical new-collar jobs include: cloud computing technicians, database managers, cybersecurity analysts, user interface designers, and other assorted IT roles.[9][10] Technical skills and education are required for these roles but not necessarily a four-year college degree.[5] Skills may be developed through nontraditional education such as community college courses[9] and industry certification programs.[4] Employers of new-collar workers value the ability to adapt and learn, equally to more formal education.[1] As well, training for new-collar jobs often involves development of relevant soft skills.[9] Due to a widespread skills gap, industry demand for new-collar workers has led to the development of education initiatives focused on technical skills.[11][12] Examples of such initiatives include a partnership between Delta Air Lines and about 37 aviation maintenance schools in the US to develop a curriculum focused on skills needed in the aviation industry, and IBM's P-Tech program for high-school and associate degree.[4]
+
+Usage[edit]
+
+In the United States, the "New Collar Jobs Act" was released by Representatives Ted Lieu (California), Matt Cartwright (Pennsylvania) and Ann McLane Kuster (New Hampshire) in July 2017. The Act sought to provide scholarship funding and debt relief for individuals who study cybersecurity and take up cybersecurity roles, as well as establishing tax breaks for employers that offer cybersecurity training.[13] In August 2017, Virginia Lt. Governor Ralph Northam announced a vocational training program titled "Get Skilled, Get A Job, and Give Back", focused on skills for new-collar jobs.[12]
+
+See also[edit]
+Designation of workers by collar color
+References[edit]
+^ 
+Jump up to:
+a b Warren Tren (28 July 2017). "Employers hiring for 'new collar' jobs". KTVK. Retrieved 25 August 2017.
+^ Dana Fowle (7 August 2017). "The rise of new collar workers". WAGA-TV. Retrieved 25 August 2017.
+^ 
+Jump up to:
+a b Anita Balakrishnan, Berkeley Lovelace Jr. (17 January 2017). "IBM CEO: Jobs of the future won't be blue or white collar, they'll be 'new collar'". CNBC. Retrieved 8 August 2017.
+^ 
+Jump up to:
+a b c Nicole Spector; Michael Cappetta (19 September 2017). "Companies and Colleges Unite to Train 'New Collar' Students". NBC News. Retrieved 2 November 2017.
+^ 
+Jump up to:
+a b c d Chris Weller (6 January 2017). "IBM's concept of 'new collar jobs' could be vital in an automated future". Business Insider. Retrieved 8 August 2017.
+^ Berkeley Lovelace Jr. (15 November 2016). "IBM's Ginni Rometty writes open letter to Donald Trump". CNBC. Retrieved 8 August 2017.
+^ Pundy Pillay, David Everatt (31 July 2017). "What's in a name? Towards genuine economic transformation in South Africa". The Conversation. Retrieved 25 August 2017.
+^ Bernie Monegain (8 February 2017). "IBM launches $70 million 'New Collar Jobs' digital initiative in Africa". HealthCareITNews. Retrieved 8 August 2017.
+^ 
+Jump up to:
+a b c Steven Lohr (28 June 2017). "A New Kind of Tech Job Emphasizes Skills, Not a College Degree". The New York Times. Retrieved 25 August 2017.
+^ Patrick Gillespie (15 November 2016). "IBM chief to Trump: Let's create 'new collar' jobs". CNN Money. Retrieved 8 August 2017.
+^ Sujit John (28 June 2017). "IBM India plans to launch 12+2 programme for new collar jobs". The Times of India. Retrieved 25 August 2017.
+^ 
+Jump up to:
+a b Sydney Kashiwagi (14 August 2017). "Lt. Gov. Ralph Northam campaigns in Dulles to promote vocational job training plan". Loudoun Times. Retrieved 25 August 2017.
+^ Joe Uchill (25 July 2017). "Dems introduce cyber workforce bill". The Hill. Retrieved 25 August 2017.
+show
+vte
+Social class
+show
+vte
+IBM
+Categories: Employment classificationsIBMOffice work
+Navigation menu
+Not logged in
+Talk
+Contributions
+Create account
+Log in
+Article
+Talk
+Read
+Edit
+View history
+Search
+Main page
+Contents
+Featured content
+Current events
+Random article
+Donate to Wikipedia
+Wikipedia store
+Interaction
+Help
+About Wikipedia
+Community portal
+Recent changes
+Contact page
+Tools
+What links here
+Related changes
+Upload file
+Special pages
+Permanent link
+Page information
+Wikidata item
+Cite this page
+Print/export
+Download as PDF
+Printable version
+Languages
+Add links
+This page was last edited on 8 April 2019, at 06:51 (UTC).
+Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization.
+Privacy policy
+About Wikipedia
+Disclaimers
+Contact Wikipedia
+Developers
+Statistics
+Cookie statement
+Mobile view
