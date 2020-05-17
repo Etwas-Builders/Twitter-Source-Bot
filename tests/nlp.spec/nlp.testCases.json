@@ -64,5 +64,29 @@
     "type": "Good",
     "content": "“Growth and comfort never coexist” - inspiring message from Ginni Rometty who began her life on food stamps & is now one of the most powerful execs in America. She and her company IBM are offering free training for “new collar” jobs - which are hiring & don’t require 4 yr degree",
     "pagePath": "/webPages/growthAndCoexistGoodBusinessInsider.txt"
+  },
+  {
+    "id": "barathPetroleumApp",
+    "type": "Good",
+    "content": "Our Bharatgas App has been pivotal in revolutionising the way LPG cylinders are ordered and delivered in India. It enables people to make and manage their bookings at a click of a button. #Technology #DigitalIndia",
+    "pagePath": "/webPages/googlePlayStoreApp.txt"
+  },
+  {
+    "id": "APNewsBrazil",
+    "type": "Good",
+    "content": "The latest on the coronavirus from around the world: —In Brazil, confusion helped fuel the virus’s spread —A Nigerian fraud ring has been implicated in a vast attack on U.S. unemployment agencies —Many in Europe are celebrating easing lockdowns Read more.",
+    "pagePath": "webPages/APNewsBrazil.txt"
+  },
+  {
+    "id": "BundesligaOpens",
+    "type": "Good",
+    "content": "🎉ITS BACK! The Bundesliga today becomes the first major football league in the world to return amid the coronavirus pandemic. All matches will be played behind closed doors, as they were before the division was brought to a halt in March. https://t.co/OPzKBAUvdb",
+    "pagePath": "/webPages/bundesligaOpen.txt"
+  },
+  {
+    "id": "smartMoneyBad",
+    "type": "Bad",
+    "content": "What the smart money is saying: David Tepper: this is the 2nd most overvalued stock market ever Buffett: hasn't made any big investments Druckenmiller: risk-reward in stocks is the worst he's seen Meanwhile, S&P 500 forward P/E ratio is at its highest since the late-1990s",
+    "pagePath": "webPages/smartMoneyBad.txt"
   }
 ]
