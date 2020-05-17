@@ -60,6 +60,11 @@ let isTweetHandled = async function (tweetId) {
   let existingTweet = await tweetSchema.TweetSchema.findOne({
     tweetId: tweetId,
   }).sort({ cacheCreated: "ascending" });
+  if (!existingTweet) {
+    existingTweet = await tweetSchema.TweetSchema.findOne({
+      replyId: tweetId,
+    }).sort({ cacheCreated: "ascending" });
+  }
   return existingTweet ? true : false;
 };
 

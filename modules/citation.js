@@ -60,8 +60,10 @@ let pythonScraper = async function (query) {
   return results;
 };
 
-let getSearchResults = async function (keywords) {
+let getSearchResults = async function (keywords, userScreenName) {
+  keywords.push({ word: userScreenName, partOfSpeech: "NNP" });
   let words = keywords.map((e) => e.word);
+
   if (words.length > 10) {
     words = words.splice(0, Math.floor(words.length * 0.5));
   }

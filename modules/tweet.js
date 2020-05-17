@@ -36,7 +36,7 @@ let sourceNotFound = async function (cachedParams, username) {
   return await notFound.sourceNotFound(username);
 };
 
-exports.notPassiveMention = async function (tweet) {
+let notPassiveMention = async function (tweet) {
   /* 
     A passive mention has a reply_id, and replies to us
 
@@ -50,12 +50,15 @@ exports.notPassiveMention = async function (tweet) {
   return true;
 };
 
-let handleNewTweet = async function (newTweet, replyId) {
+let handleNewTweet = async function (newTweet, replyId, fromMentionTime) {
   let tweetId = newTweet.id_str;
   let cachedContent = await database.checkTweetCache(tweetId);
   let username = newTweet.user.screen_name;
   let name = newTweet.user.name;
   if (cachedContent) {
+    if (fromMentionTime) {
+      return null;
+    }
     let message = cachedContent;
     message = `@${username} ${message}`;
     return {
@@ -90,7 +93,7 @@ let handleNewTweet = async function (newTweet, replyId) {
   let wordsToSearch = await nlp.wordsToSearch(content);
   console.log("Tweet -> handleNewTweet -> wordsToSearch", wordsToSearch);
 
-  let results = await citation.getSearchResults(wordsToSearch);
+  let results = await citation.getSearchResults(wordsToSearch, userScreenName);
 
   if (results.length === 0) {
     return sourceNotFound(cachedParams, username);
@@ -132,8 +135,8 @@ let handleNewTweet = async function (newTweet, replyId) {
   };
 };
 
-exports.handleNewReplyEvent = async function (event) {
-  let reply = event.tweet_create_events[0];
+let handleNewReplyEvent = async function (tweet, fromMentionTime) {
+  let reply = tweet;
   let replyId = reply.id_str;
   let replyUserScreenName = reply.user.screen_name;
   //console.log("Tweet -> handleNewReplyEvent -> reply", reply);
@@ -151,67 +154,78 @@ exports.handleNewReplyEvent = async function (event) {
       thread.push(originalTweet_response);
       handleTweetThread(
         { id: replyId, screen_name: replyUserScreenName },
-        thread
+        thread,
+        fromMentionTime
       );
     } else {
       let citationResponse = await handleNewTweet(
         originalTweet_response,
-        replyId
+        replyId,
+        fromMentionTime
       );
-
-      let message = citationResponse.message;
-      message = `@${replyUserScreenName} ${message}`;
-      let attachment_url = citationResponse.url;
-      console.log(message);
-      await replyHandler.handleReply(
-        citationResponse.mediaId,
-        message,
-        replyId
-      );
+      if (citationResponse) {
+        let message = citationResponse.message;
+        message = `@${replyUserScreenName} ${message}`;
+        let attachment_url = citationResponse.url;
+        console.log(message);
+        await replyHandler.handleReply(
+          citationResponse.mediaId,
+          message,
+          replyId
+        );
+      }
     }
   } catch (e) {
     console.log(e);
   }
 };
 
-exports.handleNewMentionEvent = async function (event) {
-  console.log("Tweet -> handleNewMentionEvent -> event", event);
+let handleNewMentionEvent = async function (tweet, fromMentionTime) {
+  console.log("Tweet -> handleNewMentionEvent -> event", tweet);
 
-  let mention = event.tweet_create_events[0];
+  let mention = tweet;
   let mentionId = mention.id_str;
-  let citationResponse = await handleNewTweet(mention, null);
-  let message = citationResponse.message;
-  let isTestTweet = false;
+  let citationResponse = await handleNewTweet(mention, null, fromMentionTime);
+  if (citationResponse) {
+    let message = citationResponse.message;
+    let isTestTweet = false;
 
-  if (mention.user.id_str === "1258133916268953601") {
-    if (
-      mention.text.includes(
-        "J.C. Penney is negotiating a bankruptcy deal that would slash the department-store chain’s debt in exchange for control of the company"
-      )
-    ) {
-      // Test Tweet from Salegot
-      isTestTweet = true;
-      await tester.checkServerActive(mention.text, message);
-      return;
+    if (mention.user.id_str === "1258133916268953601") {
+      if (
+        mention.text.includes(
+          "J.C. Penney is negotiating a bankruptcy deal that would slash the department-store chain’s debt in exchange for control of the company"
+        )
+      ) {
+        // Test Tweet from Salegot
+        isTestTweet = true;
+        await tester.checkServerActive(mention.text, message);
+        return;
+      }
     }
-  }
-  if (!isTestTweet) {
-    await replyHandler.handleReply(citation.mediaId, message, mentionId);
+    if (!isTestTweet) {
+      await replyHandler.handleReply(citation.mediaId, message, mentionId);
+    }
   }
 };
 
-exports.handleNewQuoteEvent = async function (event) {
-  console.log("Tweet -> handleNewQuoteEvent -> event", event);
+let handleNewQuoteEvent = async function (tweet, fromMentionTime) {
+  console.log("Tweet -> handleNewQuoteEvent -> event", tweet);
 
-  let quote = event.tweet_create_events[0];
+  let quote = tweet;
   let quoteId = quote.id_str;
   let quoteUserScreenName = quote.user.screen_name;
   let original_tweet = quote.quoted_status;
-  let citationResponse = await handleNewTweet(original_tweet, quoteId);
-  let message = citationResponse.message;
-  message = `@${quoteUserScreenName} ${message}`;
+  let citationResponse = await handleNewTweet(
+    original_tweet,
+    quoteId,
+    fromMentionTime
+  );
+  if (citationResponse) {
+    let message = citationResponse.message;
+    message = `@${quoteUserScreenName} ${message}`;
 
-  await replyHandler.handleReply(citationResponse.mediaId, message, quoteId);
+    await replyHandler.handleReply(citationResponse.mediaId, message, quoteId);
+  }
 };
 
 let threadRecursive = async function (tweet, thread) {
@@ -235,7 +249,7 @@ let threadRecursive = async function (tweet, thread) {
   }
 };
 
-let handleTweetThread = async function (reply, thread) {
+let handleTweetThread = async function (reply, thread, fromMentionTime) {
   /*
     A thread is a series of replies
   */
@@ -243,12 +257,15 @@ let handleTweetThread = async function (reply, thread) {
   let username = original_tweet.user.screen_name;
   let name = original_tweet.user.name;
   let cachedContent = await database.checkTweetCache(original_tweet.id_str);
+  let message;
   if (cachedContent) {
-    let message = cachedContent;
-    let username = original_tweet.user.screen_name;
-    message = `@${username} ${message}`;
-    message = `@${reply.screen_name} ${message}`;
-    await replyHandler.handleReply(null, message, reply.id);
+    if (!fromMentionTime) {
+      message = cachedContent;
+      let username = original_tweet.user.screen_name;
+      message = `@${username} ${message}`;
+      message = `@${reply.screen_name} ${message}`;
+      await replyHandler.handleReply(null, message, reply.id);
+    }
   } else {
     thread = await threadRecursive(original_tweet, thread);
     let fullContent = "";
@@ -278,7 +295,7 @@ let handleTweetThread = async function (reply, thread) {
 
     console.log("Tweet -> handleTweetThread -> keywords", keywords);
 
-    let results = await citation.getSearchResults(keywords);
+    let results = await citation.getSearchResults(keywords, name);
 
     console.log("Tweet -> handleTweetThread -> results", results);
 
@@ -302,7 +319,8 @@ let handleTweetThread = async function (reply, thread) {
       let topResult = processedOutput.topResult;
 
       if (!topResult) {
-        let citationResponse = sourceNotFound(cachedParams, username);
+        let citationResponse = await sourceNotFound(cachedParams, username);
+        console.error(citationResponse);
         message = `${reply.screen_name} ${citationResponse.message}`;
 
         await replyHandler.handleReply(
@@ -332,17 +350,45 @@ let handleTweetThread = async function (reply, thread) {
     }
   }
 };
+let tweetClassify = async function (tweet, fromMentionTime) {
+  // If it is not our own tweet
+  if (!(tweet.user.id_str === "1255487054219218944")) {
+    // Ensure it is not replying to us
+    if (notPassiveMention(tweet) && !("retweeted_status" in tweet)) {
+      if (tweet.in_reply_to_status_id) {
+        // This event is a reply
+        handleNewReplyEvent(tweet, fromMentionTime);
+      } else if (tweet.quoted_status_id) {
+        // Quote Tweet
+        handleNewQuoteEvent(tweet, fromMentionTime);
+      } else {
+        // Not a Reply or Not Quote
+        let tweetEntities = tweet.entities;
+        let user_mentions = tweetEntities.user_mentions;
+        for (let user of user_mentions) {
+          console.log("handleNewWebHook -> user", user);
+          if (user.id_str === "1255487054219218944") {
+            // Mention Behaviour
+            handleNewMentionEvent(tweet, fromMentionTime);
+          }
+        }
+      }
+    }
+  }
+};
 
 let getMentionTimeline = async function () {
   const mentions = await twitterClient.get("statuses/mentions_timeline");
   for (let tweet of mentions) {
     let tweetId = tweet.id_str;
     let handled = await database.isTweetHandled(tweetId);
+    let fromMentionTime = true;
+    console.info("Tweet Status", tweetId, handled);
     if (!handled) {
-      console.info("Tweet -> getMentionTimeline -> unhandledTweet", tweet);
-      await handleNewTweet(tweet);
+      console.info("Tweet -> getMentionTimeline -> unhandledTweet", tweet.text);
+      await tweetClassify(tweet, fromMentionTime);
     }
   }
 };
-
+exports.tweetClassify = tweetClassify;
 exports.getMentionTimeline = getMentionTimeline;
