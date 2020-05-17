@@ -56,6 +56,12 @@ let checkDatabase = async function (tweetId) {
     }
   }
 };
+let isTweetHandled = async function (tweetId) {
+  let existingTweet = await tweetSchema.TweetSchema.findOne({
+    tweetId: tweetId,
+  }).sort({ cacheCreated: "ascending" });
+  return existingTweet ? true : false;
+};
 
 try {
   exports.updateTweetCache = updateDatabase;

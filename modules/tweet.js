@@ -332,3 +332,17 @@ let handleTweetThread = async function (reply, thread) {
     }
   }
 };
+
+let getMentionTimeline = async function () {
+  const mentions = await twitterClient.get("statuses/mentions_timeline");
+  for (let tweet of mentions) {
+    let tweetId = tweet.id_str;
+    let handled = await database.isTweetHandled(tweetId);
+    if (!handled) {
+      console.info("Tweet -> getMentionTimeline -> unhandledTweet", tweet);
+      await handleNewTweet(tweet);
+    }
+  }
+};
+
+exports.getMentionTimeline = getMentionTimeline;
