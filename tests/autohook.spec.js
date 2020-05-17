@@ -3,6 +3,7 @@
  */
 require("dotenv").config();
 const { Autohook } = require("twitter-autohook");
+const { createHttpTerminator } = require("http-terminator");
 
 let webhook;
 describe("Autohook Connection Test", () => {
@@ -46,14 +47,17 @@ describe("Autohook Connection Test", () => {
       );
       expect(unsubscriptionStatus).toBeTruthy;
     } catch (err) {
-      expect(err).toThrowError(
-        `Unabled to unsubscribe from autohook \n ${err}`
-      );
+      expect(err).toThrowError(`Unable to unsubscribe from autohook \n ${err}`);
       process.exit(-1);
     }
   });
 
   afterAll(async () => {
     await webhook.removeWebhooks();
+    let server = webhook.server;
+    const httpTerminator = createHttpTerminator({
+      server,
+    });
+    await httpTerminator.terminate();
   });
 });
