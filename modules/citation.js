@@ -37,7 +37,7 @@ let sebitesApi = async function (query) {
     let results = response.data.results;
 
     let topResults = results.organic_results;
-    console.log("Rapid API Top Results", topResults);
+    //console.log("Rapid API Top Results", topResults);
     return topResults;
   } catch (err) {
     return [];
@@ -73,11 +73,13 @@ let getSearchResults = async function (keywords) {
   console.log("Tweet -> getSearchResults -> newQuery", query);
   let newResults = googleSearch(query);
 
-  return Promise.all([results, newResults]).then((allResults) => {
+  return await Promise.all([results, newResults]).then((allResults) => {
+    console.info("Promise Resolution");
+    let output = [];
     for (let result of allResults) {
       result = result.splice(0, 10);
+      output = output.concat(result);
     }
-    let output = [].concat.apply([], allResults);
     return output;
   });
 };
