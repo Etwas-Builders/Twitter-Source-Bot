@@ -1,0 +1,233 @@
+Apps
+My apps
+Shop
+Games
+Family
+Editors' Choice
+Movies
+Music
+Books
+Devices
+Entertainment
+Account
+Payment methods
+My subscriptions
+Redeem
+Buy gift card
+My wishlist
+My Play activity
+Parent Guide
+Categories
+Home
+Top charts
+New releases
+	
+Bharatgas
+Bharat Petroleum Corporation LimitedTools
+	
+31,734
+This app is compatible with all of your devices.
+
+
+Add to Wishlist	
+Install
+Bharatgas Mobile app facilitates consumers to avail LPG services- Now you can Book your refill & pay online, get refill history, your distributor details, Get safety instructions and avail various other services.
+
+New Updates:
+1.Brand New UI/UX
+2.Multi-Language
+3.Side Menu Options for additional features
+4.Easy User Login
+5.Login and Without login features access
+6.Quick Book and Online Payment
+7.Refill History
+8.Mechanic Service Request
+9.Address change service request
+10.Mobile Number change service request
+11.Get Your Distributor details
+12.Request for Second Cylinder
+13.Opt Out Subsidy
+14.Surrender Connection
+15.Rate Your Distributor
+16.Push Notifications
+17.Safety Clips/Instruction
+18.Locate Distributor
+19.E-KYC
+20.Talk to Us
+
+
+FAQ's:
+
+1. How to login ?
+You can login with registered mobile number. you will get OTP on your registered mobile number. After authenticate OTP, you need to generate Login PIN for future login.
+
+2. What is skip login?
+You can use BPCL new mobile app without login. there are limited features in without login. You can login anytime using Active login option.
+
+3. Forgot Password ?
+If you forgot your 4 digit login PIN for app, you can use forgot password to reset your PIN hence you will need to authenticate with your registered mobile number again.
+
+4. Getting Authentication/Invalid/Unexpected/Network request error ?
+You can try services back after some time, if still getting same error please try to re-login. If continue getting same error, for privacy reason report your issue to developer email only. you need to share your registered mobile number with your report email.
+
+5. How to re-login ?
+You can use forgot password option. App data will be reset and you can login again with registered mobile number.
+
+6. Do not find-out payment option.
+You can pay for your refill booking online, after a fresh refill booking there make payment option available. you can pay for your refill using credit/debit/net-banking. If getting any error to make payment, for privacy reason report your issue to developer email only. you need to share your registered mobile number with your report email.
+
+7. Not getting OTP ?
+Sometime OTP sending may be delayed due to a huge number of queue for SMS. You can wait or try after some time.
+
+8. Query/Feedback for service request ?
+Your Service request, Address change, Mobile Change, New connection request are processed by your distributor. You need to contact with your distributor in case any query.
+
+9. Mobile number not Avaliable with BharatGas error ?
+For privacy reason report your issue to developer email only and share your registered mobile number with your email.
+
+10. Getting any other error ?
+For privacy reason report your issue to developer email only. you need to share your registered mobile number with your report email.
+READ MORE
+REVIEWS
+Review Policy
+4.1
+31,734 total
+5
+4
+3
+2
+1
+	
+Dibyaranjan Mohanty
+April 23, 2020
+	
+
+76
+
+Dear team I really wanted to give 5 star but unfortunately application is bit less user friendly. For example after booking with online payment success application crashes most of time showing error "session time out". Secondly application does not have options to check pending booking request. It o...
+Full Review
+	
+ABDULKARIM SHARIKMASALAT
+April 27, 2020
+	
+
+48
+
+Best app. But, I am facing one problem. I have transferred my connection from Kolhapur (M.S.) to Hubli (K.S). In the distributor details app correctly shows Hubli distributot details, but at the time of booking, it shows Kolhapur distributor name. I am doubtful about prepaid booking, if it goes to o...
+Full Review
+	
+Jitesh Gawade
+May 6, 2020
+	
+
+19
+
+Pathetic app... I have raised a service request it's not even yet assigned. Still showing "not assigned" status.. earlier also whenever i used to raised cylinder request using this app.. 90% of time i never used to get sms and after 2-3 days i forced to call on phone number to get the cylinder reque...
+Full Review
+	
+Jijimon Kv
+May 7, 2020
+	
+
+4
+
+Making online payment after booking always makes confusion. After online payment, site says an error occurred please try after some time. At that time actual payment was paid from Bank and there is no further clarification or evidence in the site for our online payments done. Don't know payment stat...
+Full Review
+READ ALL REVIEWS
+WHAT'S NEW
+1. Must Read FAQ's for any issue/query in app description.
+2. Login issue resolved for some consumers.
+3. Oriya and Assamese language translation added.
+4. Other minor fixes
+ADDITIONAL INFORMATION
+Updated
+August 19, 2017
+Size
+13M
+Installs
+5,000,000+
+Current Version
+2.2.3
+Requires Android
+4.4 and up
+Content Rating
+Rated for 3+
+Learn More
+Permissions
+View details
+Report
+Flag as inappropriate
+Offered By
+Bharat Petroleum Corporation Limited
+Developer
+Visit website
+sohan.yadav@cyfuture.com
+Privacy Policy
+Similar
+See more
+	
+IndianOil ONE
+Indian Oil Corporation Ltd
+IndianOil ONE
+
+
+	
+मोर बिजली (CSPDCL Mor Bijlee App)
+Chhattisgarh State Power Distribution Company Ltd
+यह छत्तीसगढ़ स्टेट पाॅवर डिस्ट्रीब्यूशन कंपनी का बिजली उपभोक्ता मोबाइल ऐप है।
+
+
+	
+Postinfo
+Centre for Excellence in Postal Technology
+This, is an android Mobile application of Department of Posts
+
+
+	
+IndianOil For Business
+Indian Oil Corporation Ltd
+IndianOil for Business enables our Partners to manage their business on the go !
+
+
+	
+mPassport Seva
+Consular, Passport and Visa (CPV) Division
+Offers a wide variety of passport related services to smartphone users.
+
+
+More by Bharat Petroleum Corporation Limited
+See more
+	
+BPCL SmartFleet
+Bharat Petroleum Corporation Limited
+Mobile App for BPCL SmartFleet Customers .
+
+
+	
+LPG Vitarak Chayan
+Bharat Petroleum Corporation Limited
+App to view reports related to new LPG distributorship for PSU OMCs
+
+
+	
+SmartDrive
+Bharat Petroleum Corporation Limited
+BPCL is pleased to bring our customers Happy Appy Solution for your next drive!
+
+
+	
+BPCL CRM Lite
+Bharat Petroleum Corporation Limited
+CRM mobile application for BPCL Smartfleet and Fleetgenie field sales executives
+
+
+	
+Swachhta@PetrolPump
+Bharat Petroleum Corporation Limited
+Swachh Bharat App for Petrol Pumps.
+
+
+
+
+©2020 GoogleSite Terms of ServicePrivacyDevelopersArtistsAbout Google|Location: IndiaLanguage: English (United States)All prices include GST.
+By purchasing this item, you are transacting with Google Payments and agreeing to the Google Payments Terms of Service and Privacy Notice.

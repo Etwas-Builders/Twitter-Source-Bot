@@ -1,0 +1,169 @@
+Skip to content
+Bloomberg the Company & Its ProductsBloomberg Anywhere Remote LoginBloomberg Terminal Demo Request
+SKIP TO CONTENT
+DESIGN
+TRANSPORTATION
+ENVIRONMENT
+EQUITY
+LIFE
+Nate Berg
+What Running Out of Power in a Tesla on the Side of a Highway Taught Me About the Road Trip of Tomorrow
+NATE BERG APRIL 29, 2014
+A lesson in range anxiety on the country's emerging Supercharger network.
+SHARE
+TWEET
+
+It's 209 miles from the parking lot of a Chili's in Barstow, California, where we are, to the parking lot of a Carl's Jr. in Kingman, Arizona, where we need to go. I'm in a rented Tesla Model S, a sleek, battery-powered electric vehicle, with a travel companion. We're just about fully charged, and the car estimates it can travel 247 miles before we need more juice. That's a buffer of 38 miles, which should be more than enough to reach Kingman. We'll soon realize it isn't.
+
+The seemingly random parking lots I'm traveling between are sites of a new nationwide network of fast battery charging stations for drivers of Tesla's Model S. The company calls them "Superchargers" — direct-current battery charging stations of a proprietary design that can bring a nearly dead Model S battery to full charge in a little over an hour. That's much faster than the roughly 8 hours it would take by plugging into a wall outlet in your garage. Tesla's official reason for building this private network of battery charging infrastructure (currently up to 80 stations and counting) is to encourage Model S drivers to take road trips — a concept otherwise unthinkable in a car powered only by a battery. I'm testing it out on a weekend road trip from Los Angeles into Arizona and back.
+
+For drivers of electric vehicles, calculations of distance and range are of near-constant concern. How far you want to go must always be less far than your battery can take you. The Nissan Leaf, for example, can get up to 84 miles of range on a full charge — enough for most people's daily commutes and errands, but hardly a long-distance option. The estimated 265-mile range of a fully equipped Tesla Model S has allayed some concerns about having enough juice to get where you want to go. Coupled with the Supercharger network, it's made the idea of taking a battery-powered road trip feasible — even cross-country. Feasible, I quickly find, is not the same thing as simple.
+
+•       •       •       •       •
+
+An hour outside of Barstow I notice on the digital dashboard display that the 38-mile buffer between range and distance has fallen hard to about 20. We panic. We've got more than a hundred miles to go, a lot of it uphill, and if the buffer keeps decaying at this rate, we'll never make it. I'd been driving as I normally would, not realizing that higher speeds and the rising elevation would drain the battery faster — that "estimated" range really is just an estimate. In any effort to save battery life, we turn off the stereo and dim the huge touch screen control panel. I figure out the cruise control and drop it down to 63. We coast and hope.
+
+A Tesla Supercharging station in a parking lot of a Chili's in Barstow, California.
+
+We're mostly in the slow lane now, venturing left periodically to pass a big rig. But we're not going much faster than they are, and passing takes longer than usual. One truck driver doesn't take kindly to this gradual pass and offers us his middle finger. Our passing speed is apparently too slow for his liking, and he edges his truck into our lane. Properly intimidated and terrified, I slam on the accelerator, temporarily abandoning the cruise control and draining that much more of the battery's life. Once he's far enough behind, I take it back to 63, but it takes a long time on these straight desert roads for his headlights to finally disappear from the rear view.
+
+About 15 miles from Kingman the estimated range finally drops below the distance remaining to travel. The battery's display bar has shrunk and dimmed from bright green to grayish day-old avocado. The range keeps ticking down. We're about 7 miles away from the Kingman Supercharger when the battery range officially reads zero. Basically on empty, we keep going for a few more miles before the car begins slowing itself down. The car is shutting off, the display says, and I pull onto the shoulder, park and call AAA.
+
+Cities are changing fast. Keep up with the CityLab Daily newsletter.
+The best way to follow issues you care about.
+Subscribe
+
+We're 3 miles from the next Supercharger station with a dead electric car on the side of a barren desert highway. It's 12:30 in the morning. That psychotic trucker can't be too far behind.
+
+•       •       •       •       •
+
+The all-electric vehicle market is in its infancy. Tesla estimates that there are about 25,000 Model S cars on the road worldwide, 22,450 of which were sold in 2013. That's about 0.03 percent of all the 82.8 million vehicles sold last year. It's still a small minority.
+
+SERIES
+The Future of Transportation
+GO
+
+As things stand, the market has three main constraints: the limits of battery capacity, the time it takes to charge them, and the availability of charging stations. The limited range of electric cars has created a reliance on easily accessible charging, most of which takes place either at home or at work over the course of hours. But if people want to use their cars to get them more places than just work, home, and the errands in between, they'll need more and faster public charging stations. A fair amount exist in many urban areas, and various online maps plot out where drivers can add a little juice to their batteries while out in the world. But for the market to grow, this infrastructure really needs to be almost ubiquitous, says Michael Nicholas of the UC Davis Plug-In Hybrid and Electric Vehicle Research Center.
+
+"If you ask a customer, most people would say they want it everywhere. But then there's obviously not unlimited resources for host sites to install chargers," he says. "That's the thing: in the start of the market you need more chargers per vehicle to enable the range of driving possibilities."
+
+The availability of charging stations will likely become less important over time, as battery technology improves and range increases. Tesla's 265-mile range lithium-ion battery packs are leading the field, and the company is hoping to extend that dominance with a recently announced plan to invest about $5 billion between now and 2020 on a new battery factory. But for now, those longer-life batteries are expensive, and most electric or hybrid electric vehicles are limited to the much more modest ranges.
+
+"Range will be an issue for a very long time, unless a miracle battery shows up that is safe and cost effective," says Britta Gross, who heads the electric vehicle infrastructure program at General Motors. She says cost is why the battery in GM's $35,000 Chevrolet Volt only has a 38-mile range. Additional range would make the car more expensive than GM prefers.
+
+That means driving in an all-electric vehicle like the 84-mile range Nissan Leaf is, for now, confined to daily commutes and errands. For longer trips, the accessibility of charging stations — and especially the amount of time it takes to charge — are major limiting factors. When it comes to the electric vehicle road trip, a Tesla is basically the only option.
+
+•       •       •       •       •
+
+It's nearly 2 a.m. by the time a tow truck arrives. A half hour later the driver tells us he can't tow us and, frankly, he's a little afraid of messing anything up on a car that's worth nearly $100,000. When the shop opens the next morning, he assures us, somebody should be able to come right out. With few other reasonable options, we accept a ride in the tow truck to a hotel in Kingman, 3 miles away — leaving our $100,000 rented commodity in the darkness on the side of the interstate.
+
+Four hours later we're awake again, on the phone to AAA. They can't find anyone who's willing to take on the liability of towing a fancy car. After hours of calls back and forth, they say they've finally found a truck willing to jump and tow us. We convince a local cabbie to drop us off on the side of the interstate where we left the car 8 hours earlier, but our hero truck never comes. I call AAA after an hour, and they promptly hang us out to dry, saying, essentially, "Sorry, we aren't willing to take on the liability of helping you." We have entered an episode of The Twilight Zone written by Franz Kafka.
+
+In the meantime, we'd also been calling the roadside services of Hertz, from whom I'd rented the car, as well as Tesla. They'd also been trying to convince a local tow company to come get us, with no luck. We'd been blacklisted by the tow companies of Kingman — "Oh, you're the Tesla," they'd say when I called. "Sorry." Though any idiot can rent a fancy electric car, I'm apparently the only one who's broken down near Kingman, Arizona.
+
+Eventually Hertz and Tesla manage to get somebody out to save us. The tow truck driver, assisted by Tesla's roadside service guy on the line, figures out how to jump the car and give it enough juice to turn on and robo-shift into neutral. Fifteen minutes later it's on the back of the truck on its way to the parking lot of a Carl's Jr. Tesla generously picks up the $165 tow charge, and by the time our driver drops us at the Supercharger station, his company has become the go-to tow service for any other Tesla in need of roadside assistance in the Kingman area.
+
+•       •       •       •       •
+
+A map on Tesla's website shows the locations of the 80 Supercharger stations now in operation, and the radius of range around each that drivers can theoretically reach. The dots of the stations run the entire length of the west coast, most of the east coast, a squiggle from the southwest through the Midwest to the northeast, and a separate triangle in Texas. The combined radii of range covers a pretty good amount of the country, and the company has its sights on extending that coverage significantly. By the end of 2014, they expect to be able to reach 80 percent of the U.S. population. By the end of 2015, they hope to reach 98 percent.
+
+Screenshot of Tesla's Supercharging network in the United States. (Via Tesla Motors)
+
+But while the Superchargers will enable drivers to reach most of the country, the Superchargers themselves will be relatively few. According to Tesla, there will be about 250 by the end of next year, located mostly along well-traveled interstate highways and typically in small towns. 
+
+"Supercharging is most beneficial between city centers, as opposed to within them, so by placing them along major corridors, we are enabling Model S owners to truly drive freely," Tesla spokesperson Patrick Jones wrote in an email. (The company declined to make any officials available for an interview.) In cities, people are able to plug in at home and work, and don't really drive far enough to benefit from fast charging. The Superchargers are an every-once-in-a-while sort of amenity. "We believe that our Supercharger network is a game changer for the EV market and is the answer to lingering questions about long-distance travel or so-called 'range anxiety.'"
+
+And while enabling road trips is certainly a worthy cause for some drivers, observers of the electric vehicle market see the Supercharger network mostly as a marketing tool. "They are selling the idea that you can travel across country in your electric car, but the number of people who do it is probably not all that high," says Nicholas, the UC Davis researcher. "It kind of takes away that mental barrier of 'This electric car can't do what my gas car can do,' and sometimes people need that kind of assurance to buy the car in the first place."
+
+Each Supercharger station is estimated to cost between $100,000 and $175,000, and Tesla is picking up the entire tab.
+
+Tesla won't offer any details about how much it costs to build and operate these Supercharger stations, but according to internal documents obtained by TechCrunch, they're an expensive effort, marketing or no. Each Supercharger station is estimated to cost between $100,000 and $175,000, and Tesla is picking up the entire tab — from installation to maintenance to the cost of providing the large amount of energy needed to charge their cars so quickly. Nicholas says Tesla is internalizing this cost and adding it into the price of the Model S, which can range from about $70,000 to more than $100,000.
+
+For the landowners of Supercharger sites, the cost is basically nothing, aside from agreeing to dedicate an average of four or five well-lit parking spaces to the chargers for a period of five to ten years. Like the Superchargers I visited in Barstow and Kingman, most of the stations tend to be located near hotels, fast food or casual dining chain restaurants, and (perhaps somewhat incongruously) gas stations. But there's a logic to that: Superchargers are essentially just plugs attached to utility boxes, and don't have common roadside amenities like restrooms or snacks. Last June, Tesla made a deal with shopping mall developer CBL & Associates Properties to site Superchargers at five shopping malls nationwide. Many others on the map are located near malls and retail outlets. An hour to kill while charging your car might just as easily be an hour to shop.
+
+•       •       •       •       •
+
+When you park a Tesla in a Supercharger station, people take pictures. Random people walk by slowly. Enthusiastic car nerds come to get up close. Men, women and children alike stare. The driver of one of the other two Teslas we saw at the Kingman Supercharger was even taking pictures of his own car. He was instagramming and tweeting, it turned out, to document a road trip he was taking from L.A. to Virginia and back — a coast-to-coast-to-coast journey powered solely by Superchargers that he guessed was probably the first attempted.
+
+"The reason I'm here doing this is to show that it's possible right now to get anywhere you want to go on the Supercharger network," says Sam Weinstein, who along with a driving partner, was at his third Supercharger stop of the day. He expected to be in Virginia to visit family within four days.
+
+A Tesla Supercharging station in Kingman, Arizona.
+
+The engineers at Tesla probably couldn't have invented a better pitchman than Sam Weinstein. Weinstein is an unabashed Tesla fanatic. He put down a $5,000 deposit just to get a chance to test drive a Model S. Later, when he was waiting for the car to be delivered, he'd go to the Tesla store in Santa Monica and just sit in their display model. He ducks into the driver side of our Model S to show me how to find the car's specs on the display. He shows me an app on his iPhone that monitors the charging status of his own car, plugged in two stalls down. He emails me a screenshot.
+
+I called him in mid-March, after he'd returned to Southern California, to hear how the rest of his trip went. Aside from a flat tire in South Dakota and a range-taxing diversion around a jackknifed big rig in Minnesota, the 7,500-mile round trip was basically smooth. He sent me a spreadsheet of data from the car's return trip, with mileage, average speeds and the amount of battery range he had at the beginning and end of each leg between Superchargers. There were a few nail-biters, with just 3 or 4 miles of range left by the time he plugged in, but the trip was mostly a breeze.
+
+"I knew in advance that I would have to be careful, that I would have to be judicious in certain spots where there was a longer gap," he says. The average distance between the 32 Superchargers he visited between Virginia and California was just 120 miles, which makes our breakdown on the 209-mile stretch between Barstow and Kingman even less surprising. These are the first days of the electric vehicle road trip. There are certainly kinks in the limited infrastructure Tesla has so far built, but getting generations of people used to the convenience of combustion engines and gas stations to adjust their driving and mobility patterns may be a bigger hurdle. Weinstein sees these as necessary stumbles on the way to a better future.
+
+"For me, I know that this is the least comfortable it will ever be for anyone," he says. "Since I got back here they've already opened another Supercharger."
+
+Weinstein's enthusiasm aside, the present Supercharger network offers only a few road trip options from any given point. After Kingman we'd planned to go to Flagstaff, Arizona. That was before the 12-hour breakdown. It's raining there now, with a chance of snow so we head to the only other reasonable option: Las Vegas.
+
+•       •       •       •       •
+
+For all the techno-boosterism surrounding the Supercharger network, there's also a fair amount of skepticism about just how important a nationwide system of road trip charging stations can be to the electric vehicle market. For one, the electric vehicle of the near future probably won't be just electric.
+
+"In the future, everything will be a form of what we now call a hybrid," says Timothy Lipman, co-director of the Transportation Sustainability Research Center at UC Berkeley. He foresees a greater variety of hybridizations combining oil, natural gas, electric batteries, hydrogen fuel cells and maybe some as yet undeveloped alternative fuel options. He agrees that battery technology will continue to improve and therefore increase the range cars will be able to travel using just electricity. But, when combined with other fueling technologies, there'll be something to supply more power when the battery runs out, potentially making public charging infrastructure largely irrelevant.
+
+GM's Britta Gross agrees. "These sort of bi-fuel mixtures mean we don't have to wait for infrastructure. We don't have to wait for everyone to figure out how infrastructure happens," she says, noting its expense. "It should not be an issue. Public charging is not a necessity." She calls public charging infrastructure like Superchargers "nice for awareness."
+
+For the time being, all-electric vehicles like those made by Tesla are somewhat limited to a certain type of driver — one who only needs to go so far on a regular basis and for whom the occasional road trip can be constrained by the availability of charging infrastructure. Tesla plans to expand its Supercharger network and reduce those constraints, but the reality remains that a Tesla is simply less versatile than a gas-powered car. This likely won't always be the case, and the Supercharger network is one major way of changing the paradigm now. Better batteries — also on Tesla's agenda — are the other, and they'll likely be the more important effort of the two.
+
+"In the future, everything will be a form of what we now call a hybrid."
+
+Las Vegas has one of the few inner city Superchargers in Tesla's emerging network. It's mostly there because of the Downtown Project — the urban revitalization/tech incubation/real estate plaything of Zappos CEO Tony Hsieh — and an affiliated car-bike-ride sharing program called Project 100. Its "invite-only beta operation" is supposed to begin sometime this year, and there will eventually be 100 Tesla Model S cars available either for sharing or for on-demand driving services on downtown streets. One can imagine with that many Teslas on the road in one neighborhood there will be some long lines for the six Supercharger stalls. For now, the demand is low enough that we were one of only three cars charging on a Sunday afternoon.
+
+Once we had a comfortable 250 miles of range, we set off back for Barstow. We made it with plenty of range left, and topped off before heading back to L.A., again with no problems. We'd learned our lesson about driving this particular car in this specific situation, and ended our electric car road trip on a successful note. In fact I was a little sad to have to return the car. It felt a little coming back to the present after a brief visit to the near future. Back in the year 2014, I caught a cab home. But even that's changing. The cab was a Prius.
+
+All images courtesy Nate Berg unless otherwise indicated.
+
+This article is part of 'The Future of Transportation,' a CityLab series made possible with support from The Rockefeller Foundation.
+
+About the Author
+Nate Berg
+ @nate_berg
+ Feed
+
+Nate Berg is a freelance reporter and a former staff writer for CityLab. He lives in Los Angeles.
+
+Expand Comments +
+Most Popular
+Life
+Even the Pandemic Can’t Kill the Open-Plan Office
+
+Even before coronavirus, many workers hated the open-plan office. Now that shared work spaces are a public health risk, employers are rethinking office design.
+
+SARAH HOLDER MAY 14, 2020
+Equity
+What New Research Says About Race and Police Shootings
+
+Two new studies have revived the long-running debate over how police respond to white criminal suspects versus African Americans.
+
+BRENTIN MOCK AUGUST 6, 2019
+Life
+The Next Recession Will Destroy Millennials
+
+Millennials are already in debt and without savings. After the next downturn, they’ll be in even bigger trouble.
+
+ANNIE LOWREY AUGUST 26, 2019
+Equity
+This Is How Hard It Is to Invest in Black Neighborhoods
+
+The story of one investor trying to revitalize a crumbling block in Birmingham, Alabama, shows how little value American institutions place on black properties.
+
+ANDRE PERRY MAY 13, 2020
+Life
+How the Streets Got So Mean
+
+In his new book, cultural geographer Don Mitchell looks at the role capitalism plays in creating, perpetuating and criminalizing homelessness in U.S. cities.
+
+MIMI KIRK MAY 13, 2020
+Maps
+Click Here
+Newsletters
+Click Here
+Facebook
+Click Here
+×
+Terms of Service Trademarks Privacy Policy ©2020 Bloomberg L.P. All Rights Reserved
+Careers Made in NYC Advertise Ad Choices Contact Us Help

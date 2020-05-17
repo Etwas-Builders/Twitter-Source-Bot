@@ -2,7 +2,9 @@
   "cSpell.words": [
     "IPFS",
     "NNPS",
+    "SEBITES",
     "autohook",
+    "coronavirus",
     "domcontentloaded",
     "favorited",
     "orbitdb",
@@ -15,5 +17,16 @@
     "whosaidthis"
   ],
   "python.pythonPath": "/usr/bin/python3",
-  "debug.allowBreakpointsEverywhere": true
+  "debug.allowBreakpointsEverywhere": true,
+  "cSpell.enableFiletypes": [
+    "!javascriptreact",
+    "!json",
+    "!plaintext",
+    "ahk",
+    "jsx-tags",
+    "jupyter",
+    "pip-requirements",
+    "shellscript",
+    "sql"
+  ]
 }

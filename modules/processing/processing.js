@@ -27,7 +27,13 @@ const blacklist = require("./blacklist.json");
 
 */
 
-exports.getTopResult = async function (results, username, keywords, tweetId) {
+exports.getTopResult = async function (
+  results,
+  username,
+  userScreenName,
+  keywords,
+  tweetId
+) {
   let topResult;
 
   for (let result of results) {
@@ -43,7 +49,7 @@ exports.getTopResult = async function (results, username, keywords, tweetId) {
       let protocol = pathArray[0]; // HTTPS or HTTP
       result.score = 0; // Initialization
       if (protocol === "http") {
-        result.score -= 0.15;
+        result.score -= 0.5;
       }
       let host = pathArray[2];
       if (host.includes("www")) {
@@ -57,17 +63,17 @@ exports.getTopResult = async function (results, username, keywords, tweetId) {
         endpoint.includes("latest") ||
         endpoint === ""
       ) {
-        result.score -= 0.5;
+        result.score -= 1;
       }
 
       //console.log("Processing -> getTopResult -> url", host);
       if (host in blacklist) {
-        result.score = blacklist[host];
+        result.score = blacklist[host] === -1 ? -1 : blacklist[host] * 10;
         console.log("Found blacklisted score", host);
       }
       //console.log("Processing -> getTopResult -> url", host);
       if (host in whitelist) {
-        result.score += 0.1;
+        result.score += 1;
         console.log("Found whitelisted source", host);
       } else {
         result.score += 0;
@@ -81,6 +87,7 @@ exports.getTopResult = async function (results, username, keywords, tweetId) {
 
   for (let result of results) {
     if (result.score !== -1) {
+      //result.score *= 10; // Score Multiplier
       cleanedResults.push(result);
     }
   }
@@ -103,12 +110,18 @@ exports.getTopResult = async function (results, username, keywords, tweetId) {
           `Processing -> getTopResult -> Promise Resolution for ${result.url} with title ${data.title}`
         );
         result["title"] = data.title;
-        console.error(
+        console.debug(
           result.score < 0
             ? `Score negative prior to ML ${result.score} for ${result.url}`
             : ""
         );
-        let score = await nlp.scorePage(result, data, keywords, tweetId);
+        let score = await nlp.scorePage(
+          result,
+          data,
+          keywords,
+          tweetId,
+          userScreenName
+        );
         result.score += score;
 
         console.log(
@@ -116,7 +129,7 @@ exports.getTopResult = async function (results, username, keywords, tweetId) {
           result.score,
           result.url
         );
-        if (result.score > 0.45) {
+        if (result.score > 3) {
           // Set Threshold
           if (result.title && result.title.includes("@")) {
             // Handle Escaping
