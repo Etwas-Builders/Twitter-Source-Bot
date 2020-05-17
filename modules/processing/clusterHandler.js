@@ -5,6 +5,7 @@ let main = async function () {
     //"https://www.nytimes.com/2020/05/05/world/coronavirus-news.html",
     //"/home/rahultarak12345/Testing-Repo/modules/processing/image.html",
     "https://www.miamiherald.com/news/coronavirus/article242538781.html",
+    "https://www.bizjournals.com/bizwomen/news/latest-news/2018/02/rometty-spurs-hiring-of-new-collar-tech-workers.html?page=all",
     // "https://www.vox.com/the-highlight/2020/2/18/21136863/alcoholism-sober-curious-mindful-drinking",
   ];
   let urlsLength = urls.length;
@@ -15,19 +16,25 @@ let main = async function () {
   }
   for (let i = 0; i < urls.length; i++) {
     outputs[i] = scrapper.newUrl(cluster, urls[i]);
-    outputs[i].then((data) => {
-      resolvedPromiseCount++;
+    outputs[i]
+      .then((data) => {
+        resolvedPromiseCount++;
 
-      console.log(
-        "Testing -> Resolved Promise -> outputs",
-        i,
-        "with title",
-        data.title
-      );
-      if (resolvedPromiseCount === urlsLength) {
-        scrapper.closeCluster(cluster);
-      }
-    });
+        console.log(
+          "Testing -> Resolved Promise -> outputs",
+          i,
+          "with title",
+          data.title,
+          data.text.length
+        );
+
+        if (resolvedPromiseCount === urlsLength) {
+          scrapper.closeCluster(cluster);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 };
 main();
