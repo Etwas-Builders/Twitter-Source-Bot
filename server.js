@@ -117,7 +117,6 @@ let handleNewWebHook = function (event) {
   // });
   if (event.tweet_create_events) {
     let tweet = event.tweet_create_events[0];
-
     tweetHandler.tweetClassify(tweet, false);
   }
 };
