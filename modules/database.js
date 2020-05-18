@@ -56,10 +56,21 @@ let checkDatabase = async function (tweetId) {
     }
   }
 };
+let isTweetHandled = async function (tweetId) {
+  let existingTweet = await tweetSchema.TweetSchema.findOne({
+    tweetId: tweetId,
+  }).sort({ cacheCreated: "ascending" });
+  if (!existingTweet) {
+    existingTweet = await tweetSchema.TweetSchema.findOne({
+      replyId: tweetId,
+    }).sort({ cacheCreated: "ascending" });
+  }
+  return existingTweet ? true : false;
+};
 
 try {
   exports.updateTweetCache = updateDatabase;
-
+  exports.isTweetHandled = isTweetHandled;
   exports.checkTweetCache = checkDatabase;
 } catch (err) {
   console.log("Export Error", err);

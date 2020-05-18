@@ -2,6 +2,7 @@
  * @jest-environment node
  */
 const processing = require("../modules/processing/processing");
+const scraper = require("../modules/processing/scraper");
 
 let cluster;
 
@@ -33,6 +34,7 @@ describe("Get Top Result", () => {
     cluster = topResult.cluster;
     console.log(topResult);
     expect(cluster).toBeDefined();
+    await scraper.closeCluster(cluster);
     expect(topResult.topResult).toBeNull;
   });
 
@@ -63,6 +65,7 @@ describe("Get Top Result", () => {
     cluster = topResult.cluster;
     console.log(topResult);
     expect(cluster).toBeDefined();
+    await scraper.closeCluster(cluster);
     expect(topResult.topResult).toBeNull;
   });
 

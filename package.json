@@ -26,6 +26,7 @@
   "homepage": "https://github.com/Mozilla-Open-Lab-Etwas/Backend#readme",
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.1.5",
+    "http-terminator": "^2.0.3",
     "jest": "^25.3.0"
   },
   "dependencies": {

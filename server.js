@@ -98,6 +98,7 @@ let twitterWebhook = async function () {
 };
 let main = async function () {
   await twitterWebhook();
+  await tweetHandler.getMentionTimeline();
   setTimeout(() => {
     fs.writeFileSync(
       "./lastRestart.json",
@@ -116,40 +117,8 @@ let handleNewWebHook = function (event) {
   // });
   if (event.tweet_create_events) {
     let tweet = event.tweet_create_events[0];
-    // If it is not our own tweet
 
-    if (!(tweet.user.id_str === "1255487054219218944")) {
-      // Ensure it is not replying to us
-      if (
-        tweetHandler.notPassiveMention(tweet) &&
-        !("retweeted_status" in tweet)
-      ) {
-        if (tweet.in_reply_to_status_id) {
-          // This event is a reply
-          tweetHandler.handleNewReplyEvent(event);
-        } else if (tweet.quoted_status_id) {
-          // Quote Tweet
-          tweetHandler.handleNewQuoteEvent(event);
-        } else {
-          // Not a Reply or Not Quote
-          let tweetEntities = tweet.entities;
-          let user_mentions = tweetEntities.user_mentions;
-          for (let user of user_mentions) {
-            console.log("handleNewWebHook -> user", user);
-            if (user.id_str === "1255487054219218944") {
-              // Mention Behaviour
-              tweetHandler.handleNewMentionEvent(event);
-            }
-          }
-        }
-      }
-    } else {
-      // let tweetContent = tweet.text;
-      // if (tweetContent.includes("Our top result for this tweet is :")) {
-      //   // Testing Code
-      //   tester.alphaTest(tweet);
-      // }
-    }
+    tweetHandler.tweetClassify(tweet, false);
   }
 };
 
