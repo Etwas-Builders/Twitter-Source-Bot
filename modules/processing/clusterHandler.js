@@ -1,5 +1,7 @@
-const scrapper = require("./scraper");
-let main = async function () {
+const scraper = require("./scraper");
+var exports = (module.exports = {});
+
+let manual = async function () {
   let urls = [
     // "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then",
     //"https://www.nytimes.com/2020/05/05/world/coronavirus-news.html",
@@ -11,11 +13,11 @@ let main = async function () {
   let urlsLength = urls.length;
   let resolvedPromiseCount = 0;
   let outputs = [];
-  let cluster = await scrapper.createCluster();
+  let cluster = await scraper.createCluster();
   for (let url of urls) {
   }
   for (let i = 0; i < urls.length; i++) {
-    outputs[i] = scrapper.newUrl(cluster, urls[i]);
+    outputs[i] = scraper.newUrl(cluster, urls[i]);
     outputs[i]
       .then((data) => {
         resolvedPromiseCount++;
@@ -29,7 +31,7 @@ let main = async function () {
         );
 
         if (resolvedPromiseCount === urlsLength) {
-          scrapper.closeCluster(cluster);
+          scraper.closeCluster(cluster);
         }
       })
       .catch((err) => {
@@ -37,4 +39,13 @@ let main = async function () {
       });
   }
 };
-main();
+//main();
+
+let getPage = async function (url) {
+  let cluster = await scraper.createCluster();
+  let output = await scraper.newUrl(cluster, url);
+  await scraper.closeCluster(cluster);
+  return output;
+};
+
+exports.getPage = getPage;

@@ -2,6 +2,9 @@ var exports = (module.exports = {});
 
 const TwitterApi = require("twitter-lite");
 const axios = require("axios");
+const tweetSchema = require("../models/tweetSchema");
+const testerSchema = require("../models/testerSchema");
+const clusterHandler = require("./processing/clusterHandler");
 const twitterClient = new TwitterApi({
   subdomain: "api",
   version: "1.1",
@@ -44,11 +47,47 @@ exports.alphaTest = async function (tweet) {
   }
 };
 
-exports.checkServerActive = async function (content, source) {
-  const testUrl = ``;
-  try {
-    await axios.post(testUrl, { content: content, source: source });
-  } catch (err) {
-    console.log("Test url down", err);
+exports.createTest = async function (tweetId, idName, type) {
+  // Stores information to create test case
+  console.log(tweetId);
+  let processedTweet = await tweetSchema.TweetSchema.findOne({
+    tweetId: tweetId,
+  }).sort({ cacheCreated: "ascending" });
+  console.log(processedTweet);
+  if (!processedTweet) {
+    return "Error tweet has not been processed";
+  } else {
+    let body;
+    let citation;
+    if (!processedTweet.citation.body) {
+      if (processedTweet.cited) {
+        let response = await clusterHandler.getPage(
+          processedTweet.citation.url
+        );
+        body = response.text;
+      } else {
+        body = "Not Found";
+      }
+      citation = processedTweet.citation;
+      citation.body = body;
+    } else {
+      citation = processedTweet.citation;
+    }
+
+    let new_entry = new testerSchema.TweetSchema({
+      id: idName,
+      tweetId: tweetId,
+      type: type,
+      cited: processedTweet.cited,
+      citation: citation,
+      tweetContent: processedTweet.textContent,
+      originalTweet: processedTweet.originalTweet,
+    });
+    try {
+      let tweetEntry = await new_entry.save();
+      return "Success";
+    } catch (err) {
+      return err;
+    }
   }
 };

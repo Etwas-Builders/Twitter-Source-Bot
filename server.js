@@ -16,7 +16,7 @@ const mongoose = require("mongoose");
 // Modules
 const tweetHandler = require("./modules/tweet");
 const citation = require("./modules/citation");
-// const tester = require("./modules/tester");
+const tester = require("./modules/tester");
 const IP = require("./modules/ip");
 
 // Server
@@ -117,7 +117,6 @@ let handleNewWebHook = function (event) {
   // });
   if (event.tweet_create_events) {
     let tweet = event.tweet_create_events[0];
-
     tweetHandler.tweetClassify(tweet, false);
   }
 };
@@ -183,6 +182,16 @@ app.get("/", async function (req, res) {
       err: err,
     });
   }
+});
+
+app.get("/addTweetToTest", async function (req, res) {
+  let tweetId = req.query.tweetId;
+  let idName = req.query.testName;
+  let type = req.query.type;
+  let response = await tester.createTest(tweetId, idName, type);
+  res.status(200).json({
+    response: response,
+  });
 });
 
 // Post Requests

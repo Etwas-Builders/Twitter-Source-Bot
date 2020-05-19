@@ -136,7 +136,7 @@ exports.getTopResult = async function (
             result.title = result.title.replace("@", "@ ");
             // Issue #17 Temporary Fix https://github.com/Mozilla-Open-Lab-Etwas/Twitter-Source-Bot/issues/17
           }
-
+          result.body = data.text;
           return { topResult: result, cluster: cluster };
         } else {
           console.error(`Invalid Score for ${result.url} of ${result.score} `);

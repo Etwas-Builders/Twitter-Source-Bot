@@ -47,23 +47,29 @@ let sebitesApi = async function (query) {
 
 let pythonScraper = async function (query) {
   let ip = await IP.getCurrentIp();
-  let response = await axios.get(`http://${ip}:5000/search`, {
-    params: {
-      query: query,
-    },
-  });
-  let results = response.data.results;
-  //console.log("results", results);
-  if (results.length === 0) {
+  try {
+    let response = await axios.get(`http://${ip}:5000/search`, {
+      params: {
+        query: query,
+      },
+    });
+    let results = response.data.results;
+    //console.log("results", results);
+    if (results.length === 0) {
+      return [];
+    }
+    return results;
+  } catch (err) {
     return [];
   }
-  return results;
 };
 
 let getSearchResults = async function (keywords, userScreenName) {
-  keywords.push({ word: userScreenName, partOfSpeech: "NNP" });
   let words = keywords.map((e) => e.word);
-
+  let parts = keywords.map((e) => e.partOfSpeech);
+  if (!("NNS" in parts || "NNPS" in parts)) {
+    keywords.push({ word: userScreenName, partOfSpeech: "SP" });
+  }
   if (words.length > 10) {
     words = words.splice(0, Math.floor(words.length * 0.5));
   }

@@ -36,6 +36,22 @@ let sourceNotFound = async function (cachedParams, username) {
   return await notFound.sourceNotFound(username);
 };
 
+let messageTruncate = function (username, title, score, url) {
+  let message = `@${username} Our top result for this tweet is : ${title} with score of ${score.toFixed(
+    2
+  )}  ${url} `;
+  if (message.length > 220) {
+    //console.log(username.length, url.length);
+    let titleLength = 200 - username.length - 3 - url.length - 3;
+    //console.log(title, titleLength);
+    title = title.slice(0, titleLength) + "...";
+    message = `@${username} Our top result for this tweet is : ${title} with score of ${score.toFixed(
+      2
+    )}  ${url} `;
+  }
+  return message;
+};
+
 let notPassiveMention = async function (tweet) {
   /* 
     A passive mention has a reply_id, and replies to us
@@ -52,6 +68,10 @@ let notPassiveMention = async function (tweet) {
 
 let handleNewTweet = async function (newTweet, replyId, fromMentionTime) {
   let tweetId = newTweet.id_str;
+  let userId = newTweet.user.id_str;
+  if (userId === "1255487054219218944") {
+    return null;
+  }
   let cachedContent = await database.checkTweetCache(tweetId);
   let username = newTweet.user.screen_name;
   let name = newTweet.user.name;
@@ -124,10 +144,16 @@ let handleNewTweet = async function (newTweet, replyId, fromMentionTime) {
   cachedParams.citation.title = topResult.title;
   cachedParams.citation.url = topResult.url;
   cachedParams.citation.score = topResult.score;
+  cachedParams.citation.body = topResult.body;
 
   await database.updateTweetCache(cachedParams);
-
-  let message = `@${username} Our top result for this tweet is : ${topResult.title} with score of ${topResult.score}  ${topResult.url} `;
+  let message = messageTruncate(
+    username,
+    topResult.title,
+    topResult.score,
+    topResult.url
+  );
+  // let message = `@${username} Our top result for this tweet is : ${topResult.title} with score of ${topResult.score}  ${topResult.url} `;
 
   return {
     message: message,
@@ -234,6 +260,10 @@ let threadRecursive = async function (tweet, thread) {
     // This tweet is not in reply to any other tweet
     return thread;
   }
+  if (tweet.in_reply_to_status_id_str === "1255487054219218944") {
+    // if bot is ping in a thread where it already made a citation it won't continue above that
+    return thread;
+  }
 
   let parentTweetId = tweet.in_reply_to_status_id_str;
   try {
@@ -254,73 +284,56 @@ let handleTweetThread = async function (reply, thread, fromMentionTime) {
     A thread is a series of replies
   */
   let original_tweet = thread[0];
-  let username = original_tweet.user.screen_name;
-  let name = original_tweet.user.name;
-  let cachedContent = await database.checkTweetCache(original_tweet.id_str);
-  let message;
-  if (cachedContent) {
-    if (!fromMentionTime) {
-      message = cachedContent;
-      let username = original_tweet.user.screen_name;
-      message = `@${username} ${message}`;
-      message = `@${reply.screen_name} ${message}`;
-      await replyHandler.handleReply(null, message, reply.id);
-    }
+  if (original_tweet.user.id_str === "1255487054219218944") {
+    return;
   } else {
-    thread = await threadRecursive(original_tweet, thread);
-    let fullContent = "";
-    for (let tweet of thread) {
-      console.log("Tweet -> handleTweetThread -> tweet of thread", tweet);
-      let content = tweet.full_text ? tweet.full_text : tweet.text;
-      fullContent = `${content} ${fullContent} `; // Add delimiter later
-    }
-
-    console.log("Tweet -> handleTweetThread -> fullContent", fullContent);
-
-    let cachedParams = {};
-    cachedParams.tweetId = original_tweet.id_str;
-    cachedParams.tweetCreated = original_tweet.created_at;
-    cachedParams.replyId = reply.id;
-    cachedParams.textContent = fullContent;
-    cachedParams.tweet = original_tweet;
-
-    axios.post(process.env.DISCORD_WEBHOOK_URL, {
-      content: `New Requested Citation from ${username}.\n Tweet Body :\n ${fullContent}`,
-      username: "Who Said This Bot",
-      avatar_url:
-        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
-    });
-
-    let keywords = await nlp.handleThread(fullContent);
-
-    console.log("Tweet -> handleTweetThread -> keywords", keywords);
-
-    let results = await citation.getSearchResults(keywords, name);
-
-    console.log("Tweet -> handleTweetThread -> results", results);
-
-    if (results.length === 0) {
-      let citationResponse = await sourceNotFound(cachedParams, username);
-      message = `${reply.screen_name} ${citationResponse.message}`;
-
-      await replyHandler.handleReply(
-        citationResponse.mediaId,
-        message,
-        reply.id
-      );
+    let username = original_tweet.user.screen_name;
+    let name = original_tweet.user.name;
+    let cachedContent = await database.checkTweetCache(original_tweet.id_str);
+    let message;
+    if (cachedContent) {
+      if (!fromMentionTime) {
+        message = cachedContent;
+        let username = original_tweet.user.screen_name;
+        message = `@${username} ${message}`;
+        message = `@${reply.screen_name} ${message}`;
+        await replyHandler.handleReply(null, message, reply.id);
+      }
     } else {
-      let processedOutput = await processing.getTopResult(
-        results,
-        username,
-        name,
-        keywords,
-        original_tweet.id_str
-      );
-      let topResult = processedOutput.topResult;
+      thread = await threadRecursive(original_tweet, thread);
+      let fullContent = "";
+      for (let tweet of thread) {
+        console.log("Tweet -> handleTweetThread -> tweet of thread", tweet);
+        let content = tweet.full_text ? tweet.full_text : tweet.text;
+        fullContent = `${content} ${fullContent} `; // Add delimiter later
+      }
 
-      if (!topResult) {
+      console.log("Tweet -> handleTweetThread -> fullContent", fullContent);
+
+      let cachedParams = {};
+      cachedParams.tweetId = original_tweet.id_str;
+      cachedParams.tweetCreated = original_tweet.created_at;
+      cachedParams.replyId = reply.id;
+      cachedParams.textContent = fullContent;
+      cachedParams.tweet = original_tweet;
+
+      axios.post(process.env.DISCORD_WEBHOOK_URL, {
+        content: `New Requested Citation from ${username}.\n Tweet Body :\n ${fullContent}`,
+        username: "Who Said This Bot",
+        avatar_url:
+          "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
+      });
+
+      let keywords = await nlp.handleThread(fullContent);
+
+      console.log("Tweet -> handleTweetThread -> keywords", keywords);
+
+      let results = await citation.getSearchResults(keywords, name);
+
+      console.log("Tweet -> handleTweetThread -> results", results);
+
+      if (results.length === 0) {
         let citationResponse = await sourceNotFound(cachedParams, username);
-        console.error(citationResponse);
         message = `${reply.screen_name} ${citationResponse.message}`;
 
         await replyHandler.handleReply(
@@ -328,29 +341,58 @@ let handleTweetThread = async function (reply, thread, fromMentionTime) {
           message,
           reply.id
         );
+      } else {
+        let processedOutput = await processing.getTopResult(
+          results,
+          username,
+          name,
+          keywords,
+          original_tweet.id_str
+        );
+        let topResult = processedOutput.topResult;
+
+        if (!topResult) {
+          let citationResponse = await sourceNotFound(cachedParams, username);
+          console.error(citationResponse);
+          message = `${reply.screen_name} ${citationResponse.message}`;
+
+          await replyHandler.handleReply(
+            citationResponse.mediaId,
+            message,
+            reply.id
+          );
+        }
+
+        cachedParams.cited = true;
+        cachedParams.citation = {};
+        cachedParams.citation.title = topResult.title;
+        cachedParams.citation.url = topResult.url;
+        cachedParams.citation.score = topResult.score;
+
+        await scrapper.closeCluster(processedOutput.cluster);
+        console.log(
+          "Tweet -> handleTweetThread -> topResult.score",
+          topResult.score
+        );
+
+        await database.updateTweetCache(cachedParams);
+
+        let message = messageTruncate(
+          username,
+          topResult.title,
+          topResult.score,
+          topResult.url
+        );
+
+        message = `@${reply.screen_name} ${message}`;
+
+        await replyHandler.handleReply(null, message, reply.id); // Cited
       }
-
-      cachedParams.cited = true;
-      cachedParams.citation = {};
-      cachedParams.citation.title = topResult.title;
-      cachedParams.citation.url = topResult.url;
-      cachedParams.citation.score = topResult.score;
-
-      await scrapper.closeCluster(processedOutput.cluster);
-      console.log(
-        "Tweet -> handleTweetThread -> topResult.score",
-        topResult.score
-      );
-
-      await database.updateTweetCache(cachedParams);
-
-      let message = `@${username} Our top result for this tweet is : ${topResult.title} with score of ${topResult.score}  ${topResult.url} `;
-      message = `@${reply.screen_name} ${message}`;
-      await replyHandler.handleReply(null, message, reply.id); // Cited
     }
   }
 };
 let tweetClassify = async function (tweet, fromMentionTime) {
+  console.log("Tweet -> NewClassifier");
   // If it is not our own tweet
   if (!(tweet.user.id_str === "1255487054219218944")) {
     // Ensure it is not replying to us

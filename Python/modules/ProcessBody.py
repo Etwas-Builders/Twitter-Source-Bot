@@ -45,7 +45,7 @@ async def getDocumentScore(data, url, keywords):
         if(time.time() - startTime > 30):
             output.append("Overtime break")
             return (-1, output)
-            
+
         keyword = dictionary["word"]
 
         if "/tco/" in keyword:
@@ -162,4 +162,6 @@ async def getDocumentScore(data, url, keywords):
                   str(adjusted_number_of_phrases))
     output.append("Final Score: " +
                   str(number_of_positive_scores / adjusted_number_of_phrases))
+    if((number_of_positive_scores / adjusted_number_of_phrases) > 15):
+        return(-1, output)
     return ((number_of_positive_scores / adjusted_number_of_phrases), output)
