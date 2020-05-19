@@ -368,6 +368,7 @@ let handleTweetThread = async function (reply, thread, fromMentionTime) {
         cachedParams.citation.title = topResult.title;
         cachedParams.citation.url = topResult.url;
         cachedParams.citation.score = topResult.score;
+        cachedParams.citation.body = topResult.body;
 
         await scrapper.closeCluster(processedOutput.cluster);
         console.log(
