@@ -22,6 +22,7 @@ let updateDatabase = async function (cachedParams) {
     citation: {
       title: cited ? citation.title : "Not Found",
       url: cited ? citation.url : "Not Found",
+      body: cited ? citation.body : "Not Found",
     },
     score: cited ? citation.score : 0,
     textContent: textContent,

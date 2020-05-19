@@ -144,6 +144,7 @@ let handleNewTweet = async function (newTweet, replyId, fromMentionTime) {
   cachedParams.citation.title = topResult.title;
   cachedParams.citation.url = topResult.url;
   cachedParams.citation.score = topResult.score;
+  cachedParams.citation.body = topResult.body;
 
   await database.updateTweetCache(cachedParams);
   let message = messageTruncate(
