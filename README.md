@@ -2,8 +2,9 @@
 ![Follow](https://img.shields.io/twitter/follow/whosaidthis_bot?style=social)
 ![Tweet](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwittersourcebot.tech)
 
-Ever wanted to know the source of a tweet? Just [@whosaidthis_bot](https://twitter.com/intent/tweet?screen_name=whosaidthis_bot&ref_src=twsrc%5Etfw&text=The+curve+is+flattening+but+I+do+not+know+how+long+the+coronavirus+crisis+will+continue.+Life+will+be+difficult+for+quite+some+time+to+come.) and I'll tell you where it came from
+![Banner](/docs/images/banner.png)
 
+Ever wanted to know the source of a tweet? Just [@whosaidthis_bot](https://twitter.com/intent/tweet?screen_name=whosaidthis_bot&ref_src=twsrc%5Etfw&text=The+curve+is+flattening+but+I+do+not+know+how+long+the+coronavirus+crisis+will+continue.+Life+will+be+difficult+for+quite+some+time+to+come.) and I'll tell you where it came from
 
 
 
@@ -15,11 +16,14 @@ Ever wanted to know the source of a tweet? Just [@whosaidthis_bot](https://twitt
 
 [Try here](https://twitter.com/intent/tweet?screen_name=whosaidthis_bot&ref_src=twsrc%5Etfw&text=The+curve+is+flattening+but+I+do+not+know+how+long+the+coronavirus+crisis+will+continue.+Life+will+be+difficult+for+quite+some+time+to+come.)
 
-[![Demo]()](https://www.youtube.com/watch?v=cOBFugSMIcM)
+### Demo
 
-Our Website - https://twittersourcebot.tech/
+[![Demo](/docs/images/thumbnail.jpg)](https://www.youtube.com/watch?v=cOBFugSMIcM)
 
-Our Bot - https://twitter.com/whosaidthis_bot
+### Our Website
+
+[![Website](/docs/images/website.png)](https://twittersourcebot.tech)
+
 
 ### Contributing
 
