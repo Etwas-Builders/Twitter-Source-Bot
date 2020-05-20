@@ -95,7 +95,8 @@ let getSearchResults = async function (keywords, userScreenName) {
     keywords.push({ word: userScreenName, partOfSpeech: "SP" });
   }
   if (words.length > 10) {
-    words = words.splice(0, Math.floor(words.length * 0.5));
+    words = words.splice(0, 10);
+    words.push(words.splice(10, Math.ceil((words.length - 10) * 0.3)));
   }
 
   let query = words.join(" ");

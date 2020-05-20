@@ -135,7 +135,7 @@ let handleNewTweet = async function (newTweet, replyId, fromMentionTime) {
     tweetId
   );
 
-  console.log("Tweet -> handleNewTweet -> processedOutput", processedOutput);
+  //console.log("Tweet -> handleNewTweet -> processedOutput", processedOutput);
   let topResult = processedOutput.topResult;
 
   if (!topResult) {
