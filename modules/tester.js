@@ -74,7 +74,7 @@ exports.createTest = async function (tweetId, idName, type) {
       citation = processedTweet.citation;
     }
 
-    let new_entry = new testerSchema.TweetSchema({
+    let new_entry = new testerSchema.TesterSchema({
       id: idName,
       tweetId: tweetId,
       type: type,
