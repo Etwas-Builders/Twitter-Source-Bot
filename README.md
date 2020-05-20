@@ -1,6 +1,6 @@
 # [Twitter Source Bot](https://twittersourcebot.tech/)
-![Follow](https://img.shields.io/twitter/follow/whosaidthis_bot?style=social)
-![Tweet](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwittersourcebot.tech)
+[![Follow](https://img.shields.io/twitter/follow/whosaidthis_bot?style=social)](https://twitter.com/whosaidthis_bot?ref_src=twsrc%5Etfw)
+[![Tweet](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwittersourcebot.tech)](https://twitter.com/intent/tweet?screen_name=whosaidthis_bot&ref_src=twsrc%5Etfw&text=The+curve+is+flattening+but+I+do+not+know+how+long+the+coronavirus+crisis+will+continue.+Life+will+be+difficult+for+quite+some+time+to+come.)
 
 [![Banner](/docs/images/banner.png)](https://twitter.com/whosaidthis_bot)
 
