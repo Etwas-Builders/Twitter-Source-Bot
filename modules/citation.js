@@ -1,5 +1,7 @@
 const axios = require("axios");
 var exports = (module.exports = {});
+const se_scraper = require("se-scraper");
+const any = require("promise.any");
 
 const IP = require("./ip");
 
@@ -8,11 +10,33 @@ let googleSearch = async function (query) {
     //let results = await pythonScraper(query);
     let results = await sebitesApi(query);
     if (results.length === 0) {
-      return await pythonScraper(query);
+      console.error("RAPID API FAILED");
+      let searches = [];
+      searches.push(pythonScraper(query));
+      searches.push(seScraper(query));
+      return await any(searches)
+        .then(async (results) => {
+          return results;
+        })
+        .catch((err) => {
+          console.error("No Results found from all three scraper");
+          return [];
+        });
     }
     return results;
   } catch (err) {
-    return await pythonScraper(query);
+    console.error("RAPID API FAILED");
+    let searches = [];
+    searches.push(pythonScraper(query));
+    searches.push(seScraper(query));
+    return await any(searches)
+      .then(async (results) => {
+        return results;
+      })
+      .catch((err) => {
+        console.error("No Results found from all three scraper");
+        return [];
+      });
   }
 };
 
@@ -56,11 +80,11 @@ let pythonScraper = async function (query) {
     let results = response.data.results;
     //console.log("results", results);
     if (results.length === 0) {
-      return [];
+      return Promise.reject("Could Not Find Results");
     }
     return results;
   } catch (err) {
-    return [];
+    return Promise.reject("Could Not Find Results");
   }
 };
 
@@ -93,5 +117,55 @@ let getSearchResults = async function (keywords, userScreenName) {
   });
 };
 
+let seScraper = async function (query) {
+  try {
+    let engines = ["bing", "google"];
+
+    let browser_config = {
+      debug_level: 1,
+      block_assets: true,
+      apply_evasion_techniques: true,
+    };
+
+    let scraper = new se_scraper.ScrapeManager(browser_config);
+
+    await scraper.start();
+
+    let search_words = [query];
+
+    let scrape_results = {
+      googleResults: scraper.scrape({
+        search_engine: "google",
+        keywords: search_words,
+        num_pages: 1,
+      }),
+      bingResults: scraper.scrape({
+        search_engine: "bing",
+        keywords: search_words,
+        num_pages: 1,
+      }),
+    };
+
+    return await any(Object.values(scrape_results))
+      .then(async (res) => {
+        await scraper.quit();
+        let processedResults = res.results[query]["1"].results;
+        processedResults = processedResults.map((e) => {
+          return { url: e.link, ...e };
+        });
+
+        return processedResults;
+      })
+      .catch(async function (error) {
+        console.log(error);
+        await scraper.quit();
+        return Promise.reject("Could Not Find Results");
+      });
+  } catch (err) {
+    return Promise.reject(`Error Occurred ${err}`);
+  }
+};
+
+exports.seScraper = seScraper;
 exports.getSearchResults = getSearchResults;
 exports.googleSearch = googleSearch;

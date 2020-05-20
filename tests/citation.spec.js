@@ -41,3 +41,20 @@ describe("Get Search Results", () => {
     expect(results.length).toBeLessThanOrEqual(20);
   });
 });
+
+describe("Se Scraper Test", () => {
+  it("Se Scraper is Defined", () => {
+    expect(citation.seScraper).toBeDefined;
+  });
+  it("Se Scraper is a Function", () => {
+    expect(typeof citation.seScraper).toBe("function");
+  });
+  it("Se Scraper test query", async () => {
+    let query = "test";
+    let results = await citation.seScraper(query);
+    expect(results).toBeDefined;
+    expect(results.length).toBeGreaterThan(0);
+    expect(results[0].url).toBeDefined;
+    expect(results[0].url.length).toBeGreaterThan(0);
+  });
+});
