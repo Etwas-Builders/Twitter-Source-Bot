@@ -38,4 +38,4 @@ const TestSchema = new Schema({
   originalTweet: {},
 });
 
-exports.TweetSchema = mongoose.model("TestSchema", TestSchema);
+exports.TesterSchema = mongoose.model("TestSchema", TestSchema);

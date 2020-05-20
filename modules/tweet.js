@@ -88,9 +88,13 @@ let handleNewTweet = async function (newTweet, replyId, fromMentionTime) {
     };
   }
   let content = newTweet.full_text;
-
   if (!content) {
     content = newTweet.text;
+  }
+  console.log(newTweet.entities);
+  console.log(newTweet.entities.user_mentions);
+  for (let user of newTweet.entities.user_mentions) {
+    content = content.replace(`@${user.screen_name}`, user.name);
   }
   console.log("Tweet -> handleNewTweet -> content", content);
   let time = newTweet.created_at;
@@ -131,7 +135,7 @@ let handleNewTweet = async function (newTweet, replyId, fromMentionTime) {
     tweetId
   );
 
-  console.log("Tweet -> handleNewTweet -> processedOutput", processedOutput);
+  //console.log("Tweet -> handleNewTweet -> processedOutput", processedOutput);
   let topResult = processedOutput.topResult;
 
   if (!topResult) {
@@ -307,6 +311,11 @@ let handleTweetThread = async function (reply, thread, fromMentionTime) {
       for (let tweet of thread) {
         console.log("Tweet -> handleTweetThread -> tweet of thread", tweet);
         let content = tweet.full_text ? tweet.full_text : tweet.text;
+        for (let user of tweet.entities.user_mentions) {
+          if (user.screen_name !== "@whosaidthis_bot") {
+            content = content.replace(user.screen_name, user.name);
+          }
+        }
         fullContent = `${content} ${fullContent} `; // Add delimiter later
       }
 

@@ -41,20 +41,25 @@ let removePunctuation = function (word) {
 };
 
 let isSpecial = function (word) {
-  let isSpecial =
-    word === word.toUpperCase() ||
-    word[0] === "!" ||
-    word.includes("coronavirus") ||
-    word.includes("covid");
-  isSpecial = word.length < 3 ? false : isSpecial;
-  //isSpecial ? console.info(isSpecial, word) : null;
-  word = word.replace(/['"‘’“”?!●]+/g, "");
-  word = word.replace(
-    /([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g,
-    ""
-  );
-  word = word.toLowerCase();
-  return isSpecial ? word : NaN;
+  try {
+    let isSpecial =
+      word === word.toUpperCase() ||
+      word[0] === "!" ||
+      word.includes("coronavirus") ||
+      word.includes("covid");
+    isSpecial = word.length < 3 ? false : isSpecial;
+    //isSpecial ? console.info(isSpecial, word) : null;
+    word = word.replace(/['"‘’“”?!●]+/g, "");
+    word = word.replace(
+      /([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g,
+      ""
+    );
+    word = word.toLowerCase();
+    return isSpecial ? word : NaN;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
 };
 
 let wordsToSearch = function FindWordsToSearch(text) {
