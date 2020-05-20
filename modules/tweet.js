@@ -37,17 +37,19 @@ let sourceNotFound = async function (cachedParams, username) {
 };
 
 let messageTruncate = function (username, title, score, url) {
-  let message = `@${username} Our top result for this tweet is : ${title} with score of ${score.toFixed(
+  score = (Math.log(16 * score) / 5.55) * 100; // Arbitrary Function that gives a percentage value from score
+
+  let message = `@${username} Our top result for this tweet is : ${title} with confidence of ${score.toFixed(
     2
-  )}  ${url} `;
+  )}%  ${url} `;
   if (message.length > 220) {
     //console.log(username.length, url.length);
-    let titleLength = 200 - username.length - 3 - url.length - 3;
+    let titleLength = 195 - username.length - 3 - url.length - 3;
     //console.log(title, titleLength);
     title = title.slice(0, titleLength) + "...";
-    message = `@${username} Our top result for this tweet is : ${title} with score of ${score.toFixed(
+    message = `@${username} Our top result for this tweet is : ${title} with confidence of ${score.toFixed(
       2
-    )}  ${url} `;
+    )}%  ${url} `;
   }
   return message;
 };
