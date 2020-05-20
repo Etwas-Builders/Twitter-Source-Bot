@@ -91,8 +91,13 @@ let handleNewTweet = async function (newTweet, replyId, fromMentionTime) {
   if (!content) {
     content = newTweet.text;
   }
-  console.log(newTweet.entities);
-  console.log(newTweet.entities.user_mentions);
+  if (newTweet.quoted_status_id) {
+    let quoteContent = newTweet.quoted_status.text;
+    if (!quoteContent) {
+      quoteContent = newTweet.quoted_status.full_text;
+    }
+    content = `${content} ${quoteContent}`;
+  }
   for (let user of newTweet.entities.user_mentions) {
     content = content.replace(`@${user.screen_name}`, user.name);
   }
@@ -189,6 +194,13 @@ let handleNewReplyEvent = async function (tweet, fromMentionTime) {
         thread,
         fromMentionTime
       );
+    } else if (originalTweet_response.quoted_status) {
+      handleNewQuoteEvent(
+        originalTweet_response,
+        false,
+        replyUserScreenName,
+        replyId
+      );
     } else {
       let citationResponse = await handleNewTweet(
         originalTweet_response,
@@ -240,23 +252,36 @@ let handleNewMentionEvent = async function (tweet, fromMentionTime) {
   }
 };
 
-let handleNewQuoteEvent = async function (tweet, fromMentionTime) {
+let handleNewQuoteEvent = async function (
+  tweet,
+  fromMentionTime,
+  replier,
+  reply_id
+) {
   console.log("Tweet -> handleNewQuoteEvent -> event", tweet);
 
   let quote = tweet;
   let quoteId = quote.id_str;
   let quoteUserScreenName = quote.user.screen_name;
   let original_tweet = quote.quoted_status;
-  let citationResponse = await handleNewTweet(
-    original_tweet,
-    quoteId,
-    fromMentionTime
-  );
+  let citationResponse = await handleNewTweet(quote, quoteId, fromMentionTime);
   if (citationResponse) {
     let message = citationResponse.message;
     message = `@${quoteUserScreenName} ${message}`;
-
-    await replyHandler.handleReply(citationResponse.mediaId, message, quoteId);
+    if (!replier) {
+      await replyHandler.handleReply(
+        citationResponse.mediaId,
+        message,
+        quoteId
+      );
+    } else {
+      message = `@${replier} ${message}`;
+      await replyHandler.handleReply(
+        citationResponse.mediaId,
+        message,
+        reply_id
+      );
+    }
   }
 };
 
@@ -282,6 +307,7 @@ let threadRecursive = async function (tweet, thread) {
     return await threadRecursive(parentTweet, thread);
   } catch (err) {
     console.log("Could not find parent tweet", err);
+    return thread;
   }
 };
 
@@ -414,7 +440,7 @@ let tweetClassify = async function (tweet, fromMentionTime) {
         handleNewReplyEvent(tweet, fromMentionTime);
       } else if (tweet.quoted_status_id) {
         // Quote Tweet
-        handleNewQuoteEvent(tweet, fromMentionTime);
+        handleNewQuoteEvent(tweet, fromMentionTime, null, null);
       } else {
         // Not a Reply or Not Quote
         let tweetEntities = tweet.entities;
