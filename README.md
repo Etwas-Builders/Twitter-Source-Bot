@@ -18,7 +18,6 @@ Ever wanted to know the source of a tweet? Just [@whosaidthis_bot](https://twitt
 
 ## Get Started
 
-<img align="right" width="500" height="auto" src="docs/images/demo.gif">
 
 1. Find a tweet you want to find the source of information for
 2. Mention our bot @whosaidthis_bot while replying to the tweet
@@ -26,8 +25,8 @@ Ever wanted to know the source of a tweet? Just [@whosaidthis_bot](https://twitt
 
 [Try here](https://twitter.com/intent/tweet?screen_name=whosaidthis_bot&ref_src=twsrc%5Etfw&text=The+curve+is+flattening+but+I+do+not+know+how+long+the+coronavirus+crisis+will+continue.+Life+will+be+difficult+for+quite+some+time+to+come.)
 
-
-<br><br>
+## Demo
+<img align="center" width="900" height="auto" src="docs/images/demo.gif">
 
 
 ## Our Website
