@@ -443,15 +443,20 @@ let tweetClassify = async function (tweet, fromMentionTime) {
         handleNewQuoteEvent(tweet, fromMentionTime, null, null);
       } else {
         // Not a Reply or Not Quote
-        let tweetEntities = tweet.entities;
-        let user_mentions = tweetEntities.user_mentions;
-        for (let user of user_mentions) {
-          console.log("handleNewWebHook -> user", user);
-          if (user.id_str === "1255487054219218944") {
-            // Mention Behaviour
-            handleNewMentionEvent(tweet, fromMentionTime);
-          }
-        }
+        // Not Handling Mentions Anymore
+        // let tweetEntities = tweet.entities;
+        // let user_mentions = tweetEntities.user_mentions;
+        // for (let user of user_mentions) {
+        //   console.log("handleNewWebHook -> user", user);
+        //   if (user.id_str === "1255487054219218944") {
+        //     // Mention Behaviour
+        //     handleNewMentionEvent(tweet, fromMentionTime);
+        //   }
+        // }
+
+        let tweetId = tweet.id_str;
+        let username = tweet.user.screen_name;
+        await replyHandler.notSupported(tweetId, username);
       }
     }
   }

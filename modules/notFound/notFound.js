@@ -47,6 +47,11 @@ exports.sourceNotFound = async function (username) {
       mediaId: mediaId,
     };
   } catch (err) {
-    console.log(err);
+    axios.post(process.env.DISCORD_WEBHOOK_URL, {
+      content: `@here Error, notFound -> sourceNotFound -> upload error imageNumber ${cycle} \n ${err}`,
+      username: "Who Said This Bot",
+      avatar_url:
+        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
+    });
   }
 };

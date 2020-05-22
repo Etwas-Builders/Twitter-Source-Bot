@@ -120,11 +120,11 @@ let getSearchResults = async function (keywords, userScreenName) {
 
 let seScraper = async function (query) {
   try {
-    let engines = ["bing", "google"];
+    // let engines = ["bing", "google"];
 
     let browser_config = {
       debug_level: 1,
-      block_assets: true,
+      // block_assets: true,
       apply_evasion_techniques: true,
     };
 
