@@ -114,6 +114,21 @@ let getSearchResults = async function (keywords, userScreenName) {
       result = result.splice(0, 10);
       output = output.concat(result);
     }
+    if (output.length < 10) {
+      let searches = [];
+      searches.push(pythonScraper(query));
+      searches.push(seScraper(query));
+      let newOutput =  await any(searches)
+        .then(async (results) => {
+          return results;
+        })
+        .catch((err) => {
+          console.error("No Results found from all three scraper");
+          return [];
+        });
+      output.concat(newOutput)
+    }
+    
     return output;
   });
 };
