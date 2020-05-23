@@ -50,7 +50,8 @@ let checkDatabase = async function (tweetId) {
       // 48 hr window and is cited
 
       let topResult = existingTweet.citation;
-      return `Our top result for this tweet is : ${topResult.title} with score of ${existingTweet.score}  ${topResult.url}`;
+      topResult.score = existingTweet.score;
+      return topResult;
     } else {
       console.log("Tweet -> checkDatabase -> notCached");
       return null;

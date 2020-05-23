@@ -81,8 +81,13 @@ let handleNewTweet = async function (newTweet, replyId, fromMentionTime) {
     if (fromMentionTime) {
       return null;
     }
-    let message = cachedContent;
-    message = `@${username} ${message}`;
+    let topResult = cachedContent;
+    let message = messageTruncate(
+      username,
+      topResult.title,
+      topResult.score,
+      topResult.url
+    );
     return {
       message: message,
     };
@@ -325,9 +330,14 @@ let handleTweetThread = async function (reply, thread, fromMentionTime) {
     let message;
     if (cachedContent) {
       if (!fromMentionTime) {
-        message = cachedContent;
         let username = original_tweet.user.screen_name;
-        message = `@${username} ${message}`;
+        let topResult = cachedContent;
+        let message = messageTruncate(
+          username,
+          topResult.title,
+          topResult.score,
+          topResult.url
+        );
         message = `@${reply.screen_name} ${message}`;
         await replyHandler.handleReply(null, message, reply.id);
       }
