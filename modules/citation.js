@@ -107,7 +107,7 @@ let getSearchResults = async function (keywords, userScreenName) {
   console.log("Tweet -> getSearchResults -> newQuery", query);
   let newResults = googleSearch(query);
 
-  return await Promise.all([results, newResults]).then((allResults) => {
+  return await Promise.all([results, newResults]).then(async (allResults) => {
     console.info("Promise Resolution");
     let output = [];
     for (let result of allResults) {
@@ -118,7 +118,7 @@ let getSearchResults = async function (keywords, userScreenName) {
       let searches = [];
       searches.push(pythonScraper(query));
       searches.push(seScraper(query));
-      let newOutput =  await any(searches)
+      let newOutput = await any(searches)
         .then(async (results) => {
           return results;
         })
@@ -126,9 +126,9 @@ let getSearchResults = async function (keywords, userScreenName) {
           console.error("No Results found from all three scraper");
           return [];
         });
-      output.concat(newOutput)
+      output.concat(newOutput);
     }
-    
+
     return output;
   });
 };
