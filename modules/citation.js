@@ -114,12 +114,15 @@ let getSearchResults = async function (keywords, userScreenName) {
       result = result.splice(0, 10);
       output = output.concat(result);
     }
+    console.log("Ciation -> getGoogleSearch -> Results Length", output.length);
     if (output.length < 10) {
+      console.log("New Promise");
       let searches = [];
       searches.push(pythonScraper(query));
       searches.push(seScraper(query));
       let newOutput = await any(searches)
         .then(async (results) => {
+          console.log("New Promise Resolution");
           return results;
         })
         .catch((err) => {

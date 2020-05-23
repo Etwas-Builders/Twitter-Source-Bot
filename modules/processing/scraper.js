@@ -44,13 +44,25 @@ exports.createCluster = async function () {
         : null || document.title;
 
       let text = body.innerText;
-      //console.log("Cluster -> Task -> title", title);
+      let timeStamps = document.querySelectorAll("time");
+      let time = "Not Found";
+      if (timeStamps) {
+        for (let elem of timeStamps) {
+          if (elem.getAttribute("datetime")) {
+            console.log(elem);
+            time = elem.getAttribute("datetime");
+            break;
+          }
+        }
+      }
+
       let data = {};
       data.title = title;
       data.text = text;
+      data.time = time;
       return data;
     });
-    //console.log("Data from scrapper", data.title, data.text.length);
+    console.log("Data from scrapper", data.title, data.time);
     if (!data.title) {
       data.title = "test";
       //await page.setViewport({ width: 1920, height: 1080 });

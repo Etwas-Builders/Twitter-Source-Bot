@@ -456,6 +456,14 @@ let tweetClassify = async function (tweet, fromMentionTime) {
 
         let tweetId = tweet.id_str;
         let username = tweet.user.screen_name;
+        cachedParams.tweetId = tweetId;
+        cachedParams.tweetCreated = tweet.created_at;
+        cachedParams.replyId = null;
+        cachedParams.textContent = tweet.text;
+        cachedParams.tweet = tweet;
+        cachedParams.cited = false;
+        cachedParams.citation = null;
+        await database.updateTweetCache(cachedParams);
         await replyHandler.notSupported(tweetId, username);
       }
     }

@@ -42,7 +42,7 @@ let checkDatabase = async function (tweetId) {
     console.log("Tweet -> checkDatabase -> notCached");
     return null;
   } else {
-    console.log("Tweet -> checkDatabase -> existingTweet", existingTweet);
+    // console.log("Tweet -> checkDatabase -> existingTweet", existingTweet);
     if (
       existingTweet.cacheCreated > Date.now() - 2 * 24 * 60 * 60 * 1000 &&
       existingTweet.cited === true

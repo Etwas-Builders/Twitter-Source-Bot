@@ -101,6 +101,7 @@ exports.getTopResult = async function (
   let pageContents = [];
 
   let [scrapePromises, nlpPromises] = [[], []];
+  let closeResults = [];
 
   for (let result of results) {
     let scrapePromise = scrapper.newUrl(cluster, result.url);
@@ -115,6 +116,27 @@ exports.getTopResult = async function (
             ? `Score negative prior to ML ${result.score} for ${result.url}`
             : ""
         );
+
+        if (data.time !== "Not Found") {
+          let timeDifference = Date.now() - Date(data.time).getTime(); // IN Ms
+
+          timeDifference = Math.floor(timeDifference / 1000 / 60 / (60 * 24)); // In Days
+          console.log(
+            `TIME DIFFERENCE  ${timeDifference} for url ${result.url} `
+          );
+          if (timeDifference < 30) {
+            // In the last month
+            result.score += 0.1;
+          } else {
+            let negativeScore = -Math.log(Math.abs(timeDifference - 24)) / 15;
+            console.error(negativeScore);
+            negativeScore = Math.max(-0.5, negativeScore);
+            if (negativeScore) {
+              result.score += negativeScore;
+            }
+          }
+        }
+
         let score = await nlp.scorePage(
           result,
           data,
@@ -122,6 +144,7 @@ exports.getTopResult = async function (
           tweetId,
           userScreenName
         );
+
         result.score += score;
 
         console.log(
@@ -129,7 +152,7 @@ exports.getTopResult = async function (
           result.score,
           result.url
         );
-        if (result.score > 3) {
+        if (result.score > 3.2) {
           // Set Threshold
           if (result.title && result.title.includes("@")) {
             // Handle Escaping
@@ -138,6 +161,16 @@ exports.getTopResult = async function (
           }
           result.body = data.text;
           return { topResult: result, cluster: cluster };
+        } else if (result.score > 2.9) {
+          // Set Threshold
+          if (result.title && result.title.includes("@")) {
+            // Handle Escaping
+            result.title = result.title.replace("@", "@ ");
+            // Issue #17 Temporary Fix https://github.com/Mozilla-Open-Lab-Etwas/Twitter-Source-Bot/issues/17
+          }
+          result.body = data.text;
+          closeResults.push(result);
+          return Promise.reject(`Close but not good enough`);
         } else {
           console.error(`Invalid Score for ${result.url} of ${result.score} `);
           return Promise.reject(`Not valid score ${result.score}`);
@@ -156,6 +189,10 @@ exports.getTopResult = async function (
     })
     .catch((err) => {
       console.log("Processing -> getTopResult -> any err", err);
+      if (closeResults.length > 0) {
+        closeResults.sort((a, b) => b.score - a.score);
+        return { topResult: closeResults[0], cluster: cluster };
+      }
       return { topResult: null, cluster: cluster };
     });
 };
