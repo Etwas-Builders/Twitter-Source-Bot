@@ -466,6 +466,7 @@ let tweetClassify = async function (tweet, fromMentionTime) {
 
         let tweetId = tweet.id_str;
         let username = tweet.user.screen_name;
+        let cachedParams = {};
         cachedParams.tweetId = tweetId;
         cachedParams.tweetCreated = tweet.created_at;
         cachedParams.replyId = null;
