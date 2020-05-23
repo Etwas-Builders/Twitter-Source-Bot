@@ -25,14 +25,19 @@ let removePunctuation = function (word) {
   let correctWords = [];
   for (let w of words) {
     let checkNum = word.replace(",", "");
-    w = w.replace(/['"‘’“”●☞']+/g, "");
+    w = w.replace(/["“”●☞']+/g, "");
     w = w.replace(
       /([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g,
       ""
     );
     if (isNaN(checkNum)) {
-      let tempWs = w.split(/[,;?!]+/);
-      correctWords.push(...tempWs);
+      if (!w.includes("/t.co/")) {
+        // Check if its a twitter link
+        let tempWs = w.split(/['‘’,;?!.]+/);
+        correctWords.push(...tempWs);
+      } else {
+        correctWords.push(w);
+      }
     } else {
       correctWords.push(w);
     }
