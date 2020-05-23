@@ -1,6 +1,7 @@
 const TwitterApi = require("twitter-lite");
 const axios = require("axios");
 const xkcdImages = require("./notFound/imageResponse/xkcd.json");
+const fs = require("fs");
 
 // Constants
 const twitterClient = new TwitterApi({
@@ -73,7 +74,7 @@ let sendReplyWithImage = async function (message, tweet_id, media_id) {
 let notSupported = async function (tweet_id, username) {
   let message = `@${username} We are sorry but this interaction is not supported, but here is a meme for your troubles`;
   let cycle = Math.floor(Math.random() * 14) + 1;
-  console.log("Meme Number", cycle, textCycle);
+  console.log("Meme Number", cycle);
   let xkcdSource = "";
   let filename;
   if (cycle in xkcdImages) {
