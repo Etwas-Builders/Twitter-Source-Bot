@@ -32,6 +32,7 @@ let removePunctuation = function (word) {
     );
     if (isNaN(checkNum)) {
       if (!w.includes("/t.co/")) {
+        // Check if its a twitter link
         let tempWs = w.split(/['‘’,;?!.]+/);
         correctWords.push(...tempWs);
       } else {
