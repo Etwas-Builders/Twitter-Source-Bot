@@ -107,24 +107,39 @@ let getSearchResults = async function (keywords, userScreenName) {
   console.log("Tweet -> getSearchResults -> newQuery", query);
   let newResults = googleSearch(query);
 
-  return await Promise.all([results, newResults]).then((allResults) => {
+  return await Promise.all([results, newResults]).then(async (allResults) => {
     console.info("Promise Resolution");
     let output = [];
     for (let result of allResults) {
       result = result.splice(0, 10);
       output = output.concat(result);
     }
+    if (output.length < 10) {
+      let searches = [];
+      searches.push(pythonScraper(query));
+      searches.push(seScraper(query));
+      let newOutput = await any(searches)
+        .then(async (results) => {
+          return results;
+        })
+        .catch((err) => {
+          console.error("No Results found from all three scraper");
+          return [];
+        });
+      output.concat(newOutput);
+    }
+
     return output;
   });
 };
 
 let seScraper = async function (query) {
   try {
-    let engines = ["bing", "google"];
+    // let engines = ["bing", "google"];
 
     let browser_config = {
       debug_level: 1,
-      block_assets: true,
+      // block_assets: true,
       apply_evasion_techniques: true,
     };
 
