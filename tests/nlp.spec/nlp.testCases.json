@@ -14,13 +14,6 @@
     "pagePath": "/webPages/teslaMovingOut.txt"
   },
   {
-    "id": "covidFlatteningExample",
-    "url": "https://www.abc.net.au/news/2020-05-16/coronavirus-second-wave-hits-rural-america/12251058",
-    "type": "Good",
-    "content": "The curve is flattening but I do not know how long the coronavirus crisis will continue. Life will be difficult for quite some time to come.",
-    "pagePath": "/webPages/covidFlatteningExample.txt"
-  },
-  {
     "id": "nvidiaNewGpu",
     "url": "https://www.techradar.com/news/rtx-3080",
     "type": "Good",

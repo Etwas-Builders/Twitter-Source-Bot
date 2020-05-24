@@ -8,8 +8,8 @@ const IP = require("./ip");
 var exports = (module.exports = {});
 
 const language = "EN";
-const defaultCategory = "N";
-const defaultCategoryCapitalized = "NNP";
+const defaultCategory = "NA";
+const defaultCategoryCapitalized = "NA";
 
 var lexicon = new natural.Lexicon(
   language,
@@ -25,15 +25,12 @@ let removePunctuation = function (word) {
   let correctWords = [];
   for (let w of words) {
     let checkNum = word.replace(",", "");
-    w = w.replace(/["“”●☞']+/g, "");
-    w = w.replace(
-      /([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g,
-      ""
-    );
+    w = w.replace(/[":“”●☞']+/g, "");
+    w = w.replace(/([\u1000-\uFFFF])/g, "");
     if (isNaN(checkNum)) {
       if (!w.includes("/t.co/")) {
         // Check if its a twitter link
-        let tempWs = w.split(/['‘’,;?!.]+/);
+        let tempWs = w.split(/[,;?!.]+/);
         correctWords.push(...tempWs);
       } else {
         correctWords.push(w);
@@ -54,11 +51,8 @@ let isSpecial = function (word) {
       word.includes("covid");
     isSpecial = word.length < 3 ? false : isSpecial;
     //isSpecial ? console.info(isSpecial, word) : null;
-    word = word.replace(/['"‘’“”?!●]+/g, "");
-    word = word.replace(
-      /([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g,
-      ""
-    );
+    word = word.replace(/[":“”?!●]+/g, "");
+    word = word.replace(/([\u1000-\uFFFF])/g, "");
     word = word.toLowerCase();
     return isSpecial ? word : NaN;
   } catch (err) {
@@ -104,7 +98,21 @@ let wordsToSearch = function FindWordsToSearch(text) {
         ? editedWord
         : currentWord;
 
-    let partOfSpeech = GetPartOfSpeech(currentWord);
+    let lowercaseWord = currentWord.toLowerCase();
+    let partOfSpeech = GetPartOfSpeech(lowercaseWord);
+    console.log(lowercaseWord, partOfSpeech);
+
+    if (partOfSpeech === "NA") {
+      if (currentWord[0] === currentWord[0].toUpperCase()) {
+        partOfSpeech = "NNP";
+      } else {
+        partOfSpeech = "NN";
+      }
+    }
+
+    if (partOfSpeech === "FW") {
+      special.push({ word: currentWord, partOfSpeech: "SP" });
+    }
 
     if (partOfSpeech == "NNPS" || partOfSpeech == "NNP") {
       //finalWords.push(currentWord);
@@ -170,7 +178,6 @@ let wordsToSearch = function FindWordsToSearch(text) {
       }
     }
   }
-
   let remainingWords = [];
   for (index = 0; index < wordsToSearch.length; index++) {
     let currentWord = wordsToSearch[index];
@@ -211,11 +218,12 @@ exports.scorePage = async function (
   tweetId,
   userScreenName
 ) {
+  console.log("NLP ScorePage Called", result.url);
   keywords = keywords.filter((element) => {
     return !element.word.includes("/t.co/");
   });
 
-  keywords.push({ word: userScreenName, partOfSpeech: "NNP" });
+  keywords.push({ word: userScreenName, partOfSpeech: "SP" });
   let ip = await IP.getCurrentIp();
   let response = await axios.post(`http://${ip}:5000/processBody`, {
     data: data,

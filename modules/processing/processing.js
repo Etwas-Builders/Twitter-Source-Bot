@@ -117,6 +117,16 @@ exports.getTopResult = async function (
             : ""
         );
 
+        let score = await nlp.scorePage(
+          result,
+          data,
+          keywords,
+          tweetId,
+          userScreenName
+        );
+
+        result.score += score;
+
         if (data.time !== "Not Found") {
           let timeDifference = Date.now() - Date(data.time).getTime(); // IN Ms
 
@@ -136,16 +146,6 @@ exports.getTopResult = async function (
             }
           }
         }
-
-        let score = await nlp.scorePage(
-          result,
-          data,
-          keywords,
-          tweetId,
-          userScreenName
-        );
-
-        result.score += score;
 
         console.log(
           `Processing -> getTopResult -> finalScore`,
@@ -182,6 +182,7 @@ exports.getTopResult = async function (
       });
     nlpPromises.push(nlpPromise);
   }
+  console.log("NLP Promises Length", nlpPromises.length);
   return any(nlpPromises)
     .then((data) => {
       console.log("Processing -> getTopResult -> any");
