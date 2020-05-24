@@ -38,12 +38,16 @@ let sendReply = async function (message, tweet_id) {
       in_reply_to_status_id: tweet_id,
     });
   } catch (err) {
-    axios.post(process.env.DISCORD_WEBHOOK_URL, {
-      content: `@here Error, Reply -> sendReply -> error\n${err}`,
-      username: "Who Said This Bot",
-      avatar_url:
-        "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
-    });
+    if (err[0].code !== 187) {
+      axios.post(process.env.DISCORD_WEBHOOK_URL, {
+        content: `@here Error, Reply -> sendReply -> error\n Message : ${message} \n ${JSON.stringify(
+          err
+        )}`,
+        username: "Who Said This Bot",
+        avatar_url:
+          "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
+      });
+    }
   }
 };
 

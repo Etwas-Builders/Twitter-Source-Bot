@@ -25,11 +25,8 @@ let removePunctuation = function (word) {
   let correctWords = [];
   for (let w of words) {
     let checkNum = word.replace(",", "");
-    w = w.replace(/["“”●☞']+/g, "");
-    w = w.replace(
-      /([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g,
-      ""
-    );
+    w = w.replace(/[":“”●☞']+/g, "");
+    w = w.replace(/([\u1000-\uFFFF])/g, "");
     if (isNaN(checkNum)) {
       if (!w.includes("/t.co/")) {
         // Check if its a twitter link
@@ -54,11 +51,8 @@ let isSpecial = function (word) {
       word.includes("covid");
     isSpecial = word.length < 3 ? false : isSpecial;
     //isSpecial ? console.info(isSpecial, word) : null;
-    word = word.replace(/['"‘’“”?!●]+/g, "");
-    word = word.replace(
-      /([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g,
-      ""
-    );
+    word = word.replace(/[":“”?!●]+/g, "");
+    word = word.replace(/([\u1000-\uFFFF])/g, "");
     word = word.toLowerCase();
     return isSpecial ? word : NaN;
   } catch (err) {
@@ -104,16 +98,20 @@ let wordsToSearch = function FindWordsToSearch(text) {
         ? editedWord
         : currentWord;
 
-
-    let lowercaseWord = currentWord.toLowerCase()
-    let partOfSpeech = GetPartOfSpeech(lowercaseWord)
+    let lowercaseWord = currentWord.toLowerCase();
+    let partOfSpeech = GetPartOfSpeech(lowercaseWord);
+    console.log(lowercaseWord, partOfSpeech);
 
     if (partOfSpeech === "NA") {
-      if (word[0] === word[0].toUpperCase()) {
-        partOfSpeech = "NNP"
+      if (currentWord[0] === currentWord[0].toUpperCase()) {
+        partOfSpeech = "NNP";
       } else {
-        partOfSpeech = "NN"
+        partOfSpeech = "NN";
       }
+    }
+
+    if (partOfSpeech === "FW") {
+      special.push({ word: currentWord, partOfSpeech: "SP" });
     }
 
     if (partOfSpeech == "NNPS" || partOfSpeech == "NNP") {
@@ -180,7 +178,6 @@ let wordsToSearch = function FindWordsToSearch(text) {
       }
     }
   }
-
   let remainingWords = [];
   for (index = 0; index < wordsToSearch.length; index++) {
     let currentWord = wordsToSearch[index];
@@ -226,7 +223,7 @@ exports.scorePage = async function (
     return !element.word.includes("/t.co/");
   });
 
-  keywords.push({ word: userScreenName, partOfSpeech: "NNP" });
+  keywords.push({ word: userScreenName, partOfSpeech: "SP" });
   let ip = await IP.getCurrentIp();
   let response = await axios.post(`http://${ip}:5000/processBody`, {
     data: data,
