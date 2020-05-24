@@ -8,8 +8,8 @@ const IP = require("./ip");
 var exports = (module.exports = {});
 
 const language = "EN";
-const defaultCategory = "N";
-const defaultCategoryCapitalized = "NNP";
+const defaultCategory = "NA";
+const defaultCategoryCapitalized = "NA";
 
 var lexicon = new natural.Lexicon(
   language,
@@ -104,7 +104,17 @@ let wordsToSearch = function FindWordsToSearch(text) {
         ? editedWord
         : currentWord;
 
-    let partOfSpeech = GetPartOfSpeech(currentWord);
+
+    let lowercaseWord = currentWord.toLowerCase()
+    let partOfSpeech = GetPartOfSpeech(lowercaseWord)
+
+    if (partOfSpeech === "NA") {
+      if (word[0] === word[0].toUpperCase()) {
+        partOfSpeech = "NNP"
+      } else {
+        partOfSpeech = "NN"
+      }
+    }
 
     if (partOfSpeech == "NNPS" || partOfSpeech == "NNP") {
       //finalWords.push(currentWord);
