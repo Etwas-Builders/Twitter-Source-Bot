@@ -38,7 +38,7 @@ exports.createCluster = async function () {
       let title = twitterTitle
         ? twitterTitle.content
         : null || ogTitle
-        ? ogTitle
+        ? ogTitle.content
         : null || metaTitle
         ? metaTitle.content
         : null || document.title;

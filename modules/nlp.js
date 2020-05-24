@@ -211,6 +211,7 @@ exports.scorePage = async function (
   tweetId,
   userScreenName
 ) {
+  console.log("NLP ScorePage Called", result.url);
   keywords = keywords.filter((element) => {
     return !element.word.includes("/t.co/");
   });
