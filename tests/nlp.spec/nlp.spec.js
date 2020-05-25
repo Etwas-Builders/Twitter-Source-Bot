@@ -89,9 +89,17 @@ describe("Check NNP Test", () => {
 });
 
 describe("Handling NA", () => {
+  it("Handling Na is Defined", () => {
+    expect(nlp.HandleNA).toBeDefined;
+    expect(typeof nlp.HandleNA).toBe("function");
+  });
   it("NA to NNP", () => {
-    let NATest = nlp.HandleNA("OBama", NA);
-    expect(NATest).toBe({ word: "OBama", partOfSpeech: "NNP" });
+    let NATest = nlp.HandleNA("OBama", "NA");
+    expect(NATest).toBe("NNP");
+  });
+  it("NA to NN", () => {
+    let NATest = nlp.HandleNA("bhatura", "NA");
+    expect(NATest).toBe("NN");
   });
 });
 
