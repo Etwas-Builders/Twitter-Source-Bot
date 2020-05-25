@@ -1,6 +1,6 @@
 # Twitter Source Bot
 [![Follow](https://img.shields.io/twitter/follow/whosaidthis_bot?style=social)](https://twitter.com/whosaidthis_bot?ref_src=twsrc%5Etfw)
-[![Tweet](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwittersourcebot.tech)](https://twitter.com/intent/tweet?screen_name=whosaidthis_bot&ref_src=twsrc%5Etfw&text=The+curve+is+flattening+but+I+do+not+know+how+long+the+coronavirus+crisis+will+continue.+Life+will+be+difficult+for+quite+some+time+to+come.)
+[![Tweet](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwittersourcebot.tech)](https://twitter.com/intent/tweet?in_reply_to=1262436305578926081&text=%40whosaidthis_bot+Find+me+the+link)
 
 [![Rahul Tarak](https://img.shields.io/badge/Author-Rahul%20Tarak-green)](https://cryogenicplanet.tech/)
 [![Rithvik Mahindra](https://img.shields.io/badge/Author-Rithvik%20Mahindra-green)](https://www.linkedin.com/in/rithvik-mahindra/)
@@ -23,7 +23,7 @@ Ever wanted to know the source of a tweet? Just [@whosaidthis_bot](https://twitt
 2. Mention our bot @whosaidthis_bot while replying to the tweet
 3. We will reply back with the source of the information if we can find it.
 
-[Try here](https://twitter.com/intent/tweet?screen_name=whosaidthis_bot&ref_src=twsrc%5Etfw&text=The+curve+is+flattening+but+I+do+not+know+how+long+the+coronavirus+crisis+will+continue.+Life+will+be+difficult+for+quite+some+time+to+come.)
+[Try here](https://twitter.com/intent/tweet?in_reply_to=1262436305578926081&text=%40whosaidthis_bot+Find+me+the+link)
 
 ## Demo
 <img align="center" width="900" height="auto" src="docs/images/demo.gif">
