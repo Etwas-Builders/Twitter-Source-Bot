@@ -26,19 +26,19 @@ var exports = (module.exports = {});
 
 let sendReply = async function (message, tweet_id) {
   try {
+    let output = await twitterClient.post("statuses/update", {
+      status: message,
+      in_reply_to_status_id: tweet_id,
+    });
     axios.post(process.env.DISCORD_WEBHOOK_URL, {
       content: `${message}`,
       username: "Who Said This Bot",
       avatar_url:
         "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
     });
-
-    let output = await twitterClient.post("statuses/update", {
-      status: message,
-      in_reply_to_status_id: tweet_id,
-    });
   } catch (err) {
-    if (err[0].code !== 187) {
+    if ("code" in err.errors[0] && err.errors[0].code === 187) {
+    } else {
       axios.post(process.env.DISCORD_WEBHOOK_URL, {
         content: `@here Error, Reply -> sendReply -> error\n Message : ${message} \n ${JSON.stringify(
           err
