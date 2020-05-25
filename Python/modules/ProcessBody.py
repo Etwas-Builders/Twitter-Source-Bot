@@ -14,6 +14,30 @@ nlp = spacy.load("en_core_web_sm", disable=["ner"], batch_size=200)
 text_rank = pytextrank.TextRank()
 nlp.add_pipe(text_rank.PipelineComponent, name="textrank", last=True)
 
+def generateChunkWords(nlp_text, start_time):
+
+    chunks = []
+
+    for phrase in nlp_text._.phrases:
+        if (time.time() - start_time > 30):
+            output.append("Overtime break")
+            return (-1, output)
+
+        rank = phrase.rank
+        minimum_phrase_rank = 0.6 * \
+            max([phrase.rank for phrase in nlp_text._.phrases])
+
+        if (rank >= minimum_phrase_rank):
+            chunk_words = [re.sub(r"""
+                    [,.;@#?!&$]+
+                    \ *
+                    """,
+                                  "",
+                                  str(word), flags=re.VERBOSE).lower()
+                           for line in set(phrase.chunks) for word in line]
+            chunks.append(chunk_words)
+    return chunks
+
 
 async def getDocumentScore(data, url, keywords):
 
@@ -39,7 +63,9 @@ async def getDocumentScore(data, url, keywords):
     output.append("Number of phrases: " + str(number_of_phrases))
     number_of_positive_scores = 0
 
-    # output.append(keywords)
+    chunks = generateChunkWords(nlp_text, startTime)
+
+    bigram_score = FindBigramsToSearch(nlp_text, keywords, chunks)
 
     for dictionary in keywords:
         if(time.time() - startTime > 30):
@@ -99,13 +125,17 @@ async def getDocumentScore(data, url, keywords):
                 output.append("Chunk words:")
                 output.append(" , ".join(chunk_words))
 
-                for word in chunk_words:
-                    if(time.time() - startTime > 30):
-                        output.append("Overtime break")
-                        return (-1, output)
-                    # Checks if 50% of the keyword is in the word from the phrase or vice-versa.
-                    if keyword in word and (len(keyword) >= int(0.5 * len(word))) or word in keyword and (len(word) >= int(0.5 * len(keyword))):
-                        keyword_occurrences += 1
+                if chunks != -1:
+                    for chunk_words in chunks:
+                        output.append("Chunk words:")
+                        output.append(" , ".join(chunk_words))
+                        for word in chunk_words:
+                            if(time.time() - startTime > 30):
+                                output.append("Overtime break")
+                                return (-1, output)
+                            # Checks if 50% of the keyword is in the word from the phrase or vice-versa.
+                            if keyword in word and (len(keyword) >= int(0.5 * len(word))) or word in keyword and (len(word) >= int(0.5 * len(keyword))):
+                                keyword_occurrences += 1
 
         if keyword_occurrences > 0:
             output.append("Keyword occurrences: " + str(keyword_occurrences))
@@ -142,19 +172,7 @@ async def getDocumentScore(data, url, keywords):
 
     output.append("Number of positive scores: " +
                   str(number_of_positive_scores) + "\n")
-    '''if (number_of_positive_scores > minimum_number_of_scores_needed and minimum_number_of_scores_needed != 0):
-        output.append("Final Score with base e: " + str((math.log(number_of_positive_scores /
-                                                                  minimum_number_of_scores_needed))) + "\n")
-        return (math.log(number_of_positive_scores / minimum_number_of_scores_needed), output)
-
-    elif(number_of_positive_scores > 0.5 * (minimum_number_of_scores_needed and minimum_number_of_scores_needed != 0)):
-        output.append("Final Score with base 4.5: " + str(abs((math.log(
-            minimum_number_of_scores_needed - number_of_positive_scores, 4.5)))) + "\n")
-        return (abs((math.log(
-            minimum_number_of_scores_needed - number_of_positive_scores, 4.5))), output)
-
-    else:
-        return (0, output)'''
+    
     output.append("URL: " + url + "\n")
     output.append("Number of phrases: " + str(number_of_phrases))
     adjusted_number_of_phrases = math.log(number_of_phrases, 50)
@@ -165,3 +183,54 @@ async def getDocumentScore(data, url, keywords):
     if((number_of_positive_scores / adjusted_number_of_phrases) > 15):
         return(-1, output)
     return ((number_of_positive_scores / adjusted_number_of_phrases), output)
+
+def FindBigramsToSearch(nlp_text, keywords, chunks):
+    keyword_list = [dictionary["word"] for dictionary in keywords]
+    bigrams = list(nltk.bigrams(keyword_list))
+    stop_words = list(get_stop_words('en'))
+    nltk_stop_words = list(stopwords.words('english'))
+    stop_words.extend(nltk_stop_words)
+    bigram_occurrences = 0
+
+    for bigram in bigrams:
+        for chunk_words in chunks:
+            first_word = bigram[0]
+            second_word = bigram[1]
+            first_word_pos = None
+            second_word_pos = None
+            bigram_word = first_word + " " + second_word
+            is_first_word_in_chunk = False
+            is_second_word_in_chunk = False
+
+            if (first_word in stop_words or second_word in stop_words):
+                continue
+
+            for dictionary in keywords:
+                if "partOfSpeech" in list(dictionary.keys()):
+                    partOfSpeech = dictionary["partOfSpeech"]
+                else:
+                    partOfSpeech = "None"
+
+                if dictionary["word"] == first_word:
+                    first_word_pos = partOfSpeech
+                    is_first_word_pos = True
+
+                if dictionary["word"] == second_word:
+                    second_word_pos = partOfSpeech
+                    is_first_word_pos = True
+
+            if (first_word_pos != None and second_word_pos != None):
+                if (bigram_word in chunk_words):
+                    bigram_occurrences += 1
+
+                for word in chunk_words:
+                    if (first_word in word and (len(first_word) >= int(0.5 * len(word))) or word in first_word and (len(word) >= int(0.5 * len(first_word))):
+                        is_first_word_in_chunk = True
+                    if (second_word in word and (len(second_word) >= int(0.5 * len(word))) or word in second_word and (len(word) >= int(0.5 * len(second_word))):
+                        is_second_word_in_chunk = True
+
+                    if (is_first_word_in_chunk and is_second_word_in_chunk):
+                        bigram_occurrences += 1
+                    
+            print("Bigram occurrences: " + str(bigram_occurrences))
+            # TODO: Normalize occurrences and score
