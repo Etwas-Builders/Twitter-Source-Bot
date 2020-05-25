@@ -44,21 +44,76 @@ let removePunctuation = function (word) {
 
 let isSpecial = function (word) {
   try {
-    let isSpecial =
-      word === word.toUpperCase() ||
-      word[0] === "!" ||
-      word.includes("coronavirus") ||
-      word.includes("covid");
-    isSpecial = word.length < 3 ? false : isSpecial;
-    //isSpecial ? console.info(isSpecial, word) : null;
-    word = word.replace(/[":“”?!●]+/g, "");
-    word = word.replace(/([\u1000-\uFFFF])/g, "");
-    word = word.toLowerCase();
-    return isSpecial ? word : NaN;
+    if (word) {
+      let isSpecial =
+        word === word.toUpperCase() ||
+        word[0] === "!" ||
+        word.includes("coronavirus") ||
+        word.includes("covid");
+      isSpecial = word.length < 3 ? false : isSpecial;
+      //isSpecial ? console.info(isSpecial, word) : null;
+      word = word.replace(/[":“”?!●]+/g, "");
+      word = word.replace(/([\u1000-\uFFFF])/g, "");
+      word = word.toLowerCase();
+      return isSpecial ? word : NaN;
+    } else {
+      return NaN;
+    }
   } catch (err) {
     console.error(err);
     return null;
   }
+};
+let CheckIfNNP = function (currentWord) {
+  let editedWord = currentWord[0] === "@" ? currentWord.slice(1) : currentWord;
+
+  return GetPartOfSpeech(editedWord) === "NNPS" ||
+    GetPartOfSpeech(editedWord) === "NNP"
+    ? editedWord
+    : currentWord;
+};
+
+let HandleNA = function (word, partOfSpeech) {
+  if (word[0] === word[0].toUpperCase()) {
+    partOfSpeech = "NNP";
+  } else {
+    partOfSpeech = "NN";
+  }
+  return partOfSpeech;
+};
+
+let updateWordType = function (list, word, partOfSpeech, types) {
+  //console.log(types, typeof list);
+  for (let type of types) {
+    if (partOfSpeech === type) {
+      list.push({ word: word, partOfSpeech: partOfSpeech });
+      return list;
+    }
+  }
+  return list;
+};
+
+let makeUnique = function (words) {
+  let finalWords;
+  words = words.map((e) => {
+    let original = NaN;
+    word = e.word.replace("#", "");
+
+    word = word.toLowerCase();
+    if (word !== e.word) {
+      original = e.word;
+    }
+    return { word: word, partOfSpeech: e.partOfSpeech, original: original };
+  });
+  finalWords = _.uniqBy(words, "word");
+  finalWords = finalWords.map((e) => {
+    if (e.original) {
+      return { word: e.original, partOfSpeech: e.partOfSpeech };
+    } else {
+      return { word: e.word, partOfSpeech: e.partOfSpeech };
+    }
+  });
+  return finalWords;
 };
 
 let wordsToSearch = function FindWordsToSearch(text) {
@@ -75,11 +130,13 @@ let wordsToSearch = function FindWordsToSearch(text) {
     let correctWords = removePunctuation(word);
     wordsToSearch.push(...correctWords);
   }
+
   length = wordsToSearch.length;
   let mainWords = [];
   let normalNouns = [];
-  let verbGerard = [];
+  let verbGerund = [];
   let special = [];
+  let remainingWords = [];
   for (index = 0; index < length; index++) {
     let currentCopy = wordsToCopy[index];
     let currentWord = wordsToSearch[index];
@@ -87,121 +144,59 @@ let wordsToSearch = function FindWordsToSearch(text) {
     if (currentWord === "@whosaidthis_bot") {
       continue;
     }
-    let editedWord =
-      currentWord[0] === "@" || currentWord[0] === "#"
-        ? currentWord.slice(1)
-        : currentWord;
 
-    currentWord =
-      GetPartOfSpeech(editedWord) === "NNPS" ||
-      GetPartOfSpeech(editedWord) === "NNP"
-        ? editedWord
-        : currentWord;
+    currentWord = CheckIfNNP(currentWord);
 
-    let lowercaseWord = currentWord.toLowerCase();
+    let noHashtagWord = currentWord.replace("#", "");
+    let lowercaseWord = noHashtagWord.toLowerCase();
     let partOfSpeech = GetPartOfSpeech(lowercaseWord);
-    console.log(lowercaseWord, partOfSpeech);
 
     if (partOfSpeech === "NA") {
-      if (currentWord[0] === currentWord[0].toUpperCase()) {
-        partOfSpeech = "NNP";
-      } else {
-        partOfSpeech = "NN";
-      }
+      partOfSpeech = HandleNA(currentWord, partOfSpeech);
     }
 
     if (partOfSpeech === "FW") {
       special.push({ word: currentWord, partOfSpeech: "SP" });
-    }
-
-    if (partOfSpeech == "NNPS" || partOfSpeech == "NNP") {
-      //finalWords.push(currentWord);
-      if (isSpecial(currentCopy)) {
-        mainWords = [
-          {
-            word: isSpecial(currentCopy),
-            partOfSpeech: partOfSpeech,
-          },
-        ].concat(mainWords);
-      } else {
-        mainWords.push({ word: currentWord, partOfSpeech: partOfSpeech });
-      }
-      //Removes the current word from the list
-      wordsToSearch.splice(index, 1);
-      index--;
-      length = wordsToSearch.length;
-    } else if (
-      partOfSpeech == "NNS" ||
-      partOfSpeech == "NN" ||
-      partOfSpeech == "N"
-    ) {
-      //finalWords.push(currentWord);
-      if (isSpecial(currentCopy)) {
-        special.push({
-          word: isSpecial(currentCopy),
-          partOfSpeech: "SP",
-        });
-      } else {
-        if (currentWord[0] === "#" && Math.random() <= 0.25) {
-          normalNouns = [
-            { word: currentWord, partOfSpeech: partOfSpeech },
-          ].concat(normalNouns);
-        } else {
-          if (currentWord.includes("/t.co/")) {
-            normalNouns = [
-              { word: currentWord, partOfSpeech: partOfSpeech },
-            ].concat(normalNouns);
-          }
-
-          normalNouns.push({ word: currentWord, partOfSpeech: partOfSpeech });
-        }
-      }
-      wordsToSearch.splice(index, 1);
-      index--;
-      length = wordsToSearch.length;
-    } else if (
-      partOfSpeech === "VBG" ||
-      partOfSpeech === "VBN" ||
-      partOfSpeech === "VB"
-    ) {
-      if (isSpecial(currentCopy)) {
-        special.push({
-          word: isSpecial(currentCopy),
-          partOfSpeech: "SP",
-        });
-      } else {
-        //finalWords.push(currentWord);
-        verbGerard.push({ word: currentWord, partOfSpeech: partOfSpeech });
-        wordsToSearch.splice(index, 1);
-        index--;
-        length = wordsToSearch.length;
-      }
-    }
-  }
-  let remainingWords = [];
-  for (index = 0; index < wordsToSearch.length; index++) {
-    let currentWord = wordsToSearch[index];
-    let currentCopy = wordsToCopy[index];
-    let partOfSpeech = GetPartOfSpeech(currentWord);
-    if (currentWord === "@whosaidthis_bot") {
       continue;
     }
+
+    mainWords = updateWordType(mainWords, currentWord, partOfSpeech, [
+      "NNPS",
+      "NNP",
+    ]);
     if (isSpecial(currentCopy)) {
       special.push({
         word: isSpecial(currentCopy),
-        partOfSpeech: "SP",
+        partOfSpeech:
+          partOfSpeech === "NNP" || partOfSpeech === "NNPS"
+            ? partOfSpeech
+            : "SP",
       });
-    } else {
-      remainingWords.push({ word: currentWord, partOfSpeech: partOfSpeech });
+      continue;
     }
+    normalNouns = updateWordType(normalNouns, currentWord, partOfSpeech, [
+      "NNS",
+      "NN",
+      "N",
+    ]);
+    verbGerund = updateWordType(verbGerund, currentWord, partOfSpeech, [
+      "VBG",
+      "VBN",
+      "VB",
+    ]);
+
+    remainingWords.push({ word: currentWord, partOfSpeech: partOfSpeech });
   }
+
+  special.sort((a, b) => a.partOfSpeech - b.partOfSpeech);
+
   let temp = mainWords.concat(special);
   temp = temp.concat(normalNouns);
-  temp = temp.concat(verbGerard);
+  temp = temp.concat(verbGerund);
   word_json = temp.concat(remainingWords);
   //finalWords.push(currentWord);
 
-  word_json = _.uniqBy(word_json, "word");
+  word_json = makeUnique(word_json);
   return word_json;
   //return finalWords;
 };
@@ -243,3 +238,11 @@ exports.handleThread = async function (text) {
 };
 
 exports.wordsToSearch = wordsToSearch;
+
+// Exports for Test
+exports.removePunctuation = removePunctuation;
+exports.isSpecial = isSpecial;
+exports.makeUnique = makeUnique;
+exports.updateWordType = updateWordType;
+exports.CheckIfNNP = CheckIfNNP;
+exports.HandleNA = HandleNA;

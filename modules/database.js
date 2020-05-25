@@ -1,6 +1,9 @@
 var exports = (module.exports = {});
 
 const tweetSchema = require("../models/tweetSchema");
+const testerSchema = require("../models/testerSchema");
+const fs = require("fs");
+const path = require("path");
 
 let updateDatabase = async function (cachedParams) {
   let tweetId, tweetCreated, replyId, cited, citation, textContent, tweet;
@@ -70,7 +73,18 @@ let isTweetHandled = async function (tweetId) {
   return existingTweet ? true : false;
 };
 
+let createJestAutomatedTest = async function () {
+  const responses = await testerSchema.TesterSchema.find();
+  let filepath = path.join(__dirname, "../tests/nlp.spec/nlp.dbTestCases.json");
+  try {
+    fs.writeFileSync(filepath, JSON.stringify(responses));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 try {
+  createJestAutomatedTest();
   exports.updateTweetCache = updateDatabase;
   exports.isTweetHandled = isTweetHandled;
   exports.checkTweetCache = checkDatabase;

@@ -37,7 +37,8 @@ let sendReply = async function (message, tweet_id) {
         "https://pbs.twimg.com/profile_images/1255489352714592256/kICVOCy-_400x400.png",
     });
   } catch (err) {
-    if (err[0].code !== 187) {
+    if ("code" in err.errors[0] && err.errors[0].code === 187) {
+    } else {
       axios.post(process.env.DISCORD_WEBHOOK_URL, {
         content: `@here Error, Reply -> sendReply -> error\n Message : ${message} \n ${JSON.stringify(
           err
