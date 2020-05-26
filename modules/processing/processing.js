@@ -124,6 +124,7 @@ let mentionEscaping = function (title) {
     return title.replace("@", "@ ");
     // Issue #17 Temporary Fix https://github.com/Mozilla-Open-Lab-Etwas/Twitter-Source-Bot/issues/17
   }
+  return title;
 };
 
 let scrapePromiseHandling = function (
@@ -132,52 +133,7 @@ let scrapePromiseHandling = function (
   tweetId,
   userScreenName
 ) {
-  return scrapePromise
-    .then(async (data) => {
-      console.log(
-        `Processing -> getTopResult -> Promise Resolution for ${result.url} with title ${data.title}`
-      );
-      result["title"] = data.title;
-
-      let score = await nlp.scorePage(
-        result,
-        data,
-        keywords,
-        tweetId,
-        userScreenName
-      );
-
-      result.score += score;
-
-      result.score += timeDif(data.time, result.url);
-
-      console.log(
-        `Processing -> getTopResult -> finalScore`,
-        result.score,
-        result.url
-      );
-
-      // Set Threshold
-      result.title = mentionEscaping(result.title);
-      result.body = data.text;
-
-      // Set Threshold
-      result.title = mentionEscaping(result.title);
-      result.body = data.text;
-      if (result.score > 3.2) {
-        return { topResult: result, cluster: cluster };
-      } else if (result.score > 2.9) {
-        closeResults.push(result);
-        return Promise.reject(`Close but not good enough`);
-      } else {
-        console.error(`Invalid Score for ${result.url} of ${result.score} `);
-        return Promise.reject(`Not valid score ${result.score}`);
-      }
-    })
-    .catch((err) => {
-      //console.info("Failed to read url", result.url, err);
-      return Promise.reject("Failed to read page");
-    });
+  //return
 };
 
 exports.getTopResult = async function (
@@ -200,12 +156,52 @@ exports.getTopResult = async function (
 
   for (let result of results) {
     let scrapePromise = scrapper.newUrl(cluster, result.url);
-    let nlpPromise = scrapePromiseHandling(
-      scrapePromise,
-      keywords,
-      tweetId,
-      userScreenName
-    );
+    let nlpPromise = scrapePromise
+      .then(async (data) => {
+        console.log(
+          `Processing -> getTopResult -> Promise Resolution for ${result.url} with title ${data.title}`
+        );
+        result["title"] = data.title;
+
+        let score = await nlp.scorePage(
+          result,
+          data,
+          keywords,
+          tweetId,
+          userScreenName
+        );
+
+        result.score += score;
+
+        result.score += timeDif(data.time, result.url);
+
+        console.log(
+          `Processing -> getTopResult -> finalScore`,
+          result.score,
+          result.url
+        );
+
+        // Set Threshold
+        result.title = mentionEscaping(result.title);
+        result.body = data.text;
+
+        // Set Threshold
+        result.title = mentionEscaping(result.title);
+        result.body = data.text;
+        if (result.score > 3.2) {
+          return { topResult: result, cluster: cluster };
+        } else if (result.score > 2.9) {
+          closeResults.push(result);
+          return Promise.reject(`Close but not good enough`);
+        } else {
+          console.error(`Invalid Score for ${result.url} of ${result.score} `);
+          return Promise.reject(`Not valid score ${result.score}`);
+        }
+      })
+      .catch((err) => {
+        //console.info("Failed to read url", result.url, err);
+        return Promise.reject("Failed to read page");
+      });
     nlpPromises.push(nlpPromise);
   }
   console.log("NLP Promises Length", nlpPromises.length);
