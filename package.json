@@ -11,7 +11,8 @@
   "nodemonConfig": {
     "ignore": [
       "Python/output.txt",
-      "nlpOutput.txt"
+      "nlpOutput.txt",
+      "tests/"
     ]
   },
   "repository": {
