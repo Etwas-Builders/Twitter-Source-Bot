@@ -41,15 +41,20 @@ describe("Url Sorting", () => {
     expect(sortedResults.length).toBeGreaterThan(0);
     expect(sortedResults[0].score).toBe(-0.5);
   });
-  it("Live/Latest Test", () => {
+  it("Live/Latest and PDF Test", () => {
     let results = [
       { url: "https://livetest.com/live" },
       { url: "https://livetest.com/latest" },
       { url: "https://randomsite.com/" },
+      { url: "https://randomsite.com/random-file.pdf" },
     ];
+
+    const validScore = (element) => element.score === -0.75;
+
     let sortedResults = processing.urlSorting(results);
     expect(sortedResults).toBeDefined;
-    expect(sortedResults.length).toBe(0);
+    expect(sortedResults.length).toBe(3);
+    expect(sortedResults.every(validScore)).toBe(true);
   });
   it("Whitelist Test", () => {
     let results = [
@@ -105,10 +110,13 @@ describe("Url Sorting", () => {
     let username = "CryogenicPlanet";
     let sortedResults = processing.urlSorting(results, username);
     expect(sortedResults).toBeDefined;
-    expect(sortedResults.length).toBe(6);
+    expect(sortedResults.length).toBe(8);
     expect(sortedResults[0].url).toBe("https://reuters.com/test");
     expect(sortedResults[2].url).toBe("http://httptest.com/1");
-    expect(sortedResults[5].url).toBe("https://WolfStreet.com/1");
+    expect(sortedResults[4].score).toBe(-0.75);
+    expect(sortedResults[sortedResults.length - 1].url).toBe(
+      "https://WolfStreet.com/1"
+    );
   });
 });
 
@@ -119,9 +127,14 @@ describe("Mention Escaping", () => {
   it("Mention is a function", () => {
     expect(typeof processing.mentionEscaping).toBe("function");
   });
-  it("Mention Escaping Test", () => {
+  it("Mention Escaping Test With @", () => {
     expect(processing.mentionEscaping("@cryogenicplanet")).toBe(
       "@ cryogenicplanet"
+    );
+  });
+  it("Mention Escaping Test without @", () => {
+    expect(processing.mentionEscaping("cryogenicplanet")).toBe(
+      "cryogenicplanet"
     );
   });
 });

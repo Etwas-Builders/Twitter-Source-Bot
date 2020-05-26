@@ -4,7 +4,6 @@ const port = 3000;
 
 // Libraries
 const bodyParser = require("body-parser"); // Library for parsing data
-const jsonParser = bodyParser.json(); // Using Data type Json
 const cors = require("cors"); // Library for handling access headers
 const { Autohook } = require("twitter-autohook");
 
@@ -25,9 +24,8 @@ const app = express(); // Establishing Express App
 
 morgan("tiny");
 app.use(cors()); // Cors to Handle Url Authentication
-app.options("*", cors());
 app.use(bodyParser.json()); // Using Body Parser
-app.set("jwtTokenSecret", ""); // JWT Secret
+// app.set("jwtTokenSecret", ""); // JWT Secret
 const server = app.listen(port); // Set Port
 
 mongoose.set("useNewUrlParser", true);
@@ -168,9 +166,16 @@ app.get("/nlpOutput", async function (req, res) {
   });
 });
 
-app.get("/", async function (req, res) {
-  res.set("Access-Control-Allow-Origin", "*");
-  res.set("Access-Control-Allow-Methods", "GET, POST");
+// app.options("/", function (req, res) {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader("Access-Control-Allow-Methods", "*");
+//   res.setHeader("Access-Control-Allow-Headers", "*");
+//   res.end();
+// });
+
+app.get("/", async function (req, res, next) {
+  //res.set("Access-Control-Allow-Origin", "*");
+  //res.set("Access-Control-Allow-Methods", "GET, POST");
   try {
     let lastRestart = JSON.parse(fs.readFileSync("./lastRestart.json"));
     res.status(200).json({
