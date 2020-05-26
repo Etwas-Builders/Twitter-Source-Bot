@@ -53,6 +53,7 @@ describe("Url Sorting", () => {
 
     let sortedResults = processing.urlSorting(results);
     expect(sortedResults).toBeDefined;
+    expect(sortedResults.length).toBe(3);
     expect(sortedResults.every(validScore)).toBe(true);
   });
   it("Whitelist Test", () => {
@@ -109,11 +110,13 @@ describe("Url Sorting", () => {
     let username = "CryogenicPlanet";
     let sortedResults = processing.urlSorting(results, username);
     expect(sortedResults).toBeDefined;
-    expect(sortedResults.length).toBe(9);
+    expect(sortedResults.length).toBe(8);
     expect(sortedResults[0].url).toBe("https://reuters.com/test");
     expect(sortedResults[2].url).toBe("http://httptest.com/1");
     expect(sortedResults[4].score).toBe(-0.75);
-    expect(sortedResults[8].url).toBe("https://WolfStreet.com/1");
+    expect(sortedResults[sortedResults.length - 1].url).toBe(
+      "https://WolfStreet.com/1"
+    );
   });
 });
 

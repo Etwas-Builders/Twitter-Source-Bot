@@ -54,10 +54,13 @@ let urlSorting = function (results, username) {
       if (
         endpoint.includes("live") ||
         endpoint.includes("latest") ||
-        endpoint.includes("pdf") ||
-        endpoint === ""
+        endpoint.includes("pdf")
       ) {
         result.score -= 0.75;
+      }
+      if (endpoint === "") {
+        // Head Oage
+        result.score -= 1;
       }
 
       //console.log("Processing -> getTopResult -> url", host);
