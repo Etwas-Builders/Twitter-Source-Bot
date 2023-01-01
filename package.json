@@ -40,7 +40,7 @@
     "lodash": "^4.17.15",
     "mongoose": "^5.9.13",
     "morgan": "^1.10.0",
-    "natural": "^1.0.1",
+    "natural": "^6.0.1",
     "promise.any": "^2.0.1",
     "public-ip": "^4.0.1",
     "puppeteer": "^3.0.4",
